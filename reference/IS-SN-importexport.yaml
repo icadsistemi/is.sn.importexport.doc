@@ -1,0 +1,11 @@
+openapi: 3.1.0
+x-stoplight:
+  id: 91a4ao3uk9mo2
+info:
+  title: Title
+  version: '0.1'
+servers:
+  - url: 'https://TBD'
+paths: {}
+components:
+  schemas: {}
