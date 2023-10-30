@@ -1,11 +1,208 @@
 openapi: 3.1.0
 x-stoplight:
-  id: 91a4ao3uk9mo2
+  id: 91a4ao3uk9mo3
 info:
   title: Title
   version: '0.1'
 servers:
   - url: 'https://TBD'
-paths: {}
+paths:
+  /cards:
+    get:
+      summary: Get cards data
+      tags: []
+      responses: {}
+      operationId: get-cards
+    post:
+      summary: Insert/Update cards
+      operationId: post-cards
+      responses:
+        '204':
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CardsInput'
+      description: Used to upsert one or more cards.
+  /cards/articles:
+    put:
+      summary: Link cards to articles
+      operationId: put-cards-articles
+      responses:
+        '200':
+          description: OK
+      description: Used to link cards to oil articles.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CardsArticlesInput'
+  /customers:
+    get:
+      summary: Get customer data
+      tags: []
+      responses: {}
+      operationId: get-customers
+      description: Get on customers filtered by input data
+    post:
+      summary: Create customer
+      operationId: post-customers
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  name:
+                    type: string
+                required:
+                  - code
+                  - name
+  /fuelstations:
+    put:
+      summary: Update fuel stations data
+      operationId: put-fuelstations
+      responses:
+        '200':
+          description: OK
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  supplier_code:
+                    type: string
+                  fuel_station_code:
+                    type: string
+                  name:
+                    type: string
+                  address:
+                    type: string
+                  zip_code:
+                    type: string
+                  province:
+                    type: string
+                  office_number:
+                    type: string
+                  '':
+                    type: string
+  /recharges:
+    get:
+      summary: Get recharges history
+      tags: []
+      responses: {}
+      operationId: get-recharges
+      description: ''
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: supplier_id
+        - schema:
+            type: string
+          in: query
+          name: card_pan
+    post:
+      summary: Set a new recharge
+      operationId: post-recharges
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  card_pan:
+                    type: string
+                  amount:
+                    type: number
+                required:
+                  - card_pan
+                  - amount
 components:
-  schemas: {}
+  schemas:
+    CardsInput:
+      title: CardsInput
+      x-stoplight:
+        id: r3b1thtn6muzo
+      type: object
+      properties:
+        batch_number:
+          type: integer
+          description: Optional field.
+        number:
+          type: integer
+          description: 'Card number. Max value: 999999'
+        supplier_code:
+          type: string
+        card_type_code:
+          type: integer
+        expire_datetime:
+          type: string
+          format: date-time
+        max_period_credit:
+          type: number
+        customer_code:
+          type: string
+          description: 'If not set, the card won''t be linked to a customer'
+        vehicle_plate:
+          type: string
+        max_daily_credit:
+          type: number
+        has_km_request:
+          type: boolean
+        has_km_check:
+          type: boolean
+        has_driver_request:
+          type: boolean
+        is_enabled:
+          type: boolean
+        indoor:
+          type: boolean
+        outdoor:
+          type: boolean
+      required:
+        - number
+        - supplier_code
+        - card_type_code
+        - expire_datetime
+        - is_enabled
+    CardsArticlesInput:
+      title: CardsArticlesInput
+      x-stoplight:
+        id: trh1om38odsnb
+      type: object
+      properties:
+        card_code:
+          type: integer
+        card_type_code:
+          type: integer
+        article_is_code:
+          type: array
+          items:
+            type: object
+            properties:
+              is_code:
+                type: string
+              is_enabled:
+                type: boolean
