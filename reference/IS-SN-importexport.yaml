@@ -195,12 +195,14 @@ paths:
         - schema:
             type: string
           in: query
-          name: supplier_id
+          name: supplier_code
           required: true
+          description: Mandatory supplier_code
         - schema:
             type: string
           in: query
           name: card_pan
+          description: Optional card PAN
         - schema:
             type: string
           in: query
