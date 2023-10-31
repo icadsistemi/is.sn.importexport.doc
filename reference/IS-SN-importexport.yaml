@@ -72,9 +72,65 @@ paths:
     get:
       summary: Get customer data
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  name:
+                    type: string
+                  supplier_code:
+                    type: string
+                  address:
+                    type: string
+                  city:
+                    type: string
+                  province:
+                    type: string
+                  telephone_number:
+                    type: string
+                  email:
+                    type: string
+                  vat:
+                    type: string
+                  fiscal_code:
+                    type: string
+                  total_recharge_credit:
+                    type: number
+                  is_enabled:
+                    type: boolean
+                  max_period_credit:
+                    type: number
+                  debit_period:
+                    type: number
+                  payment_periodicity_code:
+                    type: string
+                  payment_method_code:
+                    type: string
+                  payment_terms_code:
+                    type: string
+                  exposure:
+                    type: number
       operationId: get-customers
       description: Get on customers filtered by input data
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: supplier_code
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: customer_code
+        - schema:
+            type: string
+          in: query
     post:
       summary: Create customer
       operationId: post-customers
