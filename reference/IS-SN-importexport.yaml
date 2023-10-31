@@ -117,9 +117,10 @@ paths:
                       is_enabled:
                         type: string
                       max_period_credit:
-                        type: string
-                      '':
-                        type: string
+                        type: number
+                    required:
+                      - code
+                      - name
               required:
                 - supplier_code
   /fuelstations:
@@ -152,13 +153,42 @@ paths:
                     type: string
                   office_number:
                     type: string
-                  '':
-                    type: string
   /recharges:
     get:
       summary: Get recharges history
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    transaction_number:
+                      type: string
+                    datetime:
+                      type: string
+                    bill:
+                      type: string
+                    rebate:
+                      type: string
+                    residue:
+                      type: string
+                    terminal_id:
+                      type: string
+                    result:
+                      type: string
+                    customer_code:
+                      type: string
+                    card_pan:
+                      type: string
+                    card_code:
+                      type: string
+                    customer_name:
+                      type: string
       operationId: get-recharges
       description: ''
       parameters:
@@ -166,16 +196,27 @@ paths:
             type: string
           in: query
           name: supplier_id
+          required: true
         - schema:
             type: string
           in: query
           name: card_pan
+        - schema:
+            type: string
+          in: query
+          name: date_start
+          description: Unix time format.
+        - schema:
+            type: string
+          in: query
+          name: date_end
+          description: Unix time format.
     post:
       summary: Set a new recharge
       operationId: post-recharges
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       requestBody:
         content:
           application/json:
@@ -188,9 +229,12 @@ paths:
                     type: string
                   amount:
                     type: number
+                  supplier_code:
+                    type: string
                 required:
                   - card_pan
                   - amount
+                  - supplier_code
 components:
   schemas:
     Cards:
