@@ -11,8 +11,34 @@ paths:
     get:
       summary: Get cards data
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cards'
       operationId: get-cards
+      description: Used to get one or more cards.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: supplier_code
+          required: true
+          description: Mandatory supplier_code
+        - schema:
+            type: string
+          in: query
+          name: customer_code
+          description: Optional customer code
+        - schema:
+            type: string
+          in: query
+          description: Optional card code
+          name: card_code
     post:
       summary: Insert/Update cards
       operationId: post-cards
@@ -25,7 +51,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/CardsInput'
+                $ref: '#/components/schemas/Cards'
       description: Used to upsert one or more cards.
   /cards/articles:
     put:
@@ -59,17 +85,43 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  code:
-                    type: string
-                  name:
-                    type: string
-                required:
-                  - code
-                  - name
+              supplier_code:
+                type: string
+              type: object
+              properties:
+                supplier_code:
+                  type: string
+                customers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      name:
+                        type: string
+                      address:
+                        type: string
+                      city:
+                        type: string
+                      province:
+                        type: string
+                      zip_code:
+                        type: string
+                      telephone_number:
+                        type: string
+                      email:
+                        type: string
+                      vat:
+                        type: string
+                      is_enabled:
+                        type: string
+                      max_period_credit:
+                        type: string
+                      '':
+                        type: string
+              required:
+                - supplier_code
   /fuelstations:
     put:
       summary: Update fuel stations data
@@ -141,10 +193,10 @@ paths:
                   - amount
 components:
   schemas:
-    CardsInput:
-      title: CardsInput
+    Cards:
+      title: Cards
       x-stoplight:
-        id: r3b1thtn6muzo
+        id: b1c9dd5f464dd
       type: object
       properties:
         batch_number:
@@ -181,6 +233,9 @@ components:
           type: boolean
         outdoor:
           type: boolean
+        pan:
+          type: string
+          description: 'If set, this will be the card pan. If not set, the pan will be calculated server side.'
       required:
         - number
         - supplier_code
@@ -193,16 +248,25 @@ components:
         id: trh1om38odsnb
       type: object
       properties:
-        card_code:
-          type: integer
-        card_type_code:
-          type: integer
-        article_is_code:
+        supplier_code:
+          type: string
+        cards:
           type: array
           items:
             type: object
             properties:
-              is_code:
-                type: string
-              is_enabled:
-                type: boolean
+              card_code:
+                type: integer
+              card_type_code:
+                type: integer
+              article_is_code:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    is_code:
+                      type: string
+                    is_enabled:
+                      type: boolean
+      required:
+        - supplier_code
