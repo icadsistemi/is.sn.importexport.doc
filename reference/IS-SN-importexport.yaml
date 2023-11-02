@@ -2,8 +2,15 @@ openapi: 3.1.0
 x-stoplight:
   id: 91a4ao3uk9mo3
 info:
-  title: Title
+  title: Import export Selfnet
   version: '0.1'
+  description: |-
+    # SELFNET IMPORT EXPORT API documentation
+
+    The HTTP status codes returned by the endpoints follow these rules:
+    - If the flow is correct, returns positive response code
+    - If the flow is incorrect, returns negative response code 
+    - If the flow breaks for some reason (DB connection, malformed input, etc..), returns negative response
 servers:
   - url: 'https://TBD'
 paths:
@@ -381,3 +388,13 @@ components:
                       type: boolean
       required:
         - supplier_code
+  securitySchemes:
+    Cognito:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: ''
+          refreshUrl: ''
+          scopes: {}
+security:
+  - API Key - 1: []
