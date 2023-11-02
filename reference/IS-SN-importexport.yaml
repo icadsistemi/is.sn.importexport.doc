@@ -39,6 +39,11 @@ paths:
           in: query
           description: Optional card code
           name: card_code
+        - schema:
+            type: string
+          in: query
+          name: card_code_type
+          description: Optional card type code
     post:
       summary: Insert/Update cards
       operationId: post-cards
@@ -128,9 +133,6 @@ paths:
             type: string
           in: query
           name: customer_code
-        - schema:
-            type: string
-          in: query
     post:
       summary: Create customer
       operationId: post-customers
@@ -209,6 +211,9 @@ paths:
                     type: string
                   office_number:
                     type: string
+                required:
+                  - supplier_code
+                  - fuel_station_code
   /recharges:
     get:
       summary: Get recharges history
@@ -279,20 +284,24 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  card_pan:
-                    type: string
-                  amount:
-                    type: number
-                  supplier_code:
-                    type: string
-                required:
-                  - card_pan
-                  - amount
-                  - supplier_code
+              type: object
+              properties:
+                supplier_code:
+                  type: string
+                recharges:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      card_pan:
+                        type: string
+                      amount:
+                        type: number
+                    required:
+                      - card_pan
+                      - amount
+              required:
+                - supplier_code
 components:
   schemas:
     Cards:
