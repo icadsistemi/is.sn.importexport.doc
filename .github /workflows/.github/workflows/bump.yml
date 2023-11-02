@@ -1,0 +1,21 @@
+name: API deploy
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  api-doc-deploy:
+    name: Deploy SN Import Export API doc on Bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Deploy
+        uses: bump-sh/github-action@v1
+        with:
+          doc: ${{ vars.BUMP_DOC_ID }}
+          token: ${{ secrets.BUMP_TOKEN }}
+          file: reference/IS-SN-importexport.yaml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
