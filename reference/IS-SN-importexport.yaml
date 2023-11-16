@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: '0.2'
+  version: '0.3'
   description: |-
     # SELFNET IMPORT EXPORT API documentation
 
@@ -78,7 +78,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-      description: Transfer credit between two cards
+      description: Transfer credit between two rechargeable cards
       requestBody:
         content:
           application/json:
@@ -318,6 +318,14 @@ paths:
       responses:
         '204':
           description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '409':
+          description: 'Conflict, progressive number already registered in the system'
+        '500':
+          description: Internal Server Error
       requestBody:
         content:
           application/json:
@@ -327,7 +335,8 @@ paths:
                 supplier_code:
                   type: string
                 progressive_number:
-                  type: string
+                  type: integer
+                  description: 'Unique progressive number for recharge request by supplier_code [optional]'
                 recharges:
                   type: array
                   items:
@@ -342,7 +351,8 @@ paths:
                       - amount
               required:
                 - supplier_code
-                - progressive_number
+                - recharges
+      description: Request to recharge a list of cards
 components:
   schemas:
     Cards:
