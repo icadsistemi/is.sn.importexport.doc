@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: '0.3'
+  version: '0.4'
   description: |-
     # SELFNET IMPORT EXPORT API documentation
 
@@ -12,7 +12,7 @@ info:
     - If the flow is incorrect, returns negative response code 
     - If the flow breaks for some reason (DB connection, malformed input, etc..), returns negative response
 servers:
-  - url: 'https://TBD'
+  - url: 'https://mxp-import-export-sn.dev.icadsistemi.com/v1'
 paths:
   /cards:
     get:
