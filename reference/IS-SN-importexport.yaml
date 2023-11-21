@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: '0.4'
+  version: '0.5'
   description: |-
     # SELFNET IMPORT EXPORT API documentation
 
@@ -353,6 +353,189 @@ paths:
                 - supplier_code
                 - recharges
       description: Request to recharge a list of cards
+  /transactions:
+    get:
+      summary: Get cards transactions
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  x-stoplight:
+                    id: acre3cu5aoowi
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      x-stoplight:
+                        id: oimw34ip8rkux
+                      description: ID of the transaction in our database
+                    fuel_station_code:
+                      type: string
+                      x-stoplight:
+                        id: ap6a3bk2e8um9
+                      description: Code of the fuelstation
+                    card_code:
+                      type: integer
+                      x-stoplight:
+                        id: fam92e4g06hta
+                      description: Code of the card used
+                    card_pan:
+                      type: string
+                      x-stoplight:
+                        id: 059z0uol8sn04
+                      description: Whole pan of the card
+                    vehicle_plate:
+                      type: string
+                      x-stoplight:
+                        id: w83g7yvf9mucz
+                      description: Optional vehicle linked to the card
+                    customer_code:
+                      type: string
+                      x-stoplight:
+                        id: iwvcqixg1wpjs
+                      description: Code of the customer
+                    article_code:
+                      type: string
+                      x-stoplight:
+                        id: f2qckjydabbmo
+                      description: Code of the purchased article
+                    article_name:
+                      type: string
+                      x-stoplight:
+                        id: kxqge8b6qxugv
+                      description: Name of the purchased article
+                    datetime:
+                      type: string
+                      x-stoplight:
+                        id: pp4xj6ahva4ul
+                      format: date-time
+                      description: Datetime of the transaction
+                    unit_of_measure:
+                      type: string
+                      x-stoplight:
+                        id: i57rvscxzsgmx
+                      description: Unit of measure
+                    quantity:
+                      type: number
+                      x-stoplight:
+                        id: xhm2ct5w3zax6
+                      description: Purchased quantity
+                    gross_amount:
+                      type: number
+                      x-stoplight:
+                        id: ptrs8ee16jl6l
+                      description: 'Gross amount, including VAT and with no discount'
+                    net_amount:
+                      type: number
+                      x-stoplight:
+                        id: eui7houf2pp5m
+                      description: 'Discounted amount, including VAT'
+                    unit_price:
+                      type: number
+                      x-stoplight:
+                        id: sxal7gvwiphl6
+                      description: Unit price including VAT and no discounts
+                    unit_discount_value:
+                      type: number
+                      x-stoplight:
+                        id: slvgb4fnf0mj8
+                      description: 'Discunted unit price, including VAT'
+                    discount_amount:
+                      type: number
+                      x-stoplight:
+                        id: zzf9t4yyhoy17
+                      description: Total discount amount
+                    taxable_unit_price:
+                      type: number
+                      x-stoplight:
+                        id: p7d3vi4zhirkv
+                      description: Unit price without VAT and without discounts
+                    taxable_amount:
+                      type: number
+                      x-stoplight:
+                        id: a4dmwqs0nqtuj
+                      description: Total amout without VAT and without discounts
+                    vat_rate:
+                      type: number
+                      x-stoplight:
+                        id: nddzxyx5gjjcx
+                      description: Applied VAT rate
+                    km:
+                      type: integer
+                      x-stoplight:
+                        id: 9c7a3zu7dt1jx
+                      description: Optional km value inserted by customer
+                    residue:
+                      type: number
+                      x-stoplight:
+                        id: qo3xtgy2mlakz
+                      description: 'Residue of the plafond, only for some card types'
+                    transaction_number:
+                      type: integer
+                      x-stoplight:
+                        id: zcdqbhd5l4y39
+                      description: Transaction number
+                    driver_code:
+                      type: integer
+                      x-stoplight:
+                        id: diks02dwp8p69
+                      description: Optional driver code inserted by the customer
+                    is_reversal:
+                      type: boolean
+                      x-stoplight:
+                        id: ujztspgx4rckf
+                      description: 'True if this is a reversal, False otherwise'
+                    ddt_number:
+                      type: string
+                      x-stoplight:
+                        id: ysg8o8fji062l
+                      description: DDT number sent for this transaction
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+          content: {}
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      operationId: get-transactions
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: supplier_code
+          required: true
+          description: 'Supplier code, assigned by ICAD Sistemi'
+        - schema:
+            type: string
+          in: query
+          name: date_start
+          required: true
+          description: Unix time format.
+        - schema:
+            type: string
+          in: query
+          name: date_end
+          required: true
+          description: Unix time format.
+        - schema:
+            type: string
+          in: query
+          name: fuel_station_code
+          description: 'Optional fuel station code. If not set, every transactions of the specified supplier in the datetime range will be returned.'
+        - schema:
+            type: string
+          in: query
+          name: filter_type
+          required: true
+          description: 'Used to choose the filter type. If the value is "INS", the transations will be filtered on the datetime they were saved. Otherwise, if the the value is "TRX", they are filtered on their actual transaction timestamp'
+      description: 'Used to '
 components:
   schemas:
     Cards:
