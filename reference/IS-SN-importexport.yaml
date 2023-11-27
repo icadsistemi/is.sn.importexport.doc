@@ -415,6 +415,12 @@ paths:
                         id: pp4xj6ahva4ul
                       format: date-time
                       description: Datetime of the transaction
+                    ins_datetime:
+                      type: string
+                      x-stoplight:
+                        id: 9l95dzfl9c7ip
+                      description: Adding date time in db table
+                      format: date-time
                     unit_of_measure:
                       type: string
                       x-stoplight:
@@ -450,16 +456,6 @@ paths:
                       x-stoplight:
                         id: zzf9t4yyhoy17
                       description: Total discount amount
-                    taxable_unit_price:
-                      type: number
-                      x-stoplight:
-                        id: p7d3vi4zhirkv
-                      description: Unit price without VAT and without discounts
-                    taxable_amount:
-                      type: number
-                      x-stoplight:
-                        id: a4dmwqs0nqtuj
-                      description: Total amout without VAT and without discounts
                     vat_rate:
                       type: number
                       x-stoplight:
