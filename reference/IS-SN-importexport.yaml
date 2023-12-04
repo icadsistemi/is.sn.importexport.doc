@@ -121,44 +121,11 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                  name:
-                    type: string
-                  supplier_code:
-                    type: string
-                  address:
-                    type: string
-                  city:
-                    type: string
-                  province:
-                    type: string
-                  telephone_number:
-                    type: string
-                  email:
-                    type: string
-                  vat:
-                    type: string
-                  fiscal_code:
-                    type: string
-                  total_recharge_credit:
-                    type: number
-                  is_enabled:
-                    type: boolean
-                  max_period_credit:
-                    type: number
-                  debit_period:
-                    type: number
-                  payment_periodicity_code:
-                    type: string
-                  payment_method_code:
-                    type: string
-                  payment_terms_code:
-                    type: string
-                  exposure:
-                    type: number
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customers'
+                  x-stoplight:
+                    id: 8lpk19j56xtc4
       operationId: get-customers
       description: Get on customers filtered by input data
       parameters:
@@ -611,6 +578,84 @@ components:
                       type: boolean
       required:
         - supplier_code
+    Customers:
+      title: Customers
+      x-stoplight:
+        id: rfmdw8x2ndc1w
+      type: object
+      properties:
+        code:
+          type: string
+          x-stoplight:
+            id: qzb2xrtasrj79
+        name:
+          type: string
+          x-stoplight:
+            id: y9bjc6of221sp
+        supplier_code:
+          type: string
+          x-stoplight:
+            id: rkrevnh28vjee
+        address:
+          type: string
+          x-stoplight:
+            id: 2zn7fafzget5k
+        city:
+          type: string
+          x-stoplight:
+            id: nsdif80pf0z08
+        province:
+          type: string
+          x-stoplight:
+            id: c8li9xhshp8dg
+        email:
+          type: string
+          x-stoplight:
+            id: rfoitwokuzghe
+        telephone_number:
+          type: string
+          x-stoplight:
+            id: 9ntlhc8ze8njo
+        vat:
+          type: string
+          x-stoplight:
+            id: phpwup3ctdjcq
+        fiscal_code:
+          type: string
+          x-stoplight:
+            id: bup63wfklzujm
+        total_recharge_credit:
+          type: number
+          x-stoplight:
+            id: tpnn9uooj3cf1
+        is_enabled:
+          type: boolean
+          x-stoplight:
+            id: ls9gfxb53nh6v
+        max_period_credit:
+          type: number
+          x-stoplight:
+            id: yft22k3s39dwu
+        debit_period:
+          type: number
+          x-stoplight:
+            id: ws8lbmjd0cpqn
+        payment_periodicity_code:
+          type: string
+          x-stoplight:
+            id: 2m94lr1i565m8
+        payment_method_code:
+          type: string
+          x-stoplight:
+            id: b4ft5uho5s016
+        payment_terms_code:
+          type: string
+          x-stoplight:
+            id: pvqoxt4zbpif7
+        exposure:
+          type: number
+          x-stoplight:
+            id: tvs6dajy4w6ib
   securitySchemes:
     Cognito:
       type: oauth2
