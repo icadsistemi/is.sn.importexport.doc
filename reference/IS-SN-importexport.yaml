@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: '0.8'
+  version: '0.9'
   description: |-
     # SELFNET IMPORT EXPORT API documentation
 
@@ -498,6 +498,11 @@ paths:
           name: filter_type
           required: true
           description: 'Used to choose the filter type. If the value is "INS", the transations will be filtered on the datetime they were saved. Otherwise, if the the value is "TRX", they are filtered on their actual transaction timestamp'
+        - schema:
+            type: string
+          in: query
+          description: Optional customer code. This parameter must be set to export only customer's transactions.
+          name: customer_code
       description: Used to export OIL transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
 components:
   schemas:
