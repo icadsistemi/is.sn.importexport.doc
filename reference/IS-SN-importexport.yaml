@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: '0.9'
+  version: 0.1.0
   description: |-
     # SELFNET IMPORT EXPORT API documentation
 
@@ -458,6 +458,17 @@ paths:
                       x-stoplight:
                         id: ysg8o8fji062l
                       description: DDT number sent for this transaction
+                    terminal_id:
+                      type: string
+                      x-stoplight:
+                        id: ss5j7eiv9toc4
+                      description: Terminal id whose performed the transaction
+                    request_datetime:
+                      type: string
+                      x-stoplight:
+                        id: w5t6m3lqi4wbq
+                      format: date-time
+                      description: Datetime representing when the request arrived to ICAD Sistemi services
         '400':
           description: Bad Request
         '401':
