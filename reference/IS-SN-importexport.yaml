@@ -26,7 +26,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Cards'
+                  $ref: '#/components/schemas/Card'
       operationId: get-cards
       description: Used to get one or more cards.
       parameters:
