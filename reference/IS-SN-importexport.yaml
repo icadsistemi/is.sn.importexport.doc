@@ -517,22 +517,26 @@ paths:
       description: Used to export OIL transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
 components:
   schemas:
-    Cards:
+    CardInput:
       title: Cards
       x-stoplight:
-        id: b1c9dd5f464dd
+        id: yghz6n0sas7ig
       type: object
       properties:
         batch_number:
           type: integer
           description: Optional field.
-        number:
+        code:
           type: integer
           description: 'Card number. Max value: 999999'
+          x-stoplight:
+            id: ix3a9zb9cdkmq
         supplier_code:
           type: string
-        card_type_code:
+        type_code:
           type: integer
+          x-stoplight:
+            id: 1kauwz61615i3
         expire_datetime:
           type: string
           format: date-time
@@ -543,13 +547,13 @@ components:
           description: 'If not set, the card won''t be linked to a customer'
         vehicle_plate:
           type: string
-        max_daily_credit:
+        daily_max_limit:
           type: number
+          x-stoplight:
+            id: m6l29aefr6cyx
         has_km_request:
           type: boolean
         has_km_check:
-          type: boolean
-        has_driver_request:
           type: boolean
         is_enabled:
           type: boolean
@@ -559,13 +563,151 @@ components:
           type: boolean
         pan:
           type: string
-          description: 'If set, this will be the card pan. If not set, the pan will be calculated server side.'
+          description: If set this will be the card pan otherwise the pan will be calculated server side
+        delivery_datetime:
+          type: string
+          x-stoplight:
+            id: 7xwjp5uuh4tnl
+          description: Delivery date time
+        daily_residue:
+          type: number
+          x-stoplight:
+            id: c18p7ryoss2c1
+          description: Daily resideu
+        vehicle_description:
+          type: string
+          x-stoplight:
+            id: gw8fc0cfzrdpo
+          description: Vehicle description
+        vehicle_driver:
+          type: string
+          x-stoplight:
+            id: iep1h33uo9xj7
+          description: Vehicle driver
+        period_debt:
+          type: number
+          x-stoplight:
+            id: dodmqocvydxbx
+          description: Period debt
+        extra1:
+          type: string
+          x-stoplight:
+            id: tiz01aa1ylc1u
+          description: Additional info
+        extra2:
+          type: string
+          x-stoplight:
+            id: melaauft7g8av
+          description: Additiona info
+        email:
+          type: string
+          x-stoplight:
+            id: tojel84cb9pyf
+          description: email
       required:
-        - number
+        - code
         - supplier_code
-        - card_type_code
+        - type_code
         - expire_datetime
         - is_enabled
+    Card:
+      title: Cards
+      x-stoplight:
+        id: b1c9dd5f464dd
+      type: object
+      properties:
+        batch_number:
+          type: integer
+          description: Batch card number
+        code:
+          type: integer
+          description: 'Card code number. Max value: 999999'
+          x-stoplight:
+            id: ix3a9zb9cdkmq
+        supplier_code:
+          type: string
+          description: Supplierd code
+        type_code:
+          type: integer
+          x-stoplight:
+            id: 1kauwz61615i3
+          description: Code type
+        expire_datetime:
+          type: string
+          format: date-time
+          description: Expire date time
+        max_period_credit:
+          type: number
+          description: Max period credit
+        customer_code:
+          type: string
+          description: Customer code linked to the card
+        vehicle_plate:
+          type: string
+          description: Vehicle plate
+        daily_max_limit:
+          type: number
+          x-stoplight:
+            id: m6l29aefr6cyx
+          description: Daily max limit
+        has_km_request:
+          type: boolean
+          description: Km request on card
+        has_km_check:
+          type: boolean
+          description: Km check required on card
+        is_enabled:
+          type: boolean
+          description: Enabled state
+        indoor:
+          type: boolean
+          description: Indoor card
+        outdoor:
+          type: boolean
+          description: Outdoor card
+        pan:
+          type: string
+          description: Card pan
+        delivery_datetime:
+          type: string
+          x-stoplight:
+            id: 7xwjp5uuh4tnl
+          description: Delivery date time
+        daily_residue:
+          type: number
+          x-stoplight:
+            id: c18p7ryoss2c1
+          description: Daily resideu
+        vehicle_description:
+          type: string
+          x-stoplight:
+            id: gw8fc0cfzrdpo
+          description: Vehicle description
+        vehicle_driver:
+          type: string
+          x-stoplight:
+            id: iep1h33uo9xj7
+          description: Vehicle driver
+        period_debt:
+          type: number
+          x-stoplight:
+            id: dodmqocvydxbx
+          description: Period debt
+        extra1:
+          type: string
+          x-stoplight:
+            id: tiz01aa1ylc1u
+          description: Additional info
+        extra2:
+          type: string
+          x-stoplight:
+            id: melaauft7g8av
+          description: Additiona info
+        email:
+          type: string
+          x-stoplight:
+            id: tojel84cb9pyf
+          description: email
     CardsArticlesInput:
       title: CardsArticlesInput
       x-stoplight:
