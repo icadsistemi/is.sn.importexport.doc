@@ -3,9 +3,9 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: 0.1.1
+  version: 0.2.0
   description: |-
-    # SELFNET IMPORT EXPORT API documentation
+    # Selfnet Import Export api documentation
 
     The HTTP status codes returned by the endpoints follow these rules:
     - If the flow is correct, returns positive response code
@@ -13,6 +13,9 @@ info:
     - If the flow breaks for some reason (DB connection, malformed input, etc..), returns negative response
 servers:
   - url: 'https://mxp-import-export-sn.dev.icadsistemi.com/v1'
+    description: develop
+  - url: 'https://mxp-import-export-sn.prod.icadsistemi.com/v1'
+    description: production
 paths:
   /cards:
     get:
@@ -62,8 +65,6 @@ paths:
           application/json:
             schema:
               type: array
-              items:
-                $ref: '#/components/schemas/Cards'
       description: Used to upsert one or more cards.
   /cards/transfer:
     post:
@@ -111,6 +112,7 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/CardsArticlesInput'
+      x-internal: true
   /customers:
     get:
       summary: Get customer data
@@ -138,6 +140,7 @@ paths:
             type: string
           in: query
           name: customer_code
+      x-internal: true
     post:
       summary: Create customer
       operationId: post-customers
@@ -219,6 +222,7 @@ paths:
                 required:
                   - supplier_code
                   - fuel_station_code
+      x-internal: true
   /recharges:
     get:
       summary: Get recharges history
@@ -515,6 +519,206 @@ paths:
           description: Optional customer code. This parameter must be set to export only customer's transactions.
           name: customer_code
       description: Used to export OIL transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
+  /invoices/active:
+    get:
+      summary: Get invoices active
+      tags:
+        - invoices
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoicesActiveResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: get-invoices-active
+      description: |-
+        This API allows requesting the XML files of the documents (invoices and credit notes) sent by ICAD Sistemi to the SdI (Sistema di Interscambio). By querying the system with specific parameters, the client can then receive and save these files.
+
+        This endpoint returns exclusively the invoices from the active cycle.
+      parameters:
+        - schema:
+            type: string
+            example: 01-06-2018
+          in: query
+          name: from
+          required: true
+          description: 'String representing the start date of the interval to be queried, in the format dd-MM-yyyy'
+        - schema:
+            type: string
+            example: 01-06-2018
+          in: query
+          name: to
+          description: 'String representing the start date of the interval to be queried, in the format dd-MM-yyyy'
+          required: true
+        - schema:
+            type: string
+            example: ISXXXXXX
+          in: query
+          name: fuelstation_code
+          required: true
+          description: 'If set to "ALL", the request includes all points of sale in the network.'
+        - schema:
+            type: string
+            example: '0001'
+          in: query
+          name: supplier_code
+          required: true
+          description: Supplier code being worked with
+        - schema:
+            type: string
+            example: true/false
+          in: query
+          name: outcomes
+          description: Indicate whether you also want to receive the outcome files received from the SdI (usable only if you have subscribed to the relevant package).
+        - schema:
+            type: string
+            example: true/false
+          in: query
+          name: last_update_date
+          description: 'Instead of filtering documents based on the issuance date, it filters based on the status change date. For example, if I request invoices between the 9th and 10th of the current month, I might not have invoices issued on those dates, but invoices for which a notification message with a positive outcome was received from the SdI during that time interval. So, I could have an invoice issued on the 7th but delivered to the customer on the 9th.'
+        - schema:
+            type: string
+            example: '"", "SF05", "accettate", null'
+          in: query
+          name: status_filter
+          description: 'If not specified, the API will return all invoices that have been sent to the SdI, including those rejected or still awaiting outcome. If specified with a state code (for example: "SF05"), it will only return invoices related to that state. If specified with "accepted", it will return all invoices considered correctly issued'
+  /invoices/passive:
+    get:
+      summary: Get invoices passive
+      tags:
+        - invoices
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoicesPassiveResponse'
+                x-examples:
+                  Example 1:
+                    result: OK
+                    message: ''
+                    invoice:
+                      - file_name: IT01879020517_nJjLf.xml
+                        file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiIHN0YW5kYWxvbmU9InllcyI/Pg0KPG5zMjpGYXR0dXJhRWxldHRyb25pY2EgeG1sbnM6bnMyPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyZS92MS4yIiB2ZXJzaW9uZT0iRlBSMTIiPjxGYXR0dXJ
+                        meta_data_file_name: IT01879020517_nJjLf_MT_001.xml
+                        meta_data_file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiIHN0YW5kYWxvbmU9InllcyI/Pg0KPG5zMjpGYXR0dXJhRWxldHRyb25pY2EgeG1sbnM6bnMyPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyZS92MS4yIiB2ZXJzaW9uZT0iRlBSMTIiPjxGYXR0dXJhRWxldHRyb25pY2FIZWFkZXI+PERhdGlUcmFzbWlzc2lvbmU+PElkVHJhc21pdHRlbnRlPjxJZFBhZXNlPklUPC9JZFBhZXNlPjxJZENvZGljZT4wMTg3OTAyMDUxNzwvSWRDb2RpY2U+PC9JZFRyYXNtaXR0ZW50ZT48UHJvZ3Jlc3Npdm9JbnZpbz4wMDAwODQ8L1Byb2dyZXNzaXZvSW52aW8+PEZvcm1hdG9UcmFzbWlzc2lvbmU+RlBSMTI8L0Zvcm1hdG9UcmFzbWlzc2lvbmU+PENvZGljZURlc3RpbmF0YXJpbz5LN0wyS1o5PC9Db2RpY2VEZXN0aW5hdGFyaW8+PC9EYXRpVHJhc21pc3Npb25lPjxDZWRlbnRlUHJlc3RhdG9yZT48RGF0aUFuYWdyYWZpY2
+              examples:
+                Example 1:
+                  value:
+                    result: string
+                    message: string
+                    invoice:
+                      - file_name: string
+                        file: string
+                        meta_data_file_name: string
+                        meta_data_file: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: get-invoices-passive
+      description: |-
+        This API allows requesting the XML files of the documents (invoices and credit notes) received by ICAD Sistemi from the SdI (Sistema di Interscambio) as an intermediary on behalf of third parties. By querying the system with specific parameters, the client can then receive and save these files.
+
+        This endpoint returns exclusively the invoices from the passive cycle.
+      parameters:
+        - schema:
+            type: string
+            example: 01-06-2018
+          in: query
+          name: from
+          description: 'String representing the start date of the interval to be queried, in the format dd-MM-yyyy'
+          required: true
+        - schema:
+            type: string
+            example: 01-06-2018
+          in: query
+          name: to
+          description: 'String representing the start date of the interval to be queried, in the format dd-MM-yyyy'
+          required: true
+        - schema:
+            type: string
+            example: '0001'
+          in: query
+          name: supplier_code
+          description: Supplier code being worked with
+          required: true
+        - schema:
+            type: string
+            example: true/false
+          in: query
+          name: is_meta_data
+          description: Indicate whether you also want to receive the metadata files from the SdI
+    parameters: []
+  /invoices/external:
+    get:
+      summary: Get invoices external
+      tags:
+        - invoices
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoicesExternalResponse'
+              examples:
+                Example 1:
+                  value:
+                    result: OK
+                    message: ''
+                    invoice:
+                      - file_name: IT09252150017_W0CYU.xml
+                        file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHA6RmF0dHVyYUVsZXR0cm9uaWNhIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIiB4bWxuczpwPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyZS92MS4yIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB2ZXJzaW9uZT0iRlBSMTIiIHhzaTpzY2hlbWFMb2NhdGlvbj0iaHR0cDovL2l2YXNlcnZpemkuYWdlbnppYWVudHJhdGUuZ292Lml0L2RvY3MveHNkL2ZhdHR1cmUvdjEuMiBodHRwOi8vd3d3LmZhdHR1cmFwYS5nb3YuaXQvZXhwb3J0L2ZhdHR1cmF6aW9uZS9zZGkvZmF0dHVyYXBhL3YxLjIvU2NoZW1hX2RlbF9maWxlX3htbF9GYXR0dXJhUEFfdmVyc2lvbmVfMS4yLnhzZCI+CiAgPEZhdHR1cmFFbGV0dHJvbmljYUhlYWRlcj4KICAgIDxEYXRpVHJhc21pc3Npb25lPgogICAgICA8SWRUcmFzbWl0dGVudGU+CiAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgPElkQ29kaWNlPjA5MjUyMTUwMDE3PC9JZENvZGljZT4KICAgICAgPC9JZFRyYXNtaXR0ZW50ZT4KICAgICAgPFByb2dyZXNzaXZvSW52aW8+MDAwMDAwMDY5NjwvUHJvZ3Jlc3Npdm9JbnZpbz4KICAgICAgPEZvcm1hdG9UcmFzbWlzc2lvbmU+RlBSMTI8L0Zvcm1hdG9UcmFzbWlzc2lvbmU+CiAgICAgIDxDb2RpY2VEZXN0aW5hdGFyaW8+NVJVTzgyRDwvQ29kaWNlRGVzdGluYXRhcmlvPgogICAgICA8Q29udGF0dGlUcmFzbWl0dGVudGU+CiAgICAgICAgPFRlbGVmb25vPjAxMTk5MDY2ODk8L1RlbGVmb25vPgogICAgICAgIDxFbWFpbD5pbmZvQGljYWRzaXN0ZW1pLmNvbTwvRW1haWw+CiAgICAgIDwvQ29udGF0dGlUcmFzbWl0dGVudGU+CiAgICA8L0RhdGlUcmFzbWlzc2lvbmU+CiAgICA8Q2VkZW50ZVByZXN0YXRvcmU+CiAgICAgIDxEYXRpQW5hZ3JhZmljaT4KICAgICAgICA8SWRGaXNjYWxlSVZBPgogICAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgICA8SWRDb2RpY2U+MTE3NTYxMTAwMTg8L0lkQ29kaWNlPgogICAgICAgIDwvSWRGaXNjYWxlSVZBPgogICAgICAgIDxBbmFncmFmaWNhPgogICAgICAgICAgPERlbm9taW5hemlvbmU+TXAgU2VydmljZSBDb21wYW55IHMuci5sLjwvRGVub21pbmF6aW9uZT4KICAgICAgICA8L0FuYWdyYWZpY2E+CiAgICAgICAgPFJlZ2ltZUZpc2NhbGU+UkYwMTwvUmVnaW1lRmlzY
+                        status: SF05
+                        outcomes:
+                          - file_name: IT09252150017_W0CYU_RC_002.xml
+                            file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bnMzOlJpY2V2dXRhQ29uc2VnbmEgeG1sbnM6bnMzPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyYS9tZXNzYWdnaS92MS4wIiB4bWxuczpuczI9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiIHZlcnNpb25lPSIxLjAiPgogICAgPElkZW50aWZpY2F0aXZvU2RJPjE5NTYzNzMyMjA8L0lkZW50aWZpY2F0aXZvU2RJPgogICAgPE5vbWVGaWxlPklUMDkyNTIxNTAwMTdfVzBDWVUueG1sPC9Ob21lRmlsZT4KICAgIDxIYXNoPjU2NDYyYjI2MDU5MmIwZjU1ODUwYWVjMDY2MzkxYTQ3NTA0NWU0YzdiMmI5MjU4NWRlYzQ5NDNlMGQ3NTBkNmI8L0hhc2g+CiAgICA8RGF0YU9yYVJpY2V6aW9uZT4yMDE5LTExLTEyVDE3OjQ3OjUwLjAwMCswMTowMDwvRGF0YU9yYVJpY2V6aW9uZT4KICAgIDxEYXRhT3JhQ29uc2VnbmE+MjAxOS0xMS0xMlQxODo1NDoyNC4wMDArMDE6MDA8L0RhdGFPcmFDb25zZWduYT4KICAgIDxEZXN0aW5hdGFyaW8+CiAgICAgICAgPENvZGljZT4wMDAwMDAwPC9Db2RpY2U+CiAgICAgICAgPERlc2NyaXppb25lPlRyYXNtZXNzbyBzdSBjYW5hbGUgcmVnaXN0cmF0byBkYWwgY2Vzc2lvbmFyaW8vY29tbWl0dGVudGU8L0Rlc2NyaXppb25lPgogICAgPC9EZXN0aW5hdGFyaW8+CiAgICA8TWVzc2FnZUlkPjU2MDY5NDc4NDQ8L01lc3NhZ2VJZD4KPGRzOlNpZ25hdHVyZSB4bWxuczpkcz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC8wOS94bWxkc2lnIyIgSWQ9IlNpZ25hdHVyZTEiPjxkczpTaWduZWRJbmZvPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8+PGRzOlNpZ25hdHVyZU1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZHNpZy1tb3JlI3JzYS1zaGEyNTYiLz48ZHM6UmVmZXJlbmNlIElkPSJyZWZlcmVuY2UtZG9jdW1lbnQiIFVSST0iIj48ZHM6VHJhbnNmb3Jtcz48ZHM6VHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNi94bWxkc2lnLWZpbHRlcjIiPjxYUGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNi94bWxkc2lnLWZpbHRlcjIiIEZpbHRlcj0ic3VidHJhY3QiPi9kZXNjZW5kYW50OjpkczpTaWduYXR1cmU8L1hQYXRoPjwvZHM6VHJhbnNmb3JtPjwvZHM6VHJhbnNmb3Jtcz48ZHM6RGlnZXN0TWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8wNC94bWxlbmMjc2hhMjU2Ii8+PGRzOkRpZ2VzdFZhbHVlPnFmZm1ySjlFaDlCUUtIUWllR3FjZVkxTFpxZHhmTW9ObkFYcVlCZVNHRFk9PC9kczpEaWdlc3RWYWx1ZT48L2RzOlJlZmVyZW5jZT48ZHM6UmVmZXJlbmNlIElkPSJyZWZlcmVuY2Utc2lnbmVkcHJvcGV0aWVzIiBUeXBlPSJodHRwOi8vdXJpLmV0c2kub3JnLzAxOTAzI1NpZ25lZFByb3BlcnRpZXMiIFVSST0iI1NpZ25lZFByb3BlcnRpZXNfMSI+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5CVm5uQW55SkhrSXNyOE51NlBmZGZBQjFGY1lFQ284K09DV1pWb2FrWFE4PTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PGRzOlJlZmVyZW5jZSBJZD0icmVmZXJlbmNlLWtleWluZm8iIFVSST0iI0tleUluZm9JZCI+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5mSExMUFhXN2VVR250RXQ0MytUUlAySzFadWlmd05naEY1OEhBQWlLMnpNPTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PC9kczpTaWduZWRJbmZvPjxkczpTaWduYXR1cmVWYWx1ZSBJZD0iU2lnbmF0dXJlVmFsdWUxIj5WZ2w5eGh1NFNSZ1c3OXY1TWVnU2pVWFhjMHVwenh1eFhaSDVaZzZSMkQzbUV6aFpXSER2UWtacDJMeHAxUlovS3NVc3drd2tiTGRkCnF4cUlneVZ1RzRId3IyMUtyZGZKTUZKanZlemdIS3htRnpSdlBOT0k1RFRiczlYcVBLYjhMbG5QQlpuQzhML1FicHV6aE4xKzAvMkkKaHJSTHVaZDROcW1hTUtUbEVoSjV5ZUl6Qi80blhRRi9ucXlQMU8wK0hkZ2c4NG9Ub1VKengxdGZKVmx3eUUxVHd1WUhUM1J1UDZoWApiaThCZ3FXVStlbWxLeU51VS9mVEVYQVVFY0ptRDVPbGFzbXJ0U3J6bUxoSVR2eXFlUmpzRGpYMnc0SFFjSU5LdzN4Uk43M1VtZTA4CnNGNmpaTHVpVENncG5tZDBnSkhGRnpURW8wenppcE04Q2gxVXpRPT08L2RzOlNpZ25hdHVyZVZhbHVlPjxkczpLZXlJbmZvIElkPSJLZXlJbmZvSWQiPjxkczpYNTA5RGF0YT48ZHM6WDUwOUNlcnRpZmljYXRlPk1JSUVaVENDQTAyZ0F3SUJBZ0lJVFBuOXV0eXkyR013RFFZSktvWklodmNOQVFFTEJRQXdiVEVMTUFrR0ExVUVCaE1DU1ZReEhqQWMKQmdOVkJBb1RGVUZuWlc1NmFXRWdaR1ZzYkdVZ1JXNTBjbUYwWlRFYk1Ca0dBMVVFQ3hNU1UyVnlkbWw2YVNCVVpXeGxiV0YwYVdOcApNU0V3SHdZRFZRUURFeGhEUVNCQloyVnVlbWxoSUdSbGJHeGxJRVZ1ZEhKaGRHVXdIaGNOTVRjd05USTBNVEl6TkRFM1doY05NakF3Ck5USTBNVEl6TkRFM1dqQjBNUXN3Q1FZRFZRUUdFd0pKVkRFZU1Cd0dBMVVFQ2d3VlFXZGxibnBwWVNCa1pXeHNaU0JGYm5SeVlYUmwKTVJzd0dRWURWUVFMREJKVFpYSjJhWHBwSUZSbGJHVnRZWFJwWTJreEtEQW1CZ05WQkFNTUgxTnBjM1JsYldFZ1NXNTBaWEp6WTJGdApZbWx2SUVaaGRIUjFjbUVnVUVFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUNMSlFaSExNZTdQeWJXCnN0Yi9zTHYwa2s4ZGV3UmREWjRWREFXdHh1RTdBT0NYelNldVRPajNSTFczVjUzallZTG5qdlVGTzR2L3E4L1k3MHNHK0Q5LzN4dDcKN0U0UStteTQycWZHbmpERmE1Q05Odm1tL0JoNzA3ay84UlZRdGFEbUZOQ3UwcXErejhsazlOcXkrcndFWDdmUEo1TTBhM2pLNGFsSAoxUDI1dGhFR0ZIc0ppNTFzd3VkZFcyamM1VExMcERjZTZkTUFGdTd5c1JRY29zWEVLT3BZOXpHaW1aNTFtK2VtWDFjR2Eyc1VwdUdGClZZclJ5d2Q5N3RyVSs4cVBtdkpsWVVsU1YzaDA1VFpXNmltcnZqb25PM2syYkhJam5rL3R0a2ROb081a3AwUGVVTjBYVkFFSGkrZloKNnE4TGZKUUpaUEpWNmpZRnF4Nk9qeWVoQWdNQkFBR2pnZ0VBTUlIOU1COEdBMVVkSXdRWU1CYUFGT3BFUHg4WjR6YytxNnFVZ3FXZgo2L3dXdW4rMU1JR3FCZ05WSFI4RWdhSXdnWjh3Z1p5Z2dabWdnWmFHZ1pOc1pHRndPaTh2WTJGa2N5NWxiblJ5WVhSbExtWnBibUZ1CmVtVXVhWFF2UTA0OVEwRWxNakJCWjJWdWVtbGhKVEl3WkdWc2JHVWxNakJGYm5SeVlYUmxMRTlWUFZObGNuWnBlbWtsTWpCVVpXeGwKYldGMGFXTnBMRTg5UVdkbGJucHBZU1V5TUdSbGJHeGxKVEl3Ulc1MGNtRjBaU3hEUFdsMFAyTmxjblJwWm1sallYUmxVbVYyYjJOaApkR2x2Ymt4cGMzUXdIUVlEVlIwT0JCWUVGUHZ4NGRzN2g4SFJnVXBiNFliQVkvblZaL09xTUE0R0ExVWREd0VCL3dRRUF3SUdRREFOCkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQU1wMkVZUjI1V0xsVkJiZjJtVUt4Vkp3TjAvemtFYzhFanowcG81UlRNdXNramJiVTFKUjEKdDcyUERUTlZBa3VvdWozWDZGeDhUaU82Q2FFRzlTaEdkSkhvc013ZWtqNVM3SXFkMHhTNjZLbEt1UWttUHlIQlBndVMyL1dMZExpVApJRm41SjhobktVclh6T3I0OHM0OEs1aVk0UWNGY0E2d2EyUGNtTG1CRmovdVJI
+      operationId: get-invoices-external
+      description: 'This API allows requesting the XML files of the documents (invoices and credit notes) received from external sources through a specific API (not included in this document). ICAD Sistemi receives an unsigned XML file and proceeds to sign it before sending it to the SdI (Sistema di Interscambio). By querying the system with specific parameters, the client can then receive and save these files.'
+      parameters:
+        - schema:
+            type: string
+            example: 01-06-2018
+          in: query
+          name: from
+          required: true
+          description: 'String representing the start date of the interval to be queried, in the format dd-MM-yyyy'
+        - schema:
+            type: string
+            example: 01-06-2018
+          in: query
+          name: to
+          required: true
+          description: 'String representing the start date of the interval to be queried, in the format dd-MM-yyyy'
+        - schema:
+            type: string
+            example: '0001'
+          in: query
+          name: supplier_code
+          required: true
+          description: Supplier code being worked with
+        - schema:
+            type: string
+            example: true/false
+          in: query
+          name: outcomes
+          description: Indicate whether you also want to receive the outcome files received from the SdI (usable only if you have subscribed to the relevant package).
+    parameters: []
 components:
   schemas:
     CardInput:
@@ -814,13 +1018,220 @@ components:
           type: number
           x-stoplight:
             id: tvs6dajy4w6ib
+    InvoicesExternalResponse:
+      title: Invoices external response
+      x-stoplight:
+        id: fe6eod9wldsg8
+      type: object
+      properties:
+        result:
+          type: string
+          x-stoplight:
+            id: 4k93uk2amh56i
+        message:
+          type: string
+          x-stoplight:
+            id: m2ho9e3j96m46
+        invoice:
+          type: array
+          x-stoplight:
+            id: 7eajb0npfeu2z
+          items:
+            x-stoplight:
+              id: l0qjpp7caflu7
+            type: object
+            properties:
+              file_name:
+                type: string
+                x-stoplight:
+                  id: 4kdcz303r6xmb
+              file:
+                type: string
+                x-stoplight:
+                  id: vdbzb2a5w1rc6
+              status:
+                type: string
+                x-stoplight:
+                  id: 718jug2zx83uc
+              outcomes:
+                type: array
+                x-stoplight:
+                  id: 5ul1h7b9ym2mx
+                items:
+                  x-stoplight:
+                    id: z3pw2pkessc2m
+                  type: object
+                  properties:
+                    file_name:
+                      type: string
+                      x-stoplight:
+                        id: vxcwx7b8q1fan
+                    file:
+                      type: string
+                      x-stoplight:
+                        id: 4199vs70cdbet
+      description: response external invoice
+      examples:
+        - result: OK
+          message: ''
+          invoice:
+            - file_name: IT09252150017_W0CYU.xml
+              file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHA6RmF0dHVyYUVsZXR0cm9uaWNhIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIiB4bWxuczpwPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyZS92MS4yIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB2ZXJzaW9uZT0iRlBSMTIiIHhzaTpzY2hlbWFMb2NhdGlvbj0iaHR0cDovL2l2YXNlcnZpemkuYWdlbnppYWVudHJhdGUuZ292Lml0L2RvY3MveHNkL2ZhdHR1cmUvdjEuMiBodHRwOi8vd3d3LmZhdHR1cmFwYS5nb3YuaXQvZXhwb3J0L2ZhdHR1cmF6aW9uZS9zZGkvZmF0dHVyYXBhL3YxLjIvU2NoZW1hX2RlbF9maWxlX3htbF9GYXR0dXJhUEFfdmVyc2lvbmVfMS4yLnhzZCI+CiAgPEZhdHR1cmFFbGV0dHJvbmljYUhlYWRlcj4KICAgIDxEYXRpVHJhc21pc3Npb25lPgogICAgICA8SWRUcmFzbWl0dGVudGU+CiAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgPElkQ29kaWNlPjA5MjUyMTUwMDE3PC9JZENvZGljZT4KICAgICAgPC9JZFRyYXNtaXR0ZW50ZT4KICAgICAgPFByb2dyZXNzaXZvSW52aW8+MDAwMDAwMDY5NjwvUHJvZ3Jlc3Npdm9JbnZpbz4KICAgICAgPEZvcm1hdG9UcmFzbWlzc2lvbmU+RlBSMTI8L0Zvcm1hdG9UcmFzbWlzc2lvbmU+CiAgICAgIDxDb2RpY2VEZXN0aW5hdGFyaW8+NVJVTzgyRDwvQ29kaWNlRGVzdGluYXRhcmlvPgogICAgICA8Q29udGF0dGlUcmFzbWl0dGVudGU+CiAgICAgICAgPFRlbGVmb25vPjAxMTk5MDY2ODk8L1RlbGVmb25vPgogICAgICAgIDxFbWFpbD5pbmZvQGljYWRzaXN0ZW1pLmNvbTwvRW1haWw+CiAgICAgIDwvQ29udGF0dGlUcmFzbWl0dGVudGU+CiAgICA8L0RhdGlUcmFzbWlzc2lvbmU+CiAgICA8Q2VkZW50ZVByZXN0YXRvcmU+CiAgICAgIDxEYXRpQW5hZ3JhZmljaT4KICAgICAgICA8SWRGaXNjYWxlSVZBPgogICAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgICA8SWRDb2RpY2U+MTE3NTYxMTAwMTg8L0lkQ29kaWNlPgogICAgICAgIDwvSWRGaXNjYWxlSVZBPgogICAgICAgIDxBbmFncmFmaWNhPgogICAgICAgICAgPERlbm9taW5hemlvbmU+TXAgU2VydmljZSBDb21wYW55IHMuci5sLjwvRGVub21pbmF6aW9uZT4KICAgICAgICA8L0FuYWdyYWZpY2E+CiAgICAgICAgPFJlZ2ltZUZpc2NhbGU+UkYwMTwvUmVnaW1lRmlzY
+              status: SF05
+              outcomes:
+                - file_name: IT09252150017_W0CYU_RC_002.xml
+                  file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bnMzOlJpY2V2dXRhQ29uc2VnbmEgeG1sbnM6bnMzPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyYS9tZXNzYWdnaS92MS4wIiB4bWxuczpuczI9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiIHZlcnNpb25lPSIxLjAiPgogICAgPElkZW50aWZpY2F0aXZvU2RJPjE5NTYzNzMyMjA8L0lkZW50aWZpY2F0aXZvU2RJPgogICAgPE5vbWVGaWxlPklUMDkyNTIxNTAwMTdfVzBDWVUueG1sPC9Ob21lRmlsZT4KICAgIDxIYXNoPjU2NDYyYjI2MDU5MmIwZjU1ODUwYWVjMDY2MzkxYTQ3NTA0NWU0YzdiMmI5MjU4NWRlYzQ5NDNlMGQ3NTBkNmI8L0hhc2g+CiAgICA8RGF0YU9yYVJpY2V6aW9uZT4yMDE5LTExLTEyVDE3OjQ3OjUwLjAwMCswMTowMDwvRGF0YU9yYVJpY2V6aW9uZT4KICAgIDxEYXRhT3JhQ29uc2VnbmE+MjAxOS0xMS0xMlQxODo1NDoyNC4wMDArMDE6MDA8L0RhdGFPcmFDb25zZWduYT4KICAgIDxEZXN0aW5hdGFyaW8+CiAgICAgICAgPENvZGljZT4wMDAwMDAwPC9Db2RpY2U+CiAgICAgICAgPERlc2NyaXppb25lPlRyYXNtZXNzbyBzdSBjYW5hbGUgcmVnaXN0cmF0byBkYWwgY2Vzc2lvbmFyaW8vY29tbWl0dGVudGU8L0Rlc2NyaXppb25lPgogICAgPC9EZXN0aW5hdGFyaW8+CiAgICA8TWVzc2FnZUlkPjU2MDY5NDc4NDQ8L01lc3NhZ2VJZD4KPGRzOlNpZ25hdHVyZSB4bWxuczpkcz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC8wOS94bWxkc2lnIyIgSWQ9IlNpZ25hdHVyZTEiPjxkczpTaWduZWRJbmZvPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8+PGRzOlNpZ25hdHVyZU1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZHNpZy1tb3JlI3JzYS1zaGEyNTYiLz48ZHM6UmVmZXJlbmNlIElkPSJyZWZlcmVuY2UtZG9jdW1lbnQiIFVSST0iIj48ZHM6VHJhbnNmb3Jtcz48ZHM6VHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNi94bWxkc2lnLWZpbHRlcjIiPjxYUGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNi94bWxkc2lnLWZpbHRlcjIiIEZpbHRlcj0ic3VidHJhY3QiPi9kZXNjZW5kYW50OjpkczpTaWduYXR1cmU8L1hQYXRoPjwvZHM6VHJhbnNmb3JtPjwvZHM6VHJhbnNmb3Jtcz48ZHM6RGlnZXN0TWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8wNC94bWxlbmMjc2hhMjU2Ii8+PGRzOkRpZ2VzdFZhbHVlPnFmZm1ySjlFaDlCUUtIUWllR3FjZVkxTFpxZHhmTW9ObkFYcVlCZVNHRFk9PC9kczpEaWdlc3RWYWx1ZT48L2RzOlJlZmVyZW5jZT48ZHM6UmVmZXJlbmNlIElkPSJyZWZlcmVuY2Utc2lnbmVkcHJvcGV0aWVzIiBUeXBlPSJodHRwOi8vdXJpLmV0c2kub3JnLzAxOTAzI1NpZ25lZFByb3BlcnRpZXMiIFVSST0iI1NpZ25lZFByb3BlcnRpZXNfMSI+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5CVm5uQW55SkhrSXNyOE51NlBmZGZBQjFGY1lFQ284K09DV1pWb2FrWFE4PTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PGRzOlJlZmVyZW5jZSBJZD0icmVmZXJlbmNlLWtleWluZm8iIFVSST0iI0tleUluZm9JZCI+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5mSExMUFhXN2VVR250RXQ0MytUUlAySzFadWlmd05naEY1OEhBQWlLMnpNPTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PC9kczpTaWduZWRJbmZvPjxkczpTaWduYXR1cmVWYWx1ZSBJZD0iU2lnbmF0dXJlVmFsdWUxIj5WZ2w5eGh1NFNSZ1c3OXY1TWVnU2pVWFhjMHVwenh1eFhaSDVaZzZSMkQzbUV6aFpXSER2UWtacDJMeHAxUlovS3NVc3drd2tiTGRkCnF4cUlneVZ1RzRId3IyMUtyZGZKTUZKanZlemdIS3htRnpSdlBOT0k1RFRiczlYcVBLYjhMbG5QQlpuQzhML1FicHV6aE4xKzAvMkkKaHJSTHVaZDROcW1hTUtUbEVoSjV5ZUl6Qi80blhRRi9ucXlQMU8wK0hkZ2c4NG9Ub1VKengxdGZKVmx3eUUxVHd1WUhUM1J1UDZoWApiaThCZ3FXVStlbWxLeU51VS9mVEVYQVVFY0ptRDVPbGFzbXJ0U3J6bUxoSVR2eXFlUmpzRGpYMnc0SFFjSU5LdzN4Uk43M1VtZTA4CnNGNmpaTHVpVENncG5tZDBnSkhGRnpURW8wenppcE04Q2gxVXpRPT08L2RzOlNpZ25hdHVyZVZhbHVlPjxkczpLZXlJbmZvIElkPSJLZXlJbmZvSWQiPjxkczpYNTA5RGF0YT48ZHM6WDUwOUNlcnRpZmljYXRlPk1JSUVaVENDQTAyZ0F3SUJBZ0lJVFBuOXV0eXkyR013RFFZSktvWklodmNOQVFFTEJRQXdiVEVMTUFrR0ExVUVCaE1DU1ZReEhqQWMKQmdOVkJBb1RGVUZuWlc1NmFXRWdaR1ZzYkdVZ1JXNTBjbUYwWlRFYk1Ca0dBMVVFQ3hNU1UyVnlkbWw2YVNCVVpXeGxiV0YwYVdOcApNU0V3SHdZRFZRUURFeGhEUVNCQloyVnVlbWxoSUdSbGJHeGxJRVZ1ZEhKaGRHVXdIaGNOTVRjd05USTBNVEl6TkRFM1doY05NakF3Ck5USTBNVEl6TkRFM1dqQjBNUXN3Q1FZRFZRUUdFd0pKVkRFZU1Cd0dBMVVFQ2d3VlFXZGxibnBwWVNCa1pXeHNaU0JGYm5SeVlYUmwKTVJzd0dRWURWUVFMREJKVFpYSjJhWHBwSUZSbGJHVnRZWFJwWTJreEtEQW1CZ05WQkFNTUgxTnBjM1JsYldFZ1NXNTBaWEp6WTJGdApZbWx2SUVaaGRIUjFjbUVnVUVFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUNMSlFaSExNZTdQeWJXCnN0Yi9zTHYwa2s4ZGV3UmREWjRWREFXdHh1RTdBT0NYelNldVRPajNSTFczVjUzallZTG5qdlVGTzR2L3E4L1k3MHNHK0Q5LzN4dDcKN0U0UStteTQycWZHbmpERmE1Q05Odm1tL0JoNzA3ay84UlZRdGFEbUZOQ3UwcXErejhsazlOcXkrcndFWDdmUEo1TTBhM2pLNGFsSAoxUDI1dGhFR0ZIc0ppNTFzd3VkZFcyamM1VExMcERjZTZkTUFGdTd5c1JRY29zWEVLT3BZOXpHaW1aNTFtK2VtWDFjR2Eyc1VwdUdGClZZclJ5d2Q5N3RyVSs4cVBtdkpsWVVsU1YzaDA1VFpXNmltcnZqb25PM2syYkhJam5rL3R0a2ROb081a3AwUGVVTjBYVkFFSGkrZloKNnE4TGZKUUpaUEpWNmpZRnF4Nk9qeWVoQWdNQkFBR2pnZ0VBTUlIOU1COEdBMVVkSXdRWU1CYUFGT3BFUHg4WjR6YytxNnFVZ3FXZgo2L3dXdW4rMU1JR3FCZ05WSFI4RWdhSXdnWjh3Z1p5Z2dabWdnWmFHZ1pOc1pHRndPaTh2WTJGa2N5NWxiblJ5WVhSbExtWnBibUZ1CmVtVXVhWFF2UTA0OVEwRWxNakJCWjJWdWVtbGhKVEl3WkdWc2JHVWxNakJGYm5SeVlYUmxMRTlWUFZObGNuWnBlbWtsTWpCVVpXeGwKYldGMGFXTnBMRTg5UVdkbGJucHBZU1V5TUdSbGJHeGxKVEl3Ulc1MGNtRjBaU3hEUFdsMFAyTmxjblJwWm1sallYUmxVbVYyYjJOaApkR2x2Ymt4cGMzUXdIUVlEVlIwT0JCWUVGUHZ4NGRzN2g4SFJnVXBiNFliQVkvblZaL09xTUE0R0ExVWREd0VCL3dRRUF3SUdRREFOCkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQU1wMkVZUjI1V0xsVkJiZjJtVUt4Vkp3TjAvemtFYzhFanowcG81UlRNdXNramJiVTFKUjEKdDcyUERUTlZBa3VvdWozWDZGeDhUaU82Q2FFRzlTaEdkSkhvc013ZWtqNVM3SXFkMHhTNjZLbEt1UWttUHlIQlBndVMyL1dMZExpVApJRm41SjhobktVclh6T3I0OHM0OEs1aVk0UWNGY0E2d2EyUGNtTG1CRmovdVJI
+        - result: OK
+          message: ''
+          invoice:
+            - file_name: IT09252150017_W0CYU.xml
+              file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHA6RmF0dHVyYUVsZXR0cm9uaWNhIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIiB4bWxuczpwPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyZS92MS4yIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB2ZXJzaW9uZT0iRlBSMTIiIHhzaTpzY2hlbWFMb2NhdGlvbj0iaHR0cDovL2l2YXNlcnZpemkuYWdlbnppYWVudHJhdGUuZ292Lml0L2RvY3MveHNkL2ZhdHR1cmUvdjEuMiBodHRwOi8vd3d3LmZhdHR1cmFwYS5nb3YuaXQvZXhwb3J0L2ZhdHR1cmF6aW9uZS9zZGkvZmF0dHVyYXBhL3YxLjIvU2NoZW1hX2RlbF9maWxlX3htbF9GYXR0dXJhUEFfdmVyc2lvbmVfMS4yLnhzZCI+CiAgPEZhdHR1cmFFbGV0dHJvbmljYUhlYWRlcj4KICAgIDxEYXRpVHJhc21pc3Npb25lPgogICAgICA8SWRUcmFzbWl0dGVudGU+CiAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgPElkQ29kaWNlPjA5MjUyMTUwMDE3PC9JZENvZGljZT4KICAgICAgPC9JZFRyYXNtaXR0ZW50ZT4KICAgICAgPFByb2dyZXNzaXZvSW52aW8+MDAwMDAwMDY5NjwvUHJvZ3Jlc3Npdm9JbnZpbz4KICAgICAgPEZvcm1hdG9UcmFzbWlzc2lvbmU+RlBSMTI8L0Zvcm1hdG9UcmFzbWlzc2lvbmU+CiAgICAgIDxDb2RpY2VEZXN0aW5hdGFyaW8+NVJVTzgyRDwvQ29kaWNlRGVzdGluYXRhcmlvPgogICAgICA8Q29udGF0dGlUcmFzbWl0dGVudGU+CiAgICAgICAgPFRlbGVmb25vPjAxMTk5MDY2ODk8L1RlbGVmb25vPgogICAgICAgIDxFbWFpbD5pbmZvQGljYWRzaXN0ZW1pLmNvbTwvRW1haWw+CiAgICAgIDwvQ29udGF0dGlUcmFzbWl0dGVudGU+CiAgICA8L0RhdGlUcmFzbWlzc2lvbmU+CiAgICA8Q2VkZW50ZVByZXN0YXRvcmU+CiAgICAgIDxEYXRpQW5hZ3JhZmljaT4KICAgICAgICA8SWRGaXNjYWxlSVZBPgogICAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgICA8SWRDb2RpY2U+MTE3NTYxMTAwMTg8L0lkQ29kaWNlPgogICAgICAgIDwvSWRGaXNjYWxlSVZBPgogICAgICAgIDxBbmFncmFmaWNhPgogICAgICAgICAgPERlbm9taW5hemlvbmU+TXAgU2VydmljZSBDb21wYW55IHMuci5sLjwvRGVub21pbmF6aW9uZT4KICAgICAgICA8L0FuYWdyYWZpY2E+CiAgICAgICAgPFJlZ2ltZUZpc2NhbGU+UkYwMTwvUmVnaW1lRmlzY
+              status: SF05
+              outcomes:
+                - file_name: IT09252150017_W0CYU_RC_002.xml
+                  file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bnMzOlJpY2V2dXRhQ29uc2VnbmEgeG1sbnM6bnMzPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyYS9tZXNzYWdnaS92MS4wIiB4bWxuczpuczI9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiIHZlcnNpb25lPSIxLjAiPgogICAgPElkZW50aWZpY2F0aXZvU2RJPjE5NTYzNzMyMjA8L0lkZW50aWZpY2F0aXZvU2RJPgogICAgPE5vbWVGaWxlPklUMDkyNTIxNTAwMTdfVzBDWVUueG1sPC9Ob21lRmlsZT4KICAgIDxIYXNoPjU2NDYyYjI2MDU5MmIwZjU1ODUwYWVjMDY2MzkxYTQ3NTA0NWU0YzdiMmI5MjU4NWRlYzQ5NDNlMGQ3NTBkNmI8L0hhc2g+CiAgICA8RGF0YU9yYVJpY2V6aW9uZT4yMDE5LTExLTEyVDE3OjQ3OjUwLjAwMCswMTowMDwvRGF0YU9yYVJpY2V6aW9uZT4KICAgIDxEYXRhT3JhQ29uc2VnbmE+MjAxOS0xMS0xMlQxODo1NDoyNC4wMDArMDE6MDA8L0RhdGFPcmFDb25zZWduYT4KICAgIDxEZXN0aW5hdGFyaW8+CiAgICAgICAgPENvZGljZT4wMDAwMDAwPC9Db2RpY2U+CiAgICAgICAgPERlc2NyaXppb25lPlRyYXNtZXNzbyBzdSBjYW5hbGUgcmVnaXN0cmF0byBkYWwgY2Vzc2lvbmFyaW8vY29tbWl0dGVudGU8L0Rlc2NyaXppb25lPgogICAgPC9EZXN0aW5hdGFyaW8+CiAgICA8TWVzc2FnZUlkPjU2MDY5NDc4NDQ8L01lc3NhZ2VJZD4KPGRzOlNpZ25hdHVyZSB4bWxuczpkcz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC8wOS94bWxkc2lnIyIgSWQ9IlNpZ25hdHVyZTEiPjxkczpTaWduZWRJbmZvPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8+PGRzOlNpZ25hdHVyZU1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZHNpZy1tb3JlI3JzYS1zaGEyNTYiLz48ZHM6UmVmZXJlbmNlIElkPSJyZWZlcmVuY2UtZG9jdW1lbnQiIFVSST0iIj48ZHM6VHJhbnNmb3Jtcz48ZHM6VHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNi94bWxkc2lnLWZpbHRlcjIiPjxYUGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNi94bWxkc2lnLWZpbHRlcjIiIEZpbHRlcj0ic3VidHJhY3QiPi9kZXNjZW5kYW50OjpkczpTaWduYXR1cmU8L1hQYXRoPjwvZHM6VHJhbnNmb3JtPjwvZHM6VHJhbnNmb3Jtcz48ZHM6RGlnZXN0TWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8wNC94bWxlbmMjc2hhMjU2Ii8+PGRzOkRpZ2VzdFZhbHVlPnFmZm1ySjlFaDlCUUtIUWllR3FjZVkxTFpxZHhmTW9ObkFYcVlCZVNHRFk9PC9kczpEaWdlc3RWYWx1ZT48L2RzOlJlZmVyZW5jZT48ZHM6UmVmZXJlbmNlIElkPSJyZWZlcmVuY2Utc2lnbmVkcHJvcGV0aWVzIiBUeXBlPSJodHRwOi8vdXJpLmV0c2kub3JnLzAxOTAzI1NpZ25lZFByb3BlcnRpZXMiIFVSST0iI1NpZ25lZFByb3BlcnRpZXNfMSI+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5CVm5uQW55SkhrSXNyOE51NlBmZGZBQjFGY1lFQ284K09DV1pWb2FrWFE4PTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PGRzOlJlZmVyZW5jZSBJZD0icmVmZXJlbmNlLWtleWluZm8iIFVSST0iI0tleUluZm9JZCI+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5mSExMUFhXN2VVR250RXQ0MytUUlAySzFadWlmd05naEY1OEhBQWlLMnpNPTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PC9kczpTaWduZWRJbmZvPjxkczpTaWduYXR1cmVWYWx1ZSBJZD0iU2lnbmF0dXJlVmFsdWUxIj5WZ2w5eGh1NFNSZ1c3OXY1TWVnU2pVWFhjMHVwenh1eFhaSDVaZzZSMkQzbUV6aFpXSER2UWtacDJMeHAxUlovS3NVc3drd2tiTGRkCnF4cUlneVZ1RzRId3IyMUtyZGZKTUZKanZlemdIS3htRnpSdlBOT0k1RFRiczlYcVBLYjhMbG5QQlpuQzhML1FicHV6aE4xKzAvMkkKaHJSTHVaZDROcW1hTUtUbEVoSjV5ZUl6Qi80blhRRi9ucXlQMU8wK0hkZ2c4NG9Ub1VKengxdGZKVmx3eUUxVHd1WUhUM1J1UDZoWApiaThCZ3FXVStlbWxLeU51VS9mVEVYQVVFY0ptRDVPbGFzbXJ0U3J6bUxoSVR2eXFlUmpzRGpYMnc0SFFjSU5LdzN4Uk43M1VtZTA4CnNGNmpaTHVpVENncG5tZDBnSkhGRnpURW8wenppcE04Q2gxVXpRPT08L2RzOlNpZ25hdHVyZVZhbHVlPjxkczpLZXlJbmZvIElkPSJLZXlJbmZvSWQiPjxkczpYNTA5RGF0YT48ZHM6WDUwOUNlcnRpZmljYXRlPk1JSUVaVENDQTAyZ0F3SUJBZ0lJVFBuOXV0eXkyR013RFFZSktvWklodmNOQVFFTEJRQXdiVEVMTUFrR0ExVUVCaE1DU1ZReEhqQWMKQmdOVkJBb1RGVUZuWlc1NmFXRWdaR1ZzYkdVZ1JXNTBjbUYwWlRFYk1Ca0dBMVVFQ3hNU1UyVnlkbWw2YVNCVVpXeGxiV0YwYVdOcApNU0V3SHdZRFZRUURFeGhEUVNCQloyVnVlbWxoSUdSbGJHeGxJRVZ1ZEhKaGRHVXdIaGNOTVRjd05USTBNVEl6TkRFM1doY05NakF3Ck5USTBNVEl6TkRFM1dqQjBNUXN3Q1FZRFZRUUdFd0pKVkRFZU1Cd0dBMVVFQ2d3VlFXZGxibnBwWVNCa1pXeHNaU0JGYm5SeVlYUmwKTVJzd0dRWURWUVFMREJKVFpYSjJhWHBwSUZSbGJHVnRZWFJwWTJreEtEQW1CZ05WQkFNTUgxTnBjM1JsYldFZ1NXNTBaWEp6WTJGdApZbWx2SUVaaGRIUjFjbUVnVUVFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUNMSlFaSExNZTdQeWJXCnN0Yi9zTHYwa2s4ZGV3UmREWjRWREFXdHh1RTdBT0NYelNldVRPajNSTFczVjUzallZTG5qdlVGTzR2L3E4L1k3MHNHK0Q5LzN4dDcKN0U0UStteTQycWZHbmpERmE1Q05Odm1tL0JoNzA3ay84UlZRdGFEbUZOQ3UwcXErejhsazlOcXkrcndFWDdmUEo1TTBhM2pLNGFsSAoxUDI1dGhFR0ZIc0ppNTFzd3VkZFcyamM1VExMcERjZTZkTUFGdTd5c1JRY29zWEVLT3BZOXpHaW1aNTFtK2VtWDFjR2Eyc1VwdUdGClZZclJ5d2Q5N3RyVSs4cVBtdkpsWVVsU1YzaDA1VFpXNmltcnZqb25PM2syYkhJam5rL3R0a2ROb081a3AwUGVVTjBYVkFFSGkrZloKNnE4TGZKUUpaUEpWNmpZRnF4Nk9qeWVoQWdNQkFBR2pnZ0VBTUlIOU1COEdBMVVkSXdRWU1CYUFGT3BFUHg4WjR6YytxNnFVZ3FXZgo2L3dXdW4rMU1JR3FCZ05WSFI4RWdhSXdnWjh3Z1p5Z2dabWdnWmFHZ1pOc1pHRndPaTh2WTJGa2N5NWxiblJ5WVhSbExtWnBibUZ1CmVtVXVhWFF2UTA0OVEwRWxNakJCWjJWdWVtbGhKVEl3WkdWc2JHVWxNakJGYm5SeVlYUmxMRTlWUFZObGNuWnBlbWtsTWpCVVpXeGwKYldGMGFXTnBMRTg5UVdkbGJucHBZU1V5TUdSbGJHeGxKVEl3Ulc1MGNtRjBaU3hEUFdsMFAyTmxjblJwWm1sallYUmxVbVYyYjJOaApkR2x2Ymt4cGMzUXdIUVlEVlIwT0JCWUVGUHZ4NGRzN2g4SFJnVXBiNFliQVkvblZaL09xTUE0R0ExVWREd0VCL3dRRUF3SUdRREFOCkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQU1wMkVZUjI1V0xsVkJiZjJtVUt4Vkp3TjAvemtFYzhFanowcG81UlRNdXNramJiVTFKUjEKdDcyUERUTlZBa3VvdWozWDZGeDhUaU82Q2FFRzlTaEdkSkhvc013ZWtqNVM3SXFkMHhTNjZLbEt1UWttUHlIQlBndVMyL1dMZExpVApJRm41SjhobktVclh6T3I0OHM0OEs1aVk0UWNGY0E2d2EyUGNtTG1CRmovdVJI
+    InvoicesPassiveResponse:
+      title: Invoices passive response
+      x-stoplight:
+        id: 9i57jedc1uaae
+      type: object
+      examples:
+        - result: OK
+          message: ''
+          invoice:
+            - file_name: IT09252150017_W0CYU.xml
+              file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHA6RmF0dHVyYUVsZXR0cm9uaWNhIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIiB4bWxuczpwPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyZS92MS4yIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB2ZXJzaW9uZT0iRlBSMTIiIHhzaTpzY2hlbWFMb2NhdGlvbj0iaHR0cDovL2l2YXNlcnZpemkuYWdlbnppYWVudHJhdGUuZ292Lml0L2RvY3MveHNkL2ZhdHR1cmUvdjEuMiBodHRwOi8vd3d3LmZhdHR1cmFwYS5nb3YuaXQvZXhwb3J0L2ZhdHR1cmF6aW9uZS9zZGkvZmF0dHVyYXBhL3YxLjIvU2NoZW1hX2RlbF9maWxlX3htbF9GYXR0dXJhUEFfdmVyc2lvbmVfMS4yLnhzZCI+CiAgPEZhdHR1cmFFbGV0dHJvbmljYUhlYWRlcj4KICAgIDxEYXRpVHJhc21pc3Npb25lPgogICAgICA8SWRUcmFzbWl0dGVudGU+CiAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgPElkQ29kaWNlPjA5MjUyMTUwMDE3PC9JZENvZGljZT4KICAgICAgPC9JZFRyYXNtaXR0ZW50ZT4KICAgICAgPFByb2dyZXNzaXZvSW52aW8+MDAwMDAwMDY5NjwvUHJvZ3Jlc3Npdm9JbnZpbz4KICAgICAgPEZvcm1hdG9UcmFzbWlzc2lvbmU+RlBSMTI8L0Zvcm1hdG9UcmFzbWlzc2lvbmU+CiAgICAgIDxDb2RpY2VEZXN0aW5hdGFyaW8+NVJVTzgyRDwvQ29kaWNlRGVzdGluYXRhcmlvPgogICAgICA8Q29udGF0dGlUcmFzbWl0dGVudGU+CiAgICAgICAgPFRlbGVmb25vPjAxMTk5MDY2ODk8L1RlbGVmb25vPgogICAgICAgIDxFbWFpbD5pbmZvQGljYWRzaXN0ZW1pLmNvbTwvRW1haWw+CiAgICAgIDwvQ29udGF0dGlUcmFzbWl0dGVudGU+CiAgICA8L0RhdGlUcmFzbWlzc2lvbmU+CiAgICA8Q2VkZW50ZVByZXN0YXRvcmU+CiAgICAgIDxEYXRpQW5hZ3JhZmljaT4KICAgICAgICA8SWRGaXNjYWxlSVZBPgogICAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgICA8SWRDb2RpY2U+MTE3NTYxMTAwMTg8L0lkQ29kaWNlPgogICAgICAgIDwvSWRGaXNjYWxlSVZBPgogICAgICAgIDxBbmFncmFmaWNhPgogICAgICAgICAgPERlbm9taW5hemlvbmU+TXAgU2VydmljZSBDb21wYW55IHMuci5sLjwvRGVub21pbmF6aW9uZT4KICAgICAgICA8L0FuYWdyYWZpY2E+CiAgICAgICAgPFJlZ2ltZUZpc2NhbGU+UkYwMTwvUmVnaW1lRmlzY
+              status: SF05
+              outcomes:
+                - file_name: IT09252150017_W0CYU_RC_002.xml
+                  file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bnMzOlJpY2V2dXRhQ29uc2VnbmEgeG1sbnM6bnMzPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyYS9tZXNzYWdnaS92MS4wIiB4bWxuczpuczI9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiIHZlcnNpb25lPSIxLjAiPgogICAgPElkZW50aWZpY2F0aXZvU2RJPjE5NTYzNzMyMjA8L0lkZW50aWZpY2F0aXZvU2RJPgogICAgPE5vbWVGaWxlPklUMDkyNTIxNTAwMTdfVzBDWVUueG1sPC9Ob21lRmlsZT4KICAgIDxIYXNoPjU2NDYyYjI2MDU5MmIwZjU1ODUwYWVjMDY2MzkxYTQ3NTA0NWU0YzdiMmI5MjU4NWRlYzQ5NDNlMGQ3NTBkNmI8L0hhc2g+CiAgICA8RGF0YU9yYVJpY2V6aW9uZT4yMDE5LTExLTEyVDE3OjQ3OjUwLjAwMCswMTowMDwvRGF0YU9yYVJpY2V6aW9uZT4KICAgIDxEYXRhT3JhQ29uc2VnbmE+MjAxOS0xMS0xMlQxODo1NDoyNC4wMDArMDE6MDA8L0RhdGFPcmFDb25zZWduYT4KICAgIDxEZXN0aW5hdGFyaW8+CiAgICAgICAgPENvZGljZT4wMDAwMDAwPC9Db2RpY2U+CiAgICAgICAgPERlc2NyaXppb25lPlRyYXNtZXNzbyBzdSBjYW5hbGUgcmVnaXN0cmF0byBkYWwgY2Vzc2lvbmFyaW8vY29tbWl0dGVudGU8L0Rlc2NyaXppb25lPgogICAgPC9EZXN0aW5hdGFyaW8+CiAgICA8TWVzc2FnZUlkPjU2MDY5NDc4NDQ8L01lc3NhZ2VJZD4KPGRzOlNpZ25hdHVyZSB4bWxuczpkcz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC8wOS94bWxkc2lnIyIgSWQ9IlNpZ25hdHVyZTEiPjxkczpTaWduZWRJbmZvPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8+PGRzOlNpZ25hdHVyZU1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZHNpZy1tb3JlI3JzYS1zaGEyNTYiLz48ZHM6UmVmZXJlbmNlIElkPSJyZWZlcmVuY2UtZG9jdW1lbnQiIFVSST0iIj48ZHM6VHJhbnNmb3Jtcz48ZHM6VHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNi94bWxkc2lnLWZpbHRlcjIiPjxYUGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNi94bWxkc2lnLWZpbHRlcjIiIEZpbHRlcj0ic3VidHJhY3QiPi9kZXNjZW5kYW50OjpkczpTaWduYXR1cmU8L1hQYXRoPjwvZHM6VHJhbnNmb3JtPjwvZHM6VHJhbnNmb3Jtcz48ZHM6RGlnZXN0TWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8wNC94bWxlbmMjc2hhMjU2Ii8+PGRzOkRpZ2VzdFZhbHVlPnFmZm1ySjlFaDlCUUtIUWllR3FjZVkxTFpxZHhmTW9ObkFYcVlCZVNHRFk9PC9kczpEaWdlc3RWYWx1ZT48L2RzOlJlZmVyZW5jZT48ZHM6UmVmZXJlbmNlIElkPSJyZWZlcmVuY2Utc2lnbmVkcHJvcGV0aWVzIiBUeXBlPSJodHRwOi8vdXJpLmV0c2kub3JnLzAxOTAzI1NpZ25lZFByb3BlcnRpZXMiIFVSST0iI1NpZ25lZFByb3BlcnRpZXNfMSI+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5CVm5uQW55SkhrSXNyOE51NlBmZGZBQjFGY1lFQ284K09DV1pWb2FrWFE4PTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PGRzOlJlZmVyZW5jZSBJZD0icmVmZXJlbmNlLWtleWluZm8iIFVSST0iI0tleUluZm9JZCI+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5mSExMUFhXN2VVR250RXQ0MytUUlAySzFadWlmd05naEY1OEhBQWlLMnpNPTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PC9kczpTaWduZWRJbmZvPjxkczpTaWduYXR1cmVWYWx1ZSBJZD0iU2lnbmF0dXJlVmFsdWUxIj5WZ2w5eGh1NFNSZ1c3OXY1TWVnU2pVWFhjMHVwenh1eFhaSDVaZzZSMkQzbUV6aFpXSER2UWtacDJMeHAxUlovS3NVc3drd2tiTGRkCnF4cUlneVZ1RzRId3IyMUtyZGZKTUZKanZlemdIS3htRnpSdlBOT0k1RFRiczlYcVBLYjhMbG5QQlpuQzhML1FicHV6aE4xKzAvMkkKaHJSTHVaZDROcW1hTUtUbEVoSjV5ZUl6Qi80blhRRi9ucXlQMU8wK0hkZ2c4NG9Ub1VKengxdGZKVmx3eUUxVHd1WUhUM1J1UDZoWApiaThCZ3FXVStlbWxLeU51VS9mVEVYQVVFY0ptRDVPbGFzbXJ0U3J6bUxoSVR2eXFlUmpzRGpYMnc0SFFjSU5LdzN4Uk43M1VtZTA4CnNGNmpaTHVpVENncG5tZDBnSkhGRnpURW8wenppcE04Q2gxVXpRPT08L2RzOlNpZ25hdHVyZVZhbHVlPjxkczpLZXlJbmZvIElkPSJLZXlJbmZvSWQiPjxkczpYNTA5RGF0YT48ZHM6WDUwOUNlcnRpZmljYXRlPk1JSUVaVENDQTAyZ0F3SUJBZ0lJVFBuOXV0eXkyR013RFFZSktvWklodmNOQVFFTEJRQXdiVEVMTUFrR0ExVUVCaE1DU1ZReEhqQWMKQmdOVkJBb1RGVUZuWlc1NmFXRWdaR1ZzYkdVZ1JXNTBjbUYwWlRFYk1Ca0dBMVVFQ3hNU1UyVnlkbWw2YVNCVVpXeGxiV0YwYVdOcApNU0V3SHdZRFZRUURFeGhEUVNCQloyVnVlbWxoSUdSbGJHeGxJRVZ1ZEhKaGRHVXdIaGNOTVRjd05USTBNVEl6TkRFM1doY05NakF3Ck5USTBNVEl6TkRFM1dqQjBNUXN3Q1FZRFZRUUdFd0pKVkRFZU1Cd0dBMVVFQ2d3VlFXZGxibnBwWVNCa1pXeHNaU0JGYm5SeVlYUmwKTVJzd0dRWURWUVFMREJKVFpYSjJhWHBwSUZSbGJHVnRZWFJwWTJreEtEQW1CZ05WQkFNTUgxTnBjM1JsYldFZ1NXNTBaWEp6WTJGdApZbWx2SUVaaGRIUjFjbUVnVUVFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUNMSlFaSExNZTdQeWJXCnN0Yi9zTHYwa2s4ZGV3UmREWjRWREFXdHh1RTdBT0NYelNldVRPajNSTFczVjUzallZTG5qdlVGTzR2L3E4L1k3MHNHK0Q5LzN4dDcKN0U0UStteTQycWZHbmpERmE1Q05Odm1tL0JoNzA3ay84UlZRdGFEbUZOQ3UwcXErejhsazlOcXkrcndFWDdmUEo1TTBhM2pLNGFsSAoxUDI1dGhFR0ZIc0ppNTFzd3VkZFcyamM1VExMcERjZTZkTUFGdTd5c1JRY29zWEVLT3BZOXpHaW1aNTFtK2VtWDFjR2Eyc1VwdUdGClZZclJ5d2Q5N3RyVSs4cVBtdkpsWVVsU1YzaDA1VFpXNmltcnZqb25PM2syYkhJam5rL3R0a2ROb081a3AwUGVVTjBYVkFFSGkrZloKNnE4TGZKUUpaUEpWNmpZRnF4Nk9qeWVoQWdNQkFBR2pnZ0VBTUlIOU1COEdBMVVkSXdRWU1CYUFGT3BFUHg4WjR6YytxNnFVZ3FXZgo2L3dXdW4rMU1JR3FCZ05WSFI4RWdhSXdnWjh3Z1p5Z2dabWdnWmFHZ1pOc1pHRndPaTh2WTJGa2N5NWxiblJ5WVhSbExtWnBibUZ1CmVtVXVhWFF2UTA0OVEwRWxNakJCWjJWdWVtbGhKVEl3WkdWc2JHVWxNakJGYm5SeVlYUmxMRTlWUFZObGNuWnBlbWtsTWpCVVpXeGwKYldGMGFXTnBMRTg5UVdkbGJucHBZU1V5TUdSbGJHeGxKVEl3Ulc1MGNtRjBaU3hEUFdsMFAyTmxjblJwWm1sallYUmxVbVYyYjJOaApkR2x2Ymt4cGMzUXdIUVlEVlIwT0JCWUVGUHZ4NGRzN2g4SFJnVXBiNFliQVkvblZaL09xTUE0R0ExVWREd0VCL3dRRUF3SUdRREFOCkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQU1wMkVZUjI1V0xsVkJiZjJtVUt4Vkp3TjAvemtFYzhFanowcG81UlRNdXNramJiVTFKUjEKdDcyUERUTlZBa3VvdWozWDZGeDhUaU82Q2FFRzlTaEdkSkhvc013ZWtqNVM3SXFkMHhTNjZLbEt1UWttUHlIQlBndVMyL1dMZExpVApJRm41SjhobktVclh6T3I0OHM0OEs1aVk0UWNGY0E2d2EyUGNtTG1CRmovdVJI
+        - result: OK
+          message: ''
+          invoice:
+            - file_name: IT09252150017_W0CYU.xml
+              file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHA6RmF0dHVyYUVsZXR0cm9uaWNhIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIiB4bWxuczpwPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyZS92MS4yIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB2ZXJzaW9uZT0iRlBSMTIiIHhzaTpzY2hlbWFMb2NhdGlvbj0iaHR0cDovL2l2YXNlcnZpemkuYWdlbnppYWVudHJhdGUuZ292Lml0L2RvY3MveHNkL2ZhdHR1cmUvdjEuMiBodHRwOi8vd3d3LmZhdHR1cmFwYS5nb3YuaXQvZXhwb3J0L2ZhdHR1cmF6aW9uZS9zZGkvZmF0dHVyYXBhL3YxLjIvU2NoZW1hX2RlbF9maWxlX3htbF9GYXR0dXJhUEFfdmVyc2lvbmVfMS4yLnhzZCI+CiAgPEZhdHR1cmFFbGV0dHJvbmljYUhlYWRlcj4KICAgIDxEYXRpVHJhc21pc3Npb25lPgogICAgICA8SWRUcmFzbWl0dGVudGU+CiAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgPElkQ29kaWNlPjA5MjUyMTUwMDE3PC9JZENvZGljZT4KICAgICAgPC9JZFRyYXNtaXR0ZW50ZT4KICAgICAgPFByb2dyZXNzaXZvSW52aW8+MDAwMDAwMDY5NjwvUHJvZ3Jlc3Npdm9JbnZpbz4KICAgICAgPEZvcm1hdG9UcmFzbWlzc2lvbmU+RlBSMTI8L0Zvcm1hdG9UcmFzbWlzc2lvbmU+CiAgICAgIDxDb2RpY2VEZXN0aW5hdGFyaW8+NVJVTzgyRDwvQ29kaWNlRGVzdGluYXRhcmlvPgogICAgICA8Q29udGF0dGlUcmFzbWl0dGVudGU+CiAgICAgICAgPFRlbGVmb25vPjAxMTk5MDY2ODk8L1RlbGVmb25vPgogICAgICAgIDxFbWFpbD5pbmZvQGljYWRzaXN0ZW1pLmNvbTwvRW1haWw+CiAgICAgIDwvQ29udGF0dGlUcmFzbWl0dGVudGU+CiAgICA8L0RhdGlUcmFzbWlzc2lvbmU+CiAgICA8Q2VkZW50ZVByZXN0YXRvcmU+CiAgICAgIDxEYXRpQW5hZ3JhZmljaT4KICAgICAgICA8SWRGaXNjYWxlSVZBPgogICAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgICA8SWRDb2RpY2U+MTE3NTYxMTAwMTg8L0lkQ29kaWNlPgogICAgICAgIDwvSWRGaXNjYWxlSVZBPgogICAgICAgIDxBbmFncmFmaWNhPgogICAgICAgICAgPERlbm9taW5hemlvbmU+TXAgU2VydmljZSBDb21wYW55IHMuci5sLjwvRGVub21pbmF6aW9uZT4KICAgICAgICA8L0FuYWdyYWZpY2E+CiAgICAgICAgPFJlZ2ltZUZpc2NhbGU+UkYwMTwvUmVnaW1lRmlzY
+              status: SF05
+              outcomes:
+                - file_name: IT09252150017_W0CYU_RC_002.xml
+                  file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bnMzOlJpY2V2dXRhQ29uc2VnbmEgeG1sbnM6bnMzPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyYS9tZXNzYWdnaS92MS4wIiB4bWxuczpuczI9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiIHZlcnNpb25lPSIxLjAiPgogICAgPElkZW50aWZpY2F0aXZvU2RJPjE5NTYzNzMyMjA8L0lkZW50aWZpY2F0aXZvU2RJPgogICAgPE5vbWVGaWxlPklUMDkyNTIxNTAwMTdfVzBDWVUueG1sPC9Ob21lRmlsZT4KICAgIDxIYXNoPjU2NDYyYjI2MDU5MmIwZjU1ODUwYWVjMDY2MzkxYTQ3NTA0NWU0YzdiMmI5MjU4NWRlYzQ5NDNlMGQ3NTBkNmI8L0hhc2g+CiAgICA8RGF0YU9yYVJpY2V6aW9uZT4yMDE5LTExLTEyVDE3OjQ3OjUwLjAwMCswMTowMDwvRGF0YU9yYVJpY2V6aW9uZT4KICAgIDxEYXRhT3JhQ29uc2VnbmE+MjAxOS0xMS0xMlQxODo1NDoyNC4wMDArMDE6MDA8L0RhdGFPcmFDb25zZWduYT4KICAgIDxEZXN0aW5hdGFyaW8+CiAgICAgICAgPENvZGljZT4wMDAwMDAwPC9Db2RpY2U+CiAgICAgICAgPERlc2NyaXppb25lPlRyYXNtZXNzbyBzdSBjYW5hbGUgcmVnaXN0cmF0byBkYWwgY2Vzc2lvbmFyaW8vY29tbWl0dGVudGU8L0Rlc2NyaXppb25lPgogICAgPC9EZXN0aW5hdGFyaW8+CiAgICA8TWVzc2FnZUlkPjU2MDY5NDc4NDQ8L01lc3NhZ2VJZD4KPGRzOlNpZ25hdHVyZSB4bWxuczpkcz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC8wOS94bWxkc2lnIyIgSWQ9IlNpZ25hdHVyZTEiPjxkczpTaWduZWRJbmZvPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8+PGRzOlNpZ25hdHVyZU1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZHNpZy1tb3JlI3JzYS1zaGEyNTYiLz48ZHM6UmVmZXJlbmNlIElkPSJyZWZlcmVuY2UtZG9jdW1lbnQiIFVSST0iIj48ZHM6VHJhbnNmb3Jtcz48ZHM6VHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNi94bWxkc2lnLWZpbHRlcjIiPjxYUGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNi94bWxkc2lnLWZpbHRlcjIiIEZpbHRlcj0ic3VidHJhY3QiPi9kZXNjZW5kYW50OjpkczpTaWduYXR1cmU8L1hQYXRoPjwvZHM6VHJhbnNmb3JtPjwvZHM6VHJhbnNmb3Jtcz48ZHM6RGlnZXN0TWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8wNC94bWxlbmMjc2hhMjU2Ii8+PGRzOkRpZ2VzdFZhbHVlPnFmZm1ySjlFaDlCUUtIUWllR3FjZVkxTFpxZHhmTW9ObkFYcVlCZVNHRFk9PC9kczpEaWdlc3RWYWx1ZT48L2RzOlJlZmVyZW5jZT48ZHM6UmVmZXJlbmNlIElkPSJyZWZlcmVuY2Utc2lnbmVkcHJvcGV0aWVzIiBUeXBlPSJodHRwOi8vdXJpLmV0c2kub3JnLzAxOTAzI1NpZ25lZFByb3BlcnRpZXMiIFVSST0iI1NpZ25lZFByb3BlcnRpZXNfMSI+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5CVm5uQW55SkhrSXNyOE51NlBmZGZBQjFGY1lFQ284K09DV1pWb2FrWFE4PTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PGRzOlJlZmVyZW5jZSBJZD0icmVmZXJlbmNlLWtleWluZm8iIFVSST0iI0tleUluZm9JZCI+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5mSExMUFhXN2VVR250RXQ0MytUUlAySzFadWlmd05naEY1OEhBQWlLMnpNPTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PC9kczpTaWduZWRJbmZvPjxkczpTaWduYXR1cmVWYWx1ZSBJZD0iU2lnbmF0dXJlVmFsdWUxIj5WZ2w5eGh1NFNSZ1c3OXY1TWVnU2pVWFhjMHVwenh1eFhaSDVaZzZSMkQzbUV6aFpXSER2UWtacDJMeHAxUlovS3NVc3drd2tiTGRkCnF4cUlneVZ1RzRId3IyMUtyZGZKTUZKanZlemdIS3htRnpSdlBOT0k1RFRiczlYcVBLYjhMbG5QQlpuQzhML1FicHV6aE4xKzAvMkkKaHJSTHVaZDROcW1hTUtUbEVoSjV5ZUl6Qi80blhRRi9ucXlQMU8wK0hkZ2c4NG9Ub1VKengxdGZKVmx3eUUxVHd1WUhUM1J1UDZoWApiaThCZ3FXVStlbWxLeU51VS9mVEVYQVVFY0ptRDVPbGFzbXJ0U3J6bUxoSVR2eXFlUmpzRGpYMnc0SFFjSU5LdzN4Uk43M1VtZTA4CnNGNmpaTHVpVENncG5tZDBnSkhGRnpURW8wenppcE04Q2gxVXpRPT08L2RzOlNpZ25hdHVyZVZhbHVlPjxkczpLZXlJbmZvIElkPSJLZXlJbmZvSWQiPjxkczpYNTA5RGF0YT48ZHM6WDUwOUNlcnRpZmljYXRlPk1JSUVaVENDQTAyZ0F3SUJBZ0lJVFBuOXV0eXkyR013RFFZSktvWklodmNOQVFFTEJRQXdiVEVMTUFrR0ExVUVCaE1DU1ZReEhqQWMKQmdOVkJBb1RGVUZuWlc1NmFXRWdaR1ZzYkdVZ1JXNTBjbUYwWlRFYk1Ca0dBMVVFQ3hNU1UyVnlkbWw2YVNCVVpXeGxiV0YwYVdOcApNU0V3SHdZRFZRUURFeGhEUVNCQloyVnVlbWxoSUdSbGJHeGxJRVZ1ZEhKaGRHVXdIaGNOTVRjd05USTBNVEl6TkRFM1doY05NakF3Ck5USTBNVEl6TkRFM1dqQjBNUXN3Q1FZRFZRUUdFd0pKVkRFZU1Cd0dBMVVFQ2d3VlFXZGxibnBwWVNCa1pXeHNaU0JGYm5SeVlYUmwKTVJzd0dRWURWUVFMREJKVFpYSjJhWHBwSUZSbGJHVnRZWFJwWTJreEtEQW1CZ05WQkFNTUgxTnBjM1JsYldFZ1NXNTBaWEp6WTJGdApZbWx2SUVaaGRIUjFjbUVnVUVFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUNMSlFaSExNZTdQeWJXCnN0Yi9zTHYwa2s4ZGV3UmREWjRWREFXdHh1RTdBT0NYelNldVRPajNSTFczVjUzallZTG5qdlVGTzR2L3E4L1k3MHNHK0Q5LzN4dDcKN0U0UStteTQycWZHbmpERmE1Q05Odm1tL0JoNzA3ay84UlZRdGFEbUZOQ3UwcXErejhsazlOcXkrcndFWDdmUEo1TTBhM2pLNGFsSAoxUDI1dGhFR0ZIc0ppNTFzd3VkZFcyamM1VExMcERjZTZkTUFGdTd5c1JRY29zWEVLT3BZOXpHaW1aNTFtK2VtWDFjR2Eyc1VwdUdGClZZclJ5d2Q5N3RyVSs4cVBtdkpsWVVsU1YzaDA1VFpXNmltcnZqb25PM2syYkhJam5rL3R0a2ROb081a3AwUGVVTjBYVkFFSGkrZloKNnE4TGZKUUpaUEpWNmpZRnF4Nk9qeWVoQWdNQkFBR2pnZ0VBTUlIOU1COEdBMVVkSXdRWU1CYUFGT3BFUHg4WjR6YytxNnFVZ3FXZgo2L3dXdW4rMU1JR3FCZ05WSFI4RWdhSXdnWjh3Z1p5Z2dabWdnWmFHZ1pOc1pHRndPaTh2WTJGa2N5NWxiblJ5WVhSbExtWnBibUZ1CmVtVXVhWFF2UTA0OVEwRWxNakJCWjJWdWVtbGhKVEl3WkdWc2JHVWxNakJGYm5SeVlYUmxMRTlWUFZObGNuWnBlbWtsTWpCVVpXeGwKYldGMGFXTnBMRTg5UVdkbGJucHBZU1V5TUdSbGJHeGxKVEl3Ulc1MGNtRjBaU3hEUFdsMFAyTmxjblJwWm1sallYUmxVbVYyYjJOaApkR2x2Ymt4cGMzUXdIUVlEVlIwT0JCWUVGUHZ4NGRzN2g4SFJnVXBiNFliQVkvblZaL09xTUE0R0ExVWREd0VCL3dRRUF3SUdRREFOCkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQU1wMkVZUjI1V0xsVkJiZjJtVUt4Vkp3TjAvemtFYzhFanowcG81UlRNdXNramJiVTFKUjEKdDcyUERUTlZBa3VvdWozWDZGeDhUaU82Q2FFRzlTaEdkSkhvc013ZWtqNVM3SXFkMHhTNjZLbEt1UWttUHlIQlBndVMyL1dMZExpVApJRm41SjhobktVclh6T3I0OHM0OEs1aVk0UWNGY0E2d2EyUGNtTG1CRmovdVJI
+      properties:
+        result:
+          type: string
+          x-stoplight:
+            id: 4k93uk2amh56i
+        message:
+          type: string
+          x-stoplight:
+            id: m2ho9e3j96m46
+        invoice:
+          type: array
+          x-stoplight:
+            id: 7eajb0npfeu2z
+          items:
+            x-stoplight:
+              id: l0qjpp7caflu7
+            type: object
+            properties:
+              file_name:
+                type: string
+                x-stoplight:
+                  id: 4kdcz303r6xmb
+              file:
+                type: string
+                x-stoplight:
+                  id: vdbzb2a5w1rc6
+              meta_data_file_name:
+                type: string
+                x-stoplight:
+                  id: 718jug2zx83uc
+              meta_data_file:
+                type: string
+                x-stoplight:
+                  id: wwvsit892tklh
+      description: invoices passive response
+    InvoicesActiveResponse:
+      title: Invoices active response
+      x-stoplight:
+        id: yz45mwnt0y78c
+      type: object
+      examples:
+        - result: OK
+          message: ''
+          invoice:
+            - file_name: IT09252150017_W0CYU.xml
+              file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHA6RmF0dHVyYUVsZXR0cm9uaWNhIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIiB4bWxuczpwPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyZS92MS4yIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB2ZXJzaW9uZT0iRlBSMTIiIHhzaTpzY2hlbWFMb2NhdGlvbj0iaHR0cDovL2l2YXNlcnZpemkuYWdlbnppYWVudHJhdGUuZ292Lml0L2RvY3MveHNkL2ZhdHR1cmUvdjEuMiBodHRwOi8vd3d3LmZhdHR1cmFwYS5nb3YuaXQvZXhwb3J0L2ZhdHR1cmF6aW9uZS9zZGkvZmF0dHVyYXBhL3YxLjIvU2NoZW1hX2RlbF9maWxlX3htbF9GYXR0dXJhUEFfdmVyc2lvbmVfMS4yLnhzZCI+CiAgPEZhdHR1cmFFbGV0dHJvbmljYUhlYWRlcj4KICAgIDxEYXRpVHJhc21pc3Npb25lPgogICAgICA8SWRUcmFzbWl0dGVudGU+CiAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgPElkQ29kaWNlPjA5MjUyMTUwMDE3PC9JZENvZGljZT4KICAgICAgPC9JZFRyYXNtaXR0ZW50ZT4KICAgICAgPFByb2dyZXNzaXZvSW52aW8+MDAwMDAwMDY5NjwvUHJvZ3Jlc3Npdm9JbnZpbz4KICAgICAgPEZvcm1hdG9UcmFzbWlzc2lvbmU+RlBSMTI8L0Zvcm1hdG9UcmFzbWlzc2lvbmU+CiAgICAgIDxDb2RpY2VEZXN0aW5hdGFyaW8+NVJVTzgyRDwvQ29kaWNlRGVzdGluYXRhcmlvPgogICAgICA8Q29udGF0dGlUcmFzbWl0dGVudGU+CiAgICAgICAgPFRlbGVmb25vPjAxMTk5MDY2ODk8L1RlbGVmb25vPgogICAgICAgIDxFbWFpbD5pbmZvQGljYWRzaXN0ZW1pLmNvbTwvRW1haWw+CiAgICAgIDwvQ29udGF0dGlUcmFzbWl0dGVudGU+CiAgICA8L0RhdGlUcmFzbWlzc2lvbmU+CiAgICA8Q2VkZW50ZVByZXN0YXRvcmU+CiAgICAgIDxEYXRpQW5hZ3JhZmljaT4KICAgICAgICA8SWRGaXNjYWxlSVZBPgogICAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgICA8SWRDb2RpY2U+MTE3NTYxMTAwMTg8L0lkQ29kaWNlPgogICAgICAgIDwvSWRGaXNjYWxlSVZBPgogICAgICAgIDxBbmFncmFmaWNhPgogICAgICAgICAgPERlbm9taW5hemlvbmU+TXAgU2VydmljZSBDb21wYW55IHMuci5sLjwvRGVub21pbmF6aW9uZT4KICAgICAgICA8L0FuYWdyYWZpY2E+CiAgICAgICAgPFJlZ2ltZUZpc2NhbGU+UkYwMTwvUmVnaW1lRmlzY
+              status: SF05
+              outcomes:
+                - file_name: IT09252150017_W0CYU_RC_002.xml
+                  file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bnMzOlJpY2V2dXRhQ29uc2VnbmEgeG1sbnM6bnMzPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyYS9tZXNzYWdnaS92MS4wIiB4bWxuczpuczI9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiIHZlcnNpb25lPSIxLjAiPgogICAgPElkZW50aWZpY2F0aXZvU2RJPjE5NTYzNzMyMjA8L0lkZW50aWZpY2F0aXZvU2RJPgogICAgPE5vbWVGaWxlPklUMDkyNTIxNTAwMTdfVzBDWVUueG1sPC9Ob21lRmlsZT4KICAgIDxIYXNoPjU2NDYyYjI2MDU5MmIwZjU1ODUwYWVjMDY2MzkxYTQ3NTA0NWU0YzdiMmI5MjU4NWRlYzQ5NDNlMGQ3NTBkNmI8L0hhc2g+CiAgICA8RGF0YU9yYVJpY2V6aW9uZT4yMDE5LTExLTEyVDE3OjQ3OjUwLjAwMCswMTowMDwvRGF0YU9yYVJpY2V6aW9uZT4KICAgIDxEYXRhT3JhQ29uc2VnbmE+MjAxOS0xMS0xMlQxODo1NDoyNC4wMDArMDE6MDA8L0RhdGFPcmFDb25zZWduYT4KICAgIDxEZXN0aW5hdGFyaW8+CiAgICAgICAgPENvZGljZT4wMDAwMDAwPC9Db2RpY2U+CiAgICAgICAgPERlc2NyaXppb25lPlRyYXNtZXNzbyBzdSBjYW5hbGUgcmVnaXN0cmF0byBkYWwgY2Vzc2lvbmFyaW8vY29tbWl0dGVudGU8L0Rlc2NyaXppb25lPgogICAgPC9EZXN0aW5hdGFyaW8+CiAgICA8TWVzc2FnZUlkPjU2MDY5NDc4NDQ8L01lc3NhZ2VJZD4KPGRzOlNpZ25hdHVyZSB4bWxuczpkcz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC8wOS94bWxkc2lnIyIgSWQ9IlNpZ25hdHVyZTEiPjxkczpTaWduZWRJbmZvPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8+PGRzOlNpZ25hdHVyZU1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZHNpZy1tb3JlI3JzYS1zaGEyNTYiLz48ZHM6UmVmZXJlbmNlIElkPSJyZWZlcmVuY2UtZG9jdW1lbnQiIFVSST0iIj48ZHM6VHJhbnNmb3Jtcz48ZHM6VHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNi94bWxkc2lnLWZpbHRlcjIiPjxYUGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNi94bWxkc2lnLWZpbHRlcjIiIEZpbHRlcj0ic3VidHJhY3QiPi9kZXNjZW5kYW50OjpkczpTaWduYXR1cmU8L1hQYXRoPjwvZHM6VHJhbnNmb3JtPjwvZHM6VHJhbnNmb3Jtcz48ZHM6RGlnZXN0TWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8wNC94bWxlbmMjc2hhMjU2Ii8+PGRzOkRpZ2VzdFZhbHVlPnFmZm1ySjlFaDlCUUtIUWllR3FjZVkxTFpxZHhmTW9ObkFYcVlCZVNHRFk9PC9kczpEaWdlc3RWYWx1ZT48L2RzOlJlZmVyZW5jZT48ZHM6UmVmZXJlbmNlIElkPSJyZWZlcmVuY2Utc2lnbmVkcHJvcGV0aWVzIiBUeXBlPSJodHRwOi8vdXJpLmV0c2kub3JnLzAxOTAzI1NpZ25lZFByb3BlcnRpZXMiIFVSST0iI1NpZ25lZFByb3BlcnRpZXNfMSI+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5CVm5uQW55SkhrSXNyOE51NlBmZGZBQjFGY1lFQ284K09DV1pWb2FrWFE4PTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PGRzOlJlZmVyZW5jZSBJZD0icmVmZXJlbmNlLWtleWluZm8iIFVSST0iI0tleUluZm9JZCI+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5mSExMUFhXN2VVR250RXQ0MytUUlAySzFadWlmd05naEY1OEhBQWlLMnpNPTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PC9kczpTaWduZWRJbmZvPjxkczpTaWduYXR1cmVWYWx1ZSBJZD0iU2lnbmF0dXJlVmFsdWUxIj5WZ2w5eGh1NFNSZ1c3OXY1TWVnU2pVWFhjMHVwenh1eFhaSDVaZzZSMkQzbUV6aFpXSER2UWtacDJMeHAxUlovS3NVc3drd2tiTGRkCnF4cUlneVZ1RzRId3IyMUtyZGZKTUZKanZlemdIS3htRnpSdlBOT0k1RFRiczlYcVBLYjhMbG5QQlpuQzhML1FicHV6aE4xKzAvMkkKaHJSTHVaZDROcW1hTUtUbEVoSjV5ZUl6Qi80blhRRi9ucXlQMU8wK0hkZ2c4NG9Ub1VKengxdGZKVmx3eUUxVHd1WUhUM1J1UDZoWApiaThCZ3FXVStlbWxLeU51VS9mVEVYQVVFY0ptRDVPbGFzbXJ0U3J6bUxoSVR2eXFlUmpzRGpYMnc0SFFjSU5LdzN4Uk43M1VtZTA4CnNGNmpaTHVpVENncG5tZDBnSkhGRnpURW8wenppcE04Q2gxVXpRPT08L2RzOlNpZ25hdHVyZVZhbHVlPjxkczpLZXlJbmZvIElkPSJLZXlJbmZvSWQiPjxkczpYNTA5RGF0YT48ZHM6WDUwOUNlcnRpZmljYXRlPk1JSUVaVENDQTAyZ0F3SUJBZ0lJVFBuOXV0eXkyR013RFFZSktvWklodmNOQVFFTEJRQXdiVEVMTUFrR0ExVUVCaE1DU1ZReEhqQWMKQmdOVkJBb1RGVUZuWlc1NmFXRWdaR1ZzYkdVZ1JXNTBjbUYwWlRFYk1Ca0dBMVVFQ3hNU1UyVnlkbWw2YVNCVVpXeGxiV0YwYVdOcApNU0V3SHdZRFZRUURFeGhEUVNCQloyVnVlbWxoSUdSbGJHeGxJRVZ1ZEhKaGRHVXdIaGNOTVRjd05USTBNVEl6TkRFM1doY05NakF3Ck5USTBNVEl6TkRFM1dqQjBNUXN3Q1FZRFZRUUdFd0pKVkRFZU1Cd0dBMVVFQ2d3VlFXZGxibnBwWVNCa1pXeHNaU0JGYm5SeVlYUmwKTVJzd0dRWURWUVFMREJKVFpYSjJhWHBwSUZSbGJHVnRZWFJwWTJreEtEQW1CZ05WQkFNTUgxTnBjM1JsYldFZ1NXNTBaWEp6WTJGdApZbWx2SUVaaGRIUjFjbUVnVUVFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUNMSlFaSExNZTdQeWJXCnN0Yi9zTHYwa2s4ZGV3UmREWjRWREFXdHh1RTdBT0NYelNldVRPajNSTFczVjUzallZTG5qdlVGTzR2L3E4L1k3MHNHK0Q5LzN4dDcKN0U0UStteTQycWZHbmpERmE1Q05Odm1tL0JoNzA3ay84UlZRdGFEbUZOQ3UwcXErejhsazlOcXkrcndFWDdmUEo1TTBhM2pLNGFsSAoxUDI1dGhFR0ZIc0ppNTFzd3VkZFcyamM1VExMcERjZTZkTUFGdTd5c1JRY29zWEVLT3BZOXpHaW1aNTFtK2VtWDFjR2Eyc1VwdUdGClZZclJ5d2Q5N3RyVSs4cVBtdkpsWVVsU1YzaDA1VFpXNmltcnZqb25PM2syYkhJam5rL3R0a2ROb081a3AwUGVVTjBYVkFFSGkrZloKNnE4TGZKUUpaUEpWNmpZRnF4Nk9qeWVoQWdNQkFBR2pnZ0VBTUlIOU1COEdBMVVkSXdRWU1CYUFGT3BFUHg4WjR6YytxNnFVZ3FXZgo2L3dXdW4rMU1JR3FCZ05WSFI4RWdhSXdnWjh3Z1p5Z2dabWdnWmFHZ1pOc1pHRndPaTh2WTJGa2N5NWxiblJ5WVhSbExtWnBibUZ1CmVtVXVhWFF2UTA0OVEwRWxNakJCWjJWdWVtbGhKVEl3WkdWc2JHVWxNakJGYm5SeVlYUmxMRTlWUFZObGNuWnBlbWtsTWpCVVpXeGwKYldGMGFXTnBMRTg5UVdkbGJucHBZU1V5TUdSbGJHeGxKVEl3Ulc1MGNtRjBaU3hEUFdsMFAyTmxjblJwWm1sallYUmxVbVYyYjJOaApkR2x2Ymt4cGMzUXdIUVlEVlIwT0JCWUVGUHZ4NGRzN2g4SFJnVXBiNFliQVkvblZaL09xTUE0R0ExVWREd0VCL3dRRUF3SUdRREFOCkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQU1wMkVZUjI1V0xsVkJiZjJtVUt4Vkp3TjAvemtFYzhFanowcG81UlRNdXNramJiVTFKUjEKdDcyUERUTlZBa3VvdWozWDZGeDhUaU82Q2FFRzlTaEdkSkhvc013ZWtqNVM3SXFkMHhTNjZLbEt1UWttUHlIQlBndVMyL1dMZExpVApJRm41SjhobktVclh6T3I0OHM0OEs1aVk0UWNGY0E2d2EyUGNtTG1CRmovdVJI
+        - result: OK
+          message: ''
+          invoice:
+            - file_name: IT09252150017_W0CYU.xml
+              file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHA6RmF0dHVyYUVsZXR0cm9uaWNhIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIiB4bWxuczpwPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyZS92MS4yIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB2ZXJzaW9uZT0iRlBSMTIiIHhzaTpzY2hlbWFMb2NhdGlvbj0iaHR0cDovL2l2YXNlcnZpemkuYWdlbnppYWVudHJhdGUuZ292Lml0L2RvY3MveHNkL2ZhdHR1cmUvdjEuMiBodHRwOi8vd3d3LmZhdHR1cmFwYS5nb3YuaXQvZXhwb3J0L2ZhdHR1cmF6aW9uZS9zZGkvZmF0dHVyYXBhL3YxLjIvU2NoZW1hX2RlbF9maWxlX3htbF9GYXR0dXJhUEFfdmVyc2lvbmVfMS4yLnhzZCI+CiAgPEZhdHR1cmFFbGV0dHJvbmljYUhlYWRlcj4KICAgIDxEYXRpVHJhc21pc3Npb25lPgogICAgICA8SWRUcmFzbWl0dGVudGU+CiAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgPElkQ29kaWNlPjA5MjUyMTUwMDE3PC9JZENvZGljZT4KICAgICAgPC9JZFRyYXNtaXR0ZW50ZT4KICAgICAgPFByb2dyZXNzaXZvSW52aW8+MDAwMDAwMDY5NjwvUHJvZ3Jlc3Npdm9JbnZpbz4KICAgICAgPEZvcm1hdG9UcmFzbWlzc2lvbmU+RlBSMTI8L0Zvcm1hdG9UcmFzbWlzc2lvbmU+CiAgICAgIDxDb2RpY2VEZXN0aW5hdGFyaW8+NVJVTzgyRDwvQ29kaWNlRGVzdGluYXRhcmlvPgogICAgICA8Q29udGF0dGlUcmFzbWl0dGVudGU+CiAgICAgICAgPFRlbGVmb25vPjAxMTk5MDY2ODk8L1RlbGVmb25vPgogICAgICAgIDxFbWFpbD5pbmZvQGljYWRzaXN0ZW1pLmNvbTwvRW1haWw+CiAgICAgIDwvQ29udGF0dGlUcmFzbWl0dGVudGU+CiAgICA8L0RhdGlUcmFzbWlzc2lvbmU+CiAgICA8Q2VkZW50ZVByZXN0YXRvcmU+CiAgICAgIDxEYXRpQW5hZ3JhZmljaT4KICAgICAgICA8SWRGaXNjYWxlSVZBPgogICAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgICA8SWRDb2RpY2U+MTE3NTYxMTAwMTg8L0lkQ29kaWNlPgogICAgICAgIDwvSWRGaXNjYWxlSVZBPgogICAgICAgIDxBbmFncmFmaWNhPgogICAgICAgICAgPERlbm9taW5hemlvbmU+TXAgU2VydmljZSBDb21wYW55IHMuci5sLjwvRGVub21pbmF6aW9uZT4KICAgICAgICA8L0FuYWdyYWZpY2E+CiAgICAgICAgPFJlZ2ltZUZpc2NhbGU+UkYwMTwvUmVnaW1lRmlzY
+              status: SF05
+              outcomes:
+                - file_name: IT09252150017_W0CYU_RC_002.xml
+                  file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bnMzOlJpY2V2dXRhQ29uc2VnbmEgeG1sbnM6bnMzPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyYS9tZXNzYWdnaS92MS4wIiB4bWxuczpuczI9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiIHZlcnNpb25lPSIxLjAiPgogICAgPElkZW50aWZpY2F0aXZvU2RJPjE5NTYzNzMyMjA8L0lkZW50aWZpY2F0aXZvU2RJPgogICAgPE5vbWVGaWxlPklUMDkyNTIxNTAwMTdfVzBDWVUueG1sPC9Ob21lRmlsZT4KICAgIDxIYXNoPjU2NDYyYjI2MDU5MmIwZjU1ODUwYWVjMDY2MzkxYTQ3NTA0NWU0YzdiMmI5MjU4NWRlYzQ5NDNlMGQ3NTBkNmI8L0hhc2g+CiAgICA8RGF0YU9yYVJpY2V6aW9uZT4yMDE5LTExLTEyVDE3OjQ3OjUwLjAwMCswMTowMDwvRGF0YU9yYVJpY2V6aW9uZT4KICAgIDxEYXRhT3JhQ29uc2VnbmE+MjAxOS0xMS0xMlQxODo1NDoyNC4wMDArMDE6MDA8L0RhdGFPcmFDb25zZWduYT4KICAgIDxEZXN0aW5hdGFyaW8+CiAgICAgICAgPENvZGljZT4wMDAwMDAwPC9Db2RpY2U+CiAgICAgICAgPERlc2NyaXppb25lPlRyYXNtZXNzbyBzdSBjYW5hbGUgcmVnaXN0cmF0byBkYWwgY2Vzc2lvbmFyaW8vY29tbWl0dGVudGU8L0Rlc2NyaXppb25lPgogICAgPC9EZXN0aW5hdGFyaW8+CiAgICA8TWVzc2FnZUlkPjU2MDY5NDc4NDQ8L01lc3NhZ2VJZD4KPGRzOlNpZ25hdHVyZSB4bWxuczpkcz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC8wOS94bWxkc2lnIyIgSWQ9IlNpZ25hdHVyZTEiPjxkczpTaWduZWRJbmZvPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8+PGRzOlNpZ25hdHVyZU1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZHNpZy1tb3JlI3JzYS1zaGEyNTYiLz48ZHM6UmVmZXJlbmNlIElkPSJyZWZlcmVuY2UtZG9jdW1lbnQiIFVSST0iIj48ZHM6VHJhbnNmb3Jtcz48ZHM6VHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNi94bWxkc2lnLWZpbHRlcjIiPjxYUGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMi8wNi94bWxkc2lnLWZpbHRlcjIiIEZpbHRlcj0ic3VidHJhY3QiPi9kZXNjZW5kYW50OjpkczpTaWduYXR1cmU8L1hQYXRoPjwvZHM6VHJhbnNmb3JtPjwvZHM6VHJhbnNmb3Jtcz48ZHM6RGlnZXN0TWV0aG9kIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8wNC94bWxlbmMjc2hhMjU2Ii8+PGRzOkRpZ2VzdFZhbHVlPnFmZm1ySjlFaDlCUUtIUWllR3FjZVkxTFpxZHhmTW9ObkFYcVlCZVNHRFk9PC9kczpEaWdlc3RWYWx1ZT48L2RzOlJlZmVyZW5jZT48ZHM6UmVmZXJlbmNlIElkPSJyZWZlcmVuY2Utc2lnbmVkcHJvcGV0aWVzIiBUeXBlPSJodHRwOi8vdXJpLmV0c2kub3JnLzAxOTAzI1NpZ25lZFByb3BlcnRpZXMiIFVSST0iI1NpZ25lZFByb3BlcnRpZXNfMSI+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5CVm5uQW55SkhrSXNyOE51NlBmZGZBQjFGY1lFQ284K09DV1pWb2FrWFE4PTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PGRzOlJlZmVyZW5jZSBJZD0icmVmZXJlbmNlLWtleWluZm8iIFVSST0iI0tleUluZm9JZCI+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5mSExMUFhXN2VVR250RXQ0MytUUlAySzFadWlmd05naEY1OEhBQWlLMnpNPTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PC9kczpTaWduZWRJbmZvPjxkczpTaWduYXR1cmVWYWx1ZSBJZD0iU2lnbmF0dXJlVmFsdWUxIj5WZ2w5eGh1NFNSZ1c3OXY1TWVnU2pVWFhjMHVwenh1eFhaSDVaZzZSMkQzbUV6aFpXSER2UWtacDJMeHAxUlovS3NVc3drd2tiTGRkCnF4cUlneVZ1RzRId3IyMUtyZGZKTUZKanZlemdIS3htRnpSdlBOT0k1RFRiczlYcVBLYjhMbG5QQlpuQzhML1FicHV6aE4xKzAvMkkKaHJSTHVaZDROcW1hTUtUbEVoSjV5ZUl6Qi80blhRRi9ucXlQMU8wK0hkZ2c4NG9Ub1VKengxdGZKVmx3eUUxVHd1WUhUM1J1UDZoWApiaThCZ3FXVStlbWxLeU51VS9mVEVYQVVFY0ptRDVPbGFzbXJ0U3J6bUxoSVR2eXFlUmpzRGpYMnc0SFFjSU5LdzN4Uk43M1VtZTA4CnNGNmpaTHVpVENncG5tZDBnSkhGRnpURW8wenppcE04Q2gxVXpRPT08L2RzOlNpZ25hdHVyZVZhbHVlPjxkczpLZXlJbmZvIElkPSJLZXlJbmZvSWQiPjxkczpYNTA5RGF0YT48ZHM6WDUwOUNlcnRpZmljYXRlPk1JSUVaVENDQTAyZ0F3SUJBZ0lJVFBuOXV0eXkyR013RFFZSktvWklodmNOQVFFTEJRQXdiVEVMTUFrR0ExVUVCaE1DU1ZReEhqQWMKQmdOVkJBb1RGVUZuWlc1NmFXRWdaR1ZzYkdVZ1JXNTBjbUYwWlRFYk1Ca0dBMVVFQ3hNU1UyVnlkbWw2YVNCVVpXeGxiV0YwYVdOcApNU0V3SHdZRFZRUURFeGhEUVNCQloyVnVlbWxoSUdSbGJHeGxJRVZ1ZEhKaGRHVXdIaGNOTVRjd05USTBNVEl6TkRFM1doY05NakF3Ck5USTBNVEl6TkRFM1dqQjBNUXN3Q1FZRFZRUUdFd0pKVkRFZU1Cd0dBMVVFQ2d3VlFXZGxibnBwWVNCa1pXeHNaU0JGYm5SeVlYUmwKTVJzd0dRWURWUVFMREJKVFpYSjJhWHBwSUZSbGJHVnRZWFJwWTJreEtEQW1CZ05WQkFNTUgxTnBjM1JsYldFZ1NXNTBaWEp6WTJGdApZbWx2SUVaaGRIUjFjbUVnVUVFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUNMSlFaSExNZTdQeWJXCnN0Yi9zTHYwa2s4ZGV3UmREWjRWREFXdHh1RTdBT0NYelNldVRPajNSTFczVjUzallZTG5qdlVGTzR2L3E4L1k3MHNHK0Q5LzN4dDcKN0U0UStteTQycWZHbmpERmE1Q05Odm1tL0JoNzA3ay84UlZRdGFEbUZOQ3UwcXErejhsazlOcXkrcndFWDdmUEo1TTBhM2pLNGFsSAoxUDI1dGhFR0ZIc0ppNTFzd3VkZFcyamM1VExMcERjZTZkTUFGdTd5c1JRY29zWEVLT3BZOXpHaW1aNTFtK2VtWDFjR2Eyc1VwdUdGClZZclJ5d2Q5N3RyVSs4cVBtdkpsWVVsU1YzaDA1VFpXNmltcnZqb25PM2syYkhJam5rL3R0a2ROb081a3AwUGVVTjBYVkFFSGkrZloKNnE4TGZKUUpaUEpWNmpZRnF4Nk9qeWVoQWdNQkFBR2pnZ0VBTUlIOU1COEdBMVVkSXdRWU1CYUFGT3BFUHg4WjR6YytxNnFVZ3FXZgo2L3dXdW4rMU1JR3FCZ05WSFI4RWdhSXdnWjh3Z1p5Z2dabWdnWmFHZ1pOc1pHRndPaTh2WTJGa2N5NWxiblJ5WVhSbExtWnBibUZ1CmVtVXVhWFF2UTA0OVEwRWxNakJCWjJWdWVtbGhKVEl3WkdWc2JHVWxNakJGYm5SeVlYUmxMRTlWUFZObGNuWnBlbWtsTWpCVVpXeGwKYldGMGFXTnBMRTg5UVdkbGJucHBZU1V5TUdSbGJHeGxKVEl3Ulc1MGNtRjBaU3hEUFdsMFAyTmxjblJwWm1sallYUmxVbVYyYjJOaApkR2x2Ymt4cGMzUXdIUVlEVlIwT0JCWUVGUHZ4NGRzN2g4SFJnVXBiNFliQVkvblZaL09xTUE0R0ExVWREd0VCL3dRRUF3SUdRREFOCkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQU1wMkVZUjI1V0xsVkJiZjJtVUt4Vkp3TjAvemtFYzhFanowcG81UlRNdXNramJiVTFKUjEKdDcyUERUTlZBa3VvdWozWDZGeDhUaU82Q2FFRzlTaEdkSkhvc013ZWtqNVM3SXFkMHhTNjZLbEt1UWttUHlIQlBndVMyL1dMZExpVApJRm41SjhobktVclh6T3I0OHM0OEs1aVk0UWNGY0E2d2EyUGNtTG1CRmovdVJI
+      description: invoices active response
+      properties:
+        result:
+          type: string
+          x-stoplight:
+            id: 4k93uk2amh56i
+        message:
+          type: string
+          x-stoplight:
+            id: m2ho9e3j96m46
+        invoice:
+          type: array
+          x-stoplight:
+            id: 7eajb0npfeu2z
+          items:
+            x-stoplight:
+              id: l0qjpp7caflu7
+            type: object
+            properties:
+              file_name:
+                type: string
+                x-stoplight:
+                  id: 4kdcz303r6xmb
+              file:
+                type: string
+                x-stoplight:
+                  id: vdbzb2a5w1rc6
+              status:
+                type: string
+                x-stoplight:
+                  id: 718jug2zx83uc
+              fuelstation_code:
+                type: string
+                x-stoplight:
+                  id: wwvsit892tklh
+              fuelstation_store_id:
+                type: string
+                x-stoplight:
+                  id: zfr8cjgi6a3un
+              outcomes:
+                type: array
+                x-stoplight:
+                  id: rq8qn6zhkkq1v
+                items:
+                  x-stoplight:
+                    id: q553dce7xpxt2
+                  type: object
+                  properties:
+                    file_name:
+                      type: string
+                      x-stoplight:
+                        id: t131qzypvgd1w
+                    file:
+                      type: string
+                      x-stoplight:
+                        id: rtnxjp9tp1ubg
   securitySchemes:
     Cognito:
       type: oauth2
-      flows:
-        clientCredentials:
-          tokenUrl: ''
-          refreshUrl: ''
-          scopes: {}
+      flows: {}
 security:
   - API Key - 1: []
