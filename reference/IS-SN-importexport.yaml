@@ -65,6 +65,10 @@ paths:
           application/json:
             schema:
               type: array
+              items:
+                $ref: '#/components/schemas/CardInput'
+                x-stoplight:
+                  id: e1w5honxk8rns
       description: Used to upsert one or more cards.
   /cards/transfer:
     post:
