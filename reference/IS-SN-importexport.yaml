@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: 0.2.1
+  version: 0.2.2
   description: |-
     # Selfnet Import Export api documentation
 
@@ -65,10 +65,6 @@ paths:
           application/json:
             schema:
               type: array
-              items:
-                $ref: '#/components/schemas/CardInput'
-                x-stoplight:
-                  id: e1w5honxk8rns
       description: Used to upsert one or more cards.
   /cards/transfer:
     post:
@@ -594,7 +590,7 @@ paths:
             example: '"", "SF05", "accettate", null'
           in: query
           name: status_filter
-          description: 'If not specified, the API will return all invoices that have been sent to the SdI, including those rejected or still awaiting outcome. If specified with a state code (for example: "SF05"), it will only return invoices related to that state. If specified with "accepted", it will return all invoices considered correctly issued'
+          description: 'The status code SFAC represents "Accepted invoices." These invoices include all issued invoices and group together the following states: SF05 (Delivered), SF08 (Accepted by recipient), SF10 (Automatically accepted), and SF11 (Not Delivered - Permanent). Other status codes include SF03 (Sent), SF04 (Error), SF06 (Not Delivered - Temporary), SF07 (Rejected), and SF09 (Rejected by recipient).'
   /invoices/passive:
     get:
       summary: Get invoices passive
@@ -1242,5 +1238,6 @@ components:
     Cognito:
       type: oauth2
       flows: {}
+  parameters: {}
 security:
   - API Key - 1: []
