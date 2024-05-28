@@ -846,6 +846,14 @@ components:
           x-stoplight:
             id: tojel84cb9pyf
           description: email
+        articles:
+          type: array
+          x-stoplight:
+            id: b61cevmmfuuu8
+          items:
+            $ref: '#/components/schemas/ArticleInput'
+            x-stoplight:
+              id: q95clynsa12ph
       required:
         - code
         - supplier_code
@@ -1272,6 +1280,22 @@ components:
                       x-stoplight:
                         id: rtnxjp9tp1ubg
                       description: string codificated in base64
+    ArticleInput:
+      title: ArticleInput
+      x-stoplight:
+        id: 4j1oxg4q58m6u
+      type: object
+      properties:
+        product_code:
+          type: number
+          x-stoplight:
+            id: q1nrpivpkbcqp
+          description: Article code number
+        is_enabled:
+          type: boolean
+          x-stoplight:
+            id: dgj8g847bqhsx
+          description: Article enabled state
   securitySchemes:
     Cognito:
       type: oauth2
