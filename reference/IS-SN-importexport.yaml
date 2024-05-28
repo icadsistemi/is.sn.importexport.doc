@@ -135,22 +135,6 @@ paths:
                 - source_card_pan
                 - target_card_pan
     parameters: []
-  /cards/articles:
-    put:
-      summary: Link cards to articles
-      operationId: put-cards-articles
-      responses:
-        '200':
-          description: OK
-      description: Used to link cards to oil articles.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/CardsArticlesInput'
-      x-internal: true
   /customers:
     get:
       summary: Get customer data
@@ -815,11 +799,11 @@ components:
           type: boolean
         indoor:
           type: boolean
-        outdoor:
-          type: boolean
         pan:
           type: string
           description: If set this will be the card pan otherwise the pan will be calculated server side
+        outdoor:
+          type: boolean
         delivery_datetime:
           type: string
           x-stoplight:
@@ -844,6 +828,7 @@ components:
           type: array
           x-stoplight:
             id: b61cevmmfuuu8
+          description: Used to link cards to oil articles
           items:
             $ref: '#/components/schemas/ArticleInput'
             x-stoplight:
