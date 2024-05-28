@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: 0.2.2
+  version: 0.2.3
   description: |-
     # Selfnet Import Export api documentation
 
@@ -789,6 +789,16 @@ components:
           description: 'If not set, the card won''t be linked to a customer'
         vehicle_plate:
           type: string
+        vehicle_model:
+          type: string
+          x-stoplight:
+            id: gw8fc0cfzrdpo
+          description: Vehicle description
+        vehicle_driver:
+          type: string
+          x-stoplight:
+            id: iep1h33uo9xj7
+          description: Vehicle driver
         daily_max_limit:
           type: number
           x-stoplight:
@@ -797,6 +807,10 @@ components:
           type: boolean
         has_km_check:
           type: boolean
+        has_driver_request:
+          type: boolean
+          x-stoplight:
+            id: ki7htr9r4nc11
         is_enabled:
           type: boolean
         indoor:
@@ -811,26 +825,6 @@ components:
           x-stoplight:
             id: 7xwjp5uuh4tnl
           description: Delivery date time
-        daily_residue:
-          type: number
-          x-stoplight:
-            id: c18p7ryoss2c1
-          description: Daily resideu
-        vehicle_description:
-          type: string
-          x-stoplight:
-            id: gw8fc0cfzrdpo
-          description: Vehicle description
-        vehicle_driver:
-          type: string
-          x-stoplight:
-            id: iep1h33uo9xj7
-          description: Vehicle driver
-        period_debt:
-          type: number
-          x-stoplight:
-            id: dodmqocvydxbx
-          description: Period debt
         extra1:
           type: string
           x-stoplight:
