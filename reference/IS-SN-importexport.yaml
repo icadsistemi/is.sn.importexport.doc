@@ -54,6 +54,40 @@ paths:
           in: query
           name: card_code_type
           description: Optional card type code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cards:
+                  type: array
+                  x-stoplight:
+                    id: rg71fdcnmnvnc
+                  items:
+                    $ref: '#/components/schemas/Card'
+                    x-stoplight:
+                      id: kg96dy4klnxsb
+                total_items:
+                  type: number
+                  x-stoplight:
+                    id: 2setymwesh3qf
+                  description: Total number of cards
+                page:
+                  type: number
+                  x-stoplight:
+                    id: vjg9pqfkb8yej
+                  description: Desiderd page number
+                page_size:
+                  type: number
+                  x-stoplight:
+                    id: kfqe1s5jr8a6u
+                  description: 'Desiderd page size (number of card elements for page), maximum allowed value 500'
+                total_pages:
+                  type: number
+                  x-stoplight:
+                    id: eib9bvuu82uog
+                  description: Total number of pages (calculated based on the total number of card elements and size of the page)
     post:
       summary: Insert/Update cards
       operationId: post-cards
