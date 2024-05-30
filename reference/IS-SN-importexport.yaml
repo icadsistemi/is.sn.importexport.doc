@@ -1269,7 +1269,8 @@ components:
           type: number
           x-stoplight:
             id: q1nrpivpkbcqp
-          description: "Article code number. \n1 - GASOLIO,\n2 - VERDE,\n3 - GASOLIO SPEC.,\n4 - VERDE SPEC.,\n5 - METANO,\n6 - GPL,\n7 - GASOLIO ARTICO,\n8 - ADBLUE,\n9 - GNL,\n10 - NULL,\n11 - LAVAGGIO AUTO,\n12 - ACCESSORI,\n13 - OLIO,\n14 - LAVAG. CAMION,\n15 - ADBLUE TANICA,\n16 - PARCHEGGIO,\n17 - HVO,\n19 - MICROEL,\n18\tL-GNC\n20\tMETA"
+          description: |
+            Article code number: 1 - DIESEL, 2 - PETROL, 3 - SPECIAL DIESEL, 4 - SPECIAL PETROL, 5 - METHANE, 6 - LPG, 7 - ARCTIC DIESEL, 8 - ADBLUE, 9 - LNG, 11 - CAR WASH, 12 - ACCESSORIES, 13 - OIL, 14 - TRUCK WASH, 15 - ADBLUE CANISTER, 16 - PARKING, 17 - HVO, 19 - MICROEL, 18 - L-CNG, 20 - BIO LIQUID METHANE
         is_enabled:
           type: boolean
           x-stoplight:
