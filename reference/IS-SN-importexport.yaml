@@ -1269,7 +1269,7 @@ components:
           type: number
           x-stoplight:
             id: q1nrpivpkbcqp
-          description: Article code number
+          description: "Article code number. \n1 - GASOLIO,\n2 - VERDE,\n3 - GASOLIO SPEC.,\n4 - VERDE SPEC.,\n5 - METANO,\n6 - GPL,\n7 - GASOLIO ARTICO,\n8 - ADBLUE,\n9 - GNL,\n10 - NULL,\n11 - LAVAGGIO AUTO,\n12 - ACCESSORI,\n13 - OLIO,\n14 - LAVAG. CAMION,\n15 - ADBLUE TANICA,\n16 - PARCHEGGIO,\n17 - HVO,\n19 - MICROEL,\n18\tL-GNC\n20\tMETA"
         is_enabled:
           type: boolean
           x-stoplight:
