@@ -34,26 +34,38 @@ paths:
       description: Used to get one or more cards.
       parameters:
         - schema:
-            type: string
+            type: number
           in: query
           name: supplier_code
           required: true
           description: Mandatory supplier_code
         - schema:
-            type: string
+            type: number
           in: query
           name: customer_code
           description: Optional customer code
         - schema:
-            type: string
+            type: number
           in: query
           description: Optional card code
           name: card_code
         - schema:
-            type: string
+            type: number
           in: query
           name: card_code_type
           description: Optional card type code
+        - schema:
+            type: number
+          in: query
+          name: page
+          required: true
+          description: Desiderd page number
+        - schema:
+            type: string
+          in: query
+          description: 'Desiderd page size (number of card elements for page), maximum allowed value 500'
+          required: true
+          name: page_size
       requestBody:
         content:
           application/json:
