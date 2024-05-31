@@ -58,13 +58,11 @@ paths:
             type: number
           in: query
           name: page
-          required: true
-          description: Desiderd page number
+          description: Desiderd page number (default value 1)
         - schema:
             type: string
           in: query
-          description: 'Desiderd page size (number of card elements for page), maximum allowed value 500'
-          required: true
+          description: 'Desiderd page size (number of card elements for page), maximum allowed value 500 (default value 10)'
           name: page_size
       requestBody:
         content:
