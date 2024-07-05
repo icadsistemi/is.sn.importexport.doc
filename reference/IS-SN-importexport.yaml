@@ -551,6 +551,57 @@ paths:
           description: Optional customer code. This parameter must be set to export only customer's transactions.
           name: customer_code
       description: Used to export OIL transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
+  /transactions/nonoil:
+    get:
+      summary: Get cards transactions
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NonOilTransaction'
+                  x-stoplight:
+                    id: acre3cu5aoowi
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+          content: {}
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      operationId: get-transactions
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: supplier_code
+          required: true
+          description: 'Supplier code, assigned by ICAD Sistemi'
+        - schema:
+            type: string
+          in: query
+          name: date_start
+          required: true
+          description: Unix time format.
+        - schema:
+            type: string
+          in: query
+          name: date_end
+          required: true
+          description: Unix time format.
+        - schema:
+            type: string
+          in: query
+          name: fuel_station_code
+          description: 'Optional fuel station code. If not set, every transactions of the specified supplier in the datetime range will be returned.'
+      description: Used to export NON OIL transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
+    parameters: []
   /invoices/active:
     get:
       summary: Get invoices active
@@ -1286,6 +1337,110 @@ components:
           x-stoplight:
             id: dgj8g847bqhsx
           description: Article enabled state
+    NonOilTransaction:
+      title: NonOilTransaction
+      x-stoplight:
+        id: lduxvzitl85pa
+      type: object
+      properties:
+        id:
+          type: number
+          description: Receipt detail identifier
+        datetime:
+          type: string
+          x-stoplight:
+            id: lp661m05cdhxm
+          description: Receipt issuing date and time
+        ins_datetime:
+          type: string
+          x-stoplight:
+            id: hlh3fon7arxc4
+          description: Date and time the transaction was entered into the system
+        ticket_number:
+          type: number
+          x-stoplight:
+            id: lr5fb1ylsjm2x
+          description: Ticket number
+        document_type:
+          type: string
+          x-stoplight:
+            id: 1ibow9axiqmqp
+          description: 'Type of operation. Possible values are: A - cancelled, R - returned, C - closure, V - sale'
+        closure_number:
+          type: number
+          x-stoplight:
+            id: 2f8zat671fu4i
+          description: Closure number
+        cancelled:
+          type: boolean
+          x-stoplight:
+            id: pfflmilkvd25f
+          description: "True if the transaction was canceled\_ with a cancellation or return"
+        printer_description:
+          type: string
+          x-stoplight:
+            id: bxeiz4bryctbs
+          description: Printer description
+        article_category:
+          type: string
+          x-stoplight:
+            id: ua8eywaubgb1z
+          description: Article's categoy
+        article_code:
+          type: string
+          x-stoplight:
+            id: u0i8bsie2nwld
+          description: Article code
+        article_name:
+          type: string
+          x-stoplight:
+            id: 1z180ttqafc8t
+          description: Article name
+        unit_price:
+          type: number
+          x-stoplight:
+            id: 8ygxlutw28t3t
+          description: Unit price
+        unit_of_measure:
+          type: string
+          x-stoplight:
+            id: nnjddciq7occp
+          description: Unit of measure
+        quantity:
+          type: number
+          x-stoplight:
+            id: dcii0538b3sm4
+          description: 'Quantity sold, expressed with the indicated unit of measurement'
+        discount_amount:
+          type: number
+          x-stoplight:
+            id: pnooh2uvpo2ae
+          description: Total discount
+        gross_amount:
+          type: number
+          x-stoplight:
+            id: 19qaum60njvr5
+          description: Total amount without discount
+        net_amount:
+          type: number
+          x-stoplight:
+            id: a5zg28ketcw9t
+          description: Total discounted amount
+        fuel_station_iscode:
+          type: string
+          x-stoplight:
+            id: ooom9odtxsxvm
+          description: Fuel station is code
+        fuel_station_code:
+          type: string
+          x-stoplight:
+            id: dqtgfb1t75xll
+          description: Fuel station code
+        fuel_station_description:
+          type: string
+          x-stoplight:
+            id: se9lovw5ci0t3
+          description: Fuel station description
   securitySchemes:
     Cognito:
       type: oauth2
