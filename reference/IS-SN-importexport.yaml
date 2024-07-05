@@ -553,7 +553,7 @@ paths:
       description: Used to export OIL transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
   /transactions/nonoil:
     get:
-      summary: Get cards transactions
+      summary: Get non oil transactions
       tags: []
       responses:
         '200':
