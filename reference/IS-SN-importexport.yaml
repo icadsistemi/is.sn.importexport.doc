@@ -575,7 +575,7 @@ paths:
           description: Forbidden
         '500':
           description: Internal Server Error
-      operationId: get-transactions
+      operationId: get-non-oil-transactions
       parameters:
         - schema:
             type: string
