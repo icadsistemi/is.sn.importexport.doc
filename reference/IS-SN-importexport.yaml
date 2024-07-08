@@ -1385,7 +1385,7 @@ components:
           type: string
           x-stoplight:
             id: ua8eywaubgb1z
-          description: Article's categoy
+          description: Article categoy
         article_code:
           type: string
           x-stoplight:
@@ -1430,7 +1430,7 @@ components:
           type: string
           x-stoplight:
             id: ooom9odtxsxvm
-          description: Fuel station is code
+          description: Fuel station IS code
         fuel_station_code:
           type: string
           x-stoplight:
