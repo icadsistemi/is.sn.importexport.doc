@@ -588,18 +588,18 @@ paths:
           in: query
           name: date_start
           required: true
-          description: Unix time format.
+          description: Start date in unix time format
         - schema:
             type: string
           in: query
           name: date_end
           required: true
-          description: Unix time format.
+          description: End date in unix time format
         - schema:
             type: string
           in: query
           name: fuel_station_code
-          description: 'Optional fuel station code. If not set, every transactions of the specified supplier in the datetime range will be returned.'
+          description: 'Optional fuel station code, if not set, every transactions of the specified supplier in the datetime range will be returned'
       description: Used to export NON OIL transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
     parameters: []
   /invoices/active:
