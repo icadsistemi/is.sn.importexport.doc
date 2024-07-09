@@ -1371,7 +1371,7 @@ components:
           x-stoplight:
             id: 2f8zat671fu4i
           description: Closure number
-        cancelled:
+        is_cancelled:
           type: boolean
           x-stoplight:
             id: pfflmilkvd25f
