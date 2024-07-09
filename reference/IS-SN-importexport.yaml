@@ -551,9 +551,9 @@ paths:
           description: Optional customer code. This parameter must be set to export only customer's transactions.
           name: customer_code
       description: Used to export OIL transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
-  /transactions/nonoil:
+  /transactions/receipts:
     get:
-      summary: Get non oil transactions
+      summary: Get receipts transactions
       tags: []
       responses:
         '200':
@@ -563,7 +563,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/NonOilTransaction'
+                  $ref: '#/components/schemas/ReceiptTransaction'
                   x-stoplight:
                     id: acre3cu5aoowi
         '400':
@@ -600,7 +600,7 @@ paths:
           in: query
           name: fuel_station_code
           description: 'Optional fuel station code, if not set, every transactions of the specified supplier in the datetime range will be returned'
-      description: Used to export NON OIL transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
+      description: Used to export receipts transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
     parameters: []
   /invoices/active:
     get:
@@ -1337,8 +1337,8 @@ components:
           x-stoplight:
             id: dgj8g847bqhsx
           description: Article enabled state
-    NonOilTransaction:
-      title: NonOilTransaction
+    ReceiptTransaction:
+      title: ReceiptTransaction
       x-stoplight:
         id: lduxvzitl85pa
       type: object
@@ -1356,11 +1356,11 @@ components:
           x-stoplight:
             id: hlh3fon7arxc4
           description: Date and time the transaction was entered into the system
-        ticket_number:
+        receipt_number:
           type: number
           x-stoplight:
             id: lr5fb1ylsjm2x
-          description: Ticket number
+          description: Receipt number
         document_type:
           type: string
           x-stoplight:
