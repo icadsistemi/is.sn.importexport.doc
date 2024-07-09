@@ -551,7 +551,7 @@ paths:
           description: Optional customer code. This parameter must be set to export only customer's transactions.
           name: customer_code
       description: Used to export OIL transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
-  /transactions/receipts:
+  /receipts/transactions:
     get:
       summary: Get receipts transactions
       tags: []
@@ -575,7 +575,17 @@ paths:
           description: Forbidden
         '500':
           description: Internal Server Error
-      operationId: get-non-oil-transactions
+        '':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReceiptTransaction'
+                  x-stoplight:
+                    id: 0sefiagxjrh8m
+          description: ''
+      operationId: get-receipts-transactions
       parameters:
         - schema:
             type: string
