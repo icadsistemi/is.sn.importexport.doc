@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: 0.2.5
+  version: 0.2.6
   description: |-
     # Selfnet Import Export api documentation
 
@@ -384,13 +384,13 @@ paths:
             type: string
           in: query
           name: fuel_station_code
-          required: true
           description: Optional fuel station code
         - schema:
             type: string
           in: query
           name: filter_type
           description: 'Used to choose the filter type. If the value is "INS", the transations will be filtered on the datetime they were saved. Otherwise, if the the value is "TRX", they are filtered on their actual transaction timestamp'
+          required: true
       requestBody:
         content: {}
     post:
