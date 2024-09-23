@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: 0.2.4
+  version: 0.2.5
   description: |-
     # Selfnet Import Export api documentation
 
@@ -257,7 +257,7 @@ paths:
       x-internal: true
   /recharges:
     get:
-      summary: Get recharges history
+      summary: Get recharges
       tags: []
       responses:
         '200':
@@ -266,33 +266,96 @@ paths:
             application/json:
               schema:
                 type: array
+                x-examples:
+                  Example 1:
+                    - fuelstation_name: ''
+                      store_id: ''
+                      transaction_number: 0
+                      datetime: '2024-04-08T14:04:50.757Z'
+                      customer_code: '11111'
+                      customer_name: Cliente test
+                      card_code: '00001'
+                      pan: '00000000000000001'
+                      vehicle_plate: ''
+                      bill: 0
+                      rebate: 0
+                      residue: 0
+                      terminal_id: InsMan
+                      outcome: true
+                      supplier_code: '0001'
+                      supplier_name: ICAD PROVA
                 items:
                   type: object
                   properties:
-                    transaction_number:
+                    store_id:
                       type: string
+                      description: fuelstation name
+                    fuelstation_name:
+                      type: string
+                      description: Code of the fuelstation
+                    transaction_number:
+                      type: integer
+                      description: Transaction number
                     datetime:
                       type: string
-                    bill:
-                      type: string
-                    rebate:
-                      type: string
-                    residue:
-                      type: string
-                    terminal_id:
-                      type: string
-                    result:
-                      type: string
+                      description: date time of the recharge
                     customer_code:
                       type: string
-                    card_pan:
-                      type: string
-                    card_code:
-                      type: string
+                      description: code of customer
                     customer_name:
                       type: string
+                      description: customer name
+                    card_code:
+                      type: string
+                      description: code of card
+                    pan:
+                      type: string
+                      description: pan of the card
+                    vehicle_plate:
+                      type: string
+                      description: vehicle plate
+                    bill:
+                      type: integer
+                      description: Recharge bill
+                    rebate:
+                      type: integer
+                      description: Rebate recharge
+                    residue:
+                      type: integer
+                      description: Residue recharge
+                    terminal_id:
+                      type: string
+                      description: Terminal id whose performed the recharge
+                    outcome:
+                      type: boolean
+                      description: outcome of the recharge
+                    supplier_code:
+                      type: string
+                      description: code of the supplier
+                    supplier_name:
+                      type: string
+                      description: supplier name
+              examples:
+                Example 1:
+                  value:
+                    - fuelstation_name: string
+                      store_id: string
+                      transaction_number: 0
+                      datetime: string
+                      customer_code: string
+                      customer_name: string
+                      card_code: string
+                      pan: string
+                      vehicle_plate: string
+                      bill: 0
+                      rebate: 0
+                      residue: 0
+                      terminal_id: string
+                      outcome: true
+                      supplier_code: string
+                      supplier_name: string
       operationId: get-recharges
-      description: ''
+      description: Used to export recheargeables filtered by input values. The maximum range between date_start and date_end is 7 days.
       parameters:
         - schema:
             type: string
@@ -303,18 +366,33 @@ paths:
         - schema:
             type: string
           in: query
-          name: card_pan
-          description: Optional card PAN
+          name: customer_code
+          description: Optional customer_code
         - schema:
             type: string
           in: query
           name: date_start
           description: Unix time format.
+          required: true
         - schema:
             type: string
           in: query
           name: date_end
           description: Unix time format.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: fuel_station_code
+          required: true
+          description: Optional fuel station code
+        - schema:
+            type: string
+          in: query
+          name: filter_type
+          description: 'Used to choose the filter type. If the value is "INS", the transations will be filtered on the datetime they were saved. Otherwise, if the the value is "TRX", they are filtered on their actual transaction timestamp'
+      requestBody:
+        content: {}
     post:
       summary: Request a new recharge
       operationId: post-recharges
@@ -554,10 +632,9 @@ paths:
   /receipts/transactions:
     get:
       summary: Get receipts transactions
-      tags: []
       responses:
         '200':
-          description: OK
+          description: Ok
           content:
             application/json:
               schema:
@@ -575,16 +652,6 @@ paths:
           description: Forbidden
         '500':
           description: Internal Server Error
-        '':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ReceiptTransaction'
-                  x-stoplight:
-                    id: 0sefiagxjrh8m
-          description: ''
       operationId: get-receipts-transactions
       parameters:
         - schema:
@@ -611,7 +678,6 @@ paths:
           name: fuel_station_code
           description: 'Optional fuel station code, if not set, every transactions of the specified supplier in the datetime range will be returned'
       description: Used to export receipts transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
-    parameters: []
   /invoices/active:
     get:
       summary: Get invoices active
