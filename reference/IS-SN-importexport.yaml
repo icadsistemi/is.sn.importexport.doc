@@ -878,6 +878,55 @@ paths:
           name: outcomes
           description: Indicate whether you also want to receive the outcome files received from the SdI (usable only if you have subscribed to the relevant package).
     parameters: []
+  /fuelcoupons/transactions:
+    get:
+      summary: GET Fuelcoupons transactions
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fuelcouponsTransactionsResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Unprocessable Entity (WebDAV)
+        '500':
+          description: Internal Server Error
+      operationId: get-fuelstations-transactions
+      description: get export transactions of fuelcoupons
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: supplier_code
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: date_start
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: date_end
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: filter_type
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: fuel_station_code
+      requestBody:
+        content: {}
+    parameters: []
 components:
   schemas:
     CardInput:
@@ -1517,6 +1566,100 @@ components:
           x-stoplight:
             id: se9lovw5ci0t3
           description: Fuel station description
+    fuelcouponsTransactionsResponse:
+      type: array
+      x-stoplight:
+        id: 5fugiq384dxu9
+      x-examples:
+        Example 1:
+          - id: 1466916
+            datetime: '2024-01-22T09:42:48Z'
+            ins_datetime: '2024-01-22T10:43:00Z'
+            standalone: true
+            prezzo: 1.699
+            quantity: 14.71
+            terminal_id: POS1
+            transaction_number: 69
+            supply: 25
+            product_code: '1'
+            product_name: DIESEL
+            measure: Lt
+            vat: 22
+            fuel_station_storeid: IS316002
+            fuel_station_code: XA0455
+            fuel_station_name: PV TEST 1
+            coupon_code: '0000000000009957064061076'
+            coupon_number: 135833
+            coupon_residue: 0
+            coupon_type: 0
+            coupon_value: 10
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          datetime:
+            type: string
+          ins_datetime:
+            type: string
+          standalone:
+            type: boolean
+          prezzo:
+            type: number
+          quantity:
+            type: number
+          terminal_id:
+            type: string
+          transaction_number:
+            type: integer
+          supply:
+            type: integer
+          product_code:
+            type: string
+          product_name:
+            type: string
+          measure:
+            type: string
+          vat:
+            type: integer
+          fuel_station_storeid:
+            type: string
+          fuel_station_code:
+            type: string
+          fuel_station_name:
+            type: string
+          coupon_code:
+            type: string
+          coupon_number:
+            type: integer
+          coupon_residue:
+            type: integer
+          coupon_type:
+            type: integer
+          coupon_value:
+            type: integer
+      examples:
+        - - id: 0
+            datetime: string
+            ins_datetime: string
+            standalone: true
+            prezzo: 0
+            quantity: 0
+            terminal_id: string
+            transaction_number: 0
+            supply: 0
+            product_code: string
+            product_name: string
+            measure: string
+            vat: 0
+            fuel_station_storeid: string
+            fuel_station_code: string
+            fuel_station_name: string
+            coupon_code: string
+            coupon_number: 0
+            coupon_residue: 0
+            coupon_type: 0
+            coupon_value: 0
   securitySchemes:
     Cognito:
       type: oauth2
