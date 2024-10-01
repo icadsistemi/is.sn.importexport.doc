@@ -905,30 +905,30 @@ paths:
           in: query
           name: supplier_code
           required: true
-          description: codice retista
+          description: 'Supplier code, assigned by ICAD Sistemi'
         - schema:
             type: string
           in: query
           name: date_start
           required: true
-          description: data di inizio
+          description: Unix time format.
         - schema:
             type: string
           in: query
           name: date_end
           required: true
-          description: data di fine
+          description: Unix time format.
         - schema:
             type: string
           in: query
           name: filter_type
           required: true
-          description: filtro della tipologia di data
+          description: 'Used to choose the filter type. If the value is "INS", the transations will be filtered on the datetime they were saved. Otherwise, if the the value is "TRX", they are filtered on their actual transaction timestamp'
         - schema:
             type: string
           in: query
           name: fuel_station_code
-          description: codice impianto
+          description: 'Optional fuel station code. If not set, every fuelcoupons transactions of the specified supplier in the datetime range will be returned.'
       requestBody:
         content: {}
     parameters: []
@@ -1573,82 +1573,13 @@ components:
           description: Fuel station description
     fuelcouponsTransactionsResponse:
       type: array
-      x-stoplight:
-        id: 5fugiq384dxu9
       x-examples:
         Example 1:
-          - id: 1466916
-            datetime: '2024-01-22T09:42:48Z'
-            ins_datetime: '2024-01-22T10:43:00Z'
-            standalone: true
-            prezzo: 1.699
-            quantity: 14.71
-            terminal_id: POS1
-            transaction_number: 69
-            supply: 25
-            product_code: '1'
-            product_name: DIESEL
-            measure: Lt
-            vat: 22
-            fuel_station_storeid: IS316002
-            fuel_station_code: XA0455
-            fuel_station_name: PV TEST 1
-            coupon_code: '0000000000009957064061076'
-            coupon_number: 135833
-            coupon_residue: 0
-            coupon_type: 0
-            coupon_value: 10
-      items:
-        type: object
-        properties:
-          id:
-            type: integer
-          datetime:
-            type: string
-          ins_datetime:
-            type: string
-          standalone:
-            type: boolean
-          prezzo:
-            type: number
-          quantity:
-            type: number
-          terminal_id:
-            type: string
-          transaction_number:
-            type: integer
-          supply:
-            type: integer
-          product_code:
-            type: string
-          product_name:
-            type: string
-          measure:
-            type: string
-          vat:
-            type: integer
-          fuel_station_storeid:
-            type: string
-          fuel_station_code:
-            type: string
-          fuel_station_name:
-            type: string
-          coupon_code:
-            type: string
-          coupon_number:
-            type: integer
-          coupon_residue:
-            type: integer
-          coupon_type:
-            type: integer
-          coupon_value:
-            type: integer
-      examples:
-        - - id: 0
+          - id: 0
             datetime: string
             ins_datetime: string
             standalone: true
-            prezzo: 0
+            price: 0
             quantity: 0
             terminal_id: string
             transaction_number: 0
@@ -1665,6 +1596,71 @@ components:
             coupon_residue: 0
             coupon_type: 0
             coupon_value: 0
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: ID of the transaction in our database
+          datetime:
+            type: string
+            description: Datetime of the transaction
+          ins_datetime:
+            type: string
+            description: Datetime of the insert of the transaction
+          standalone:
+            type: boolean
+          price:
+            type: number
+            description: Amount of the transaction
+          quantity:
+            type: number
+            description: Purchased quantity
+          terminal_id:
+            type: string
+            description: Terminal id whose performed the transaction
+          transaction_number:
+            type: integer
+            description: Transaction number
+          supply:
+            type: integer
+          product_code:
+            type: string
+            description: code of the item purchased
+          product_name:
+            type: string
+            description: Name of the product purchased
+          measure:
+            type: string
+            description: Unit of measure
+          vat:
+            type: integer
+            description: Applied VAT rate
+          fuel_station_storeid:
+            type: string
+            description: Id of fuelstation on DB
+          fuel_station_code:
+            type: string
+            description: Code of the fuelstation
+          fuel_station_name:
+            type: string
+            description: Name of the fuelstation
+          coupon_code:
+            type: string
+            description: Code of the coupon utilized
+          coupon_number:
+            type: integer
+            description: Number of the coupon
+          coupon_residue:
+            type: integer
+            description: Amount remaining after purchase
+          coupon_type:
+            type: integer
+            description: type of the coupon
+          coupon_value:
+            type: integer
+            description: Amount of the coupon when created
+      description: ''
     fuelcouponsTransactions:
       type: array
       x-examples:
