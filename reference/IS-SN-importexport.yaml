@@ -905,25 +905,30 @@ paths:
           in: query
           name: supplier_code
           required: true
+          description: codice retista
         - schema:
             type: string
           in: query
           name: date_start
           required: true
+          description: data di inizio
         - schema:
             type: string
           in: query
           name: date_end
           required: true
+          description: data di fine
         - schema:
             type: string
           in: query
           name: filter_type
           required: true
+          description: filtro della tipologia di data
         - schema:
             type: string
           in: query
           name: fuel_station_code
+          description: codice impianto
       requestBody:
         content: {}
     parameters: []
@@ -1660,6 +1665,77 @@ components:
             coupon_residue: 0
             coupon_type: 0
             coupon_value: 0
+    fuelcouponsTransactions:
+      type: array
+      x-examples:
+        Example 1:
+          - id: 1466916
+            datetime: '2024-01-22T09:42:48Z'
+            ins_datetime: '2024-01-22T10:43:00Z'
+            standalone: true
+            prezzo: 1.699
+            quantity: 14.71
+            terminal_id: POS1
+            transaction_number: 69
+            supply: 25
+            product_code: '1'
+            product_name: DIESEL
+            measure: Lt
+            vat: 22
+            fuel_station_storeid: IS316002
+            fuel_station_code: XA0455
+            fuel_station_name: PV TEST 1
+            coupon_code: '0000000000009957064061076'
+            coupon_number: 135833
+            coupon_residue: 0
+            coupon_type: 0
+            coupon_value: 10
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          datetime:
+            type: string
+          ins_datetime:
+            type: string
+          standalone:
+            type: boolean
+          prezzo:
+            type: number
+          quantity:
+            type: number
+          terminal_id:
+            type: string
+          transaction_number:
+            type: integer
+          supply:
+            type: integer
+          product_code:
+            type: string
+          product_name:
+            type: string
+          measure:
+            type: string
+          vat:
+            type: integer
+          fuel_station_storeid:
+            type: string
+          fuel_station_code:
+            type: string
+          fuel_station_name:
+            type: string
+          coupon_code:
+            type: string
+          coupon_number:
+            type: integer
+          coupon_residue:
+            type: integer
+          coupon_type:
+            type: integer
+          coupon_value:
+            type: integer
+      description: ''
   securitySchemes:
     Cognito:
       type: oauth2
