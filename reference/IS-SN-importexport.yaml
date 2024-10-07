@@ -897,7 +897,7 @@ paths:
           description: Unprocessable Entity (WebDAV)
         '500':
           description: Internal Server Error
-      operationId: get-fuelstations-transactions
+      operationId: get-fuelcoupons-transactions
       description: get export transactions of fuelcoupons
       parameters:
         - schema:
@@ -931,6 +931,7 @@ paths:
           description: 'Optional fuel station code. If not set, every fuelcoupons transactions of the specified supplier in the datetime range will be returned.'
       requestBody:
         content: {}
+      x-internal: false
     parameters: []
 components:
   schemas:
