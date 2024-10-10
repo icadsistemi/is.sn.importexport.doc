@@ -14,7 +14,7 @@ info:
 
 
     # Enums
-    ###### Payment Method Code (payment_method_code)
+    # Payment Method Code (payment_method_code)
 
     | Codice | Metodo di Pagamento (IT)                   | Payment Method (EN)                     |
     | ------ | ------------------------------------------ | --------------------------------------- |
@@ -42,7 +42,7 @@ info:
     | MP22   | Trattenuta su somme già riscosse           | Withholding on Collected Amounts        |
     | MP23   | PagoPA                                     | PagoPA                                  |
 
-    ###### Payment Periodicity Code (payment_periodicity_code)
+    # Payment Periodicity Code (payment_periodicity_code)
 
     | Codice | Descrizione (IT)  | Descrizione (EN)  |
     |--------|-------------------|------------------|
@@ -55,7 +55,7 @@ info:
     | Q      | Trimestrale       | Quarterly        |
     | X      | Nessuna           | None             |
 
-    ###### Terms of Payment Code (payment_terms_code)
+    # Terms of Payment Code (payment_terms_code)
 
     | Codice | Descrizione (IT)                  | Descrizione (EN)                  |
     |--------|-----------------------------------|-----------------------------------|
@@ -86,7 +86,7 @@ info:
     | 043    | 90 gg data fattura                | 90 days from invoice date         |
     | 044    | 6 gg data fattura                 | 6 days from invoice date          |
 
-    ###### Vat Code (vat_code)
+    # Vat Code (vat_code)
 
     | Codice | Descrizione breve    | Descrizione (IT)                                           | Descrizione (EN)                                                 |
     |--------|----------------------|-----------------------------------------------------------|------------------------------------------------------------------|
