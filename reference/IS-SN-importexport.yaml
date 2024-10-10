@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: 0.2.10
+  version: 0.2.11
   description: |
     # Selfnet Import Export api documentation
 
@@ -12,9 +12,9 @@ info:
     - If the flow is incorrect, returns negative response code 
     - If the flow breaks for some reason (DB connection, malformed input, etc..), returns negative response
 
-    # Enums
 
-    Payment Method Code (payment_method_code)
+    # Enums
+    ###### Payment Method Code (payment_method_code)
 
     | Codice | Metodo di Pagamento (IT)                   | Payment Method (EN)                     |
     | ------ | ------------------------------------------ | --------------------------------------- |
@@ -42,7 +42,7 @@ info:
     | MP22   | Trattenuta su somme già riscosse           | Withholding on Collected Amounts        |
     | MP23   | PagoPA                                     | PagoPA                                  |
 
-    Payment Periodicity Code (payment_periodicity_code)
+    ###### Payment Periodicity Code (payment_periodicity_code)
 
     | Codice | Descrizione (IT)  | Descrizione (EN)  |
     |--------|-------------------|------------------|
@@ -55,7 +55,7 @@ info:
     | Q      | Trimestrale       | Quarterly        |
     | X      | Nessuna           | None             |
 
-    Terms of Payment Code (payment_terms_code)
+    ###### Terms of Payment Code (payment_terms_code)
 
     | Codice | Descrizione (IT)                  | Descrizione (EN)                  |
     |--------|-----------------------------------|-----------------------------------|
@@ -86,7 +86,7 @@ info:
     | 043    | 90 gg data fattura                | 90 days from invoice date         |
     | 044    | 6 gg data fattura                 | 6 days from invoice date          |
 
-    Vat Code (vat_code)
+    ###### Vat Code (vat_code)
 
     | Codice | Descrizione breve    | Descrizione (IT)                                           | Descrizione (EN)                                                 |
     |--------|----------------------|-----------------------------------------------------------|------------------------------------------------------------------|
@@ -114,7 +114,9 @@ info:
     | 025    | Esente N6.7          | inversione contabile – prestazioni comparto edile e settori connessi | Reverse charge – services in the construction sector and related sectors |
     | 026    | Esente N6.8          | inversione contabile – operazioni settore energetico      | Reverse charge – operations in the energy sector                 |
     | 027    | Esente N6.9          | inversione contabile – altri casi                         | Reverse charge – other cases                                     |
-    | 028    | IVA al 5%            | IVA al 5%                                                 | VAT at 5%                                                        |
+    | 028    | IVA al 5%            | IVA al 5%                                                 | VAT at 5%                             |
+
+
 servers:
   - url: 'https://mxp-import-export-sn.dev.icadsistemi.com/v1'
     description: develop
