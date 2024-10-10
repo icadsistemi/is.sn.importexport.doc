@@ -1158,83 +1158,209 @@ components:
       required:
         - supplier_code
     Customers:
-      title: Customers
-      x-stoplight:
-        id: rfmdw8x2ndc1w
-      type: object
-      properties:
-        code:
-          type: string
-          x-stoplight:
-            id: qzb2xrtasrj79
-        name:
-          type: string
-          x-stoplight:
-            id: y9bjc6of221sp
-        supplier_code:
-          type: string
-          x-stoplight:
-            id: rkrevnh28vjee
-        address:
-          type: string
-          x-stoplight:
-            id: 2zn7fafzget5k
-        city:
-          type: string
-          x-stoplight:
-            id: nsdif80pf0z08
-        province:
-          type: string
-          x-stoplight:
-            id: c8li9xhshp8dg
-        email:
-          type: string
-          x-stoplight:
-            id: rfoitwokuzghe
-        telephone_number:
-          type: string
-          x-stoplight:
-            id: 9ntlhc8ze8njo
-        vat:
-          type: string
-          x-stoplight:
-            id: phpwup3ctdjcq
-        fiscal_code:
-          type: string
-          x-stoplight:
-            id: bup63wfklzujm
-        total_recharge_credit:
-          type: number
-          x-stoplight:
-            id: tpnn9uooj3cf1
-        is_enabled:
-          type: boolean
-          x-stoplight:
-            id: ls9gfxb53nh6v
-        max_period_credit:
-          type: number
-          x-stoplight:
-            id: yft22k3s39dwu
-        debit_period:
-          type: number
-          x-stoplight:
-            id: ws8lbmjd0cpqn
-        payment_periodicity_code:
-          type: string
-          x-stoplight:
-            id: 2m94lr1i565m8
-        payment_method_code:
-          type: string
-          x-stoplight:
-            id: b4ft5uho5s016
-        payment_terms_code:
-          type: string
-          x-stoplight:
-            id: pvqoxt4zbpif7
-        exposure:
-          type: number
-          x-stoplight:
-            id: tvs6dajy4w6ib
+      type: array
+      x-examples:
+        Example 1:
+          - code: CUST123
+            supplier_code: '0001'
+            name: John Doe
+            address: 336 Main Street
+            city: New York
+            zip_code: '10001'
+            province: NY
+            phone_number: +1 555-123-4567
+            email: johndoe@example.com
+            pec: johndoe@pecmail.com
+            notes: VIP customer
+            vat_number: US123456789
+            fiscal_code: DOEJHN80A01F205X
+            is_enabled: true
+            payment_mode_code: MP02
+            payment_periodicity_code: 'N'
+            payment_terms_code: '003'
+            max_period_credit: 10000
+            period_debit: 0
+            exposure: 7500
+            has_km_request: false
+            has_km_check: true
+            has_driver_request: false
+            has_driver_check: true
+            has_account_balance: true
+            has_invoice: false
+            notify_recharge: true
+            notify: false
+            notify1: true
+            notify2: false
+            notify3: true
+            has_customer_recharge: false
+            country_code: IT
+            sdi_code: ''
+            electronic_invoice: true
+            oil_iban: US12345678912345678901
+            non_oil_iban: US98765432109876543210
+            vat_code: '001'
+            total_recharge: 1500
+      examples:
+        - - code: CUST123
+            supplier_code: '0001'
+            name: John Doe
+            address: 336 Main Street
+            city: New York
+            zip_code: '10001'
+            province: NY
+            phone_number: +1 555-123-4567
+            email: johndoe@example.com
+            pec: johndoe@pecmail.com
+            notes: VIP customer
+            vat_number: US123456789
+            fiscal_code: DOEJHN80A01F205X
+            is_enabled: true
+            payment_mode_code: MP02
+            payment_periodicity_code: 'N'
+            payment_terms_code: '003'
+            max_period_credit: 10000
+            period_debit: 0
+            exposure: 7500
+            has_km_request: false
+            has_km_check: true
+            has_driver_request: false
+            has_driver_check: true
+            has_account_balance: true
+            has_invoice: false
+            notify_recharge: true
+            notify: false
+            notify1: true
+            notify2: false
+            notify3: true
+            has_customer_recharge: false
+            country_code: IT
+            sdi_code: ''
+            electronic_invoice: true
+            oil_iban: US12345678912345678901
+            non_oil_iban: US98765432109876543210
+            vat_code: '001'
+            total_recharge: 1500
+      items:
+        type: object
+        properties:
+          code:
+            type: string
+            description: 'code of the customer, must be unique in the supplier context'
+          supplier_code:
+            type: string
+            description: id of the supplier owner of this customer
+          name:
+            type: string
+            description: name of the customer
+          address:
+            type: string
+            description: address of the customer
+          city:
+            type: string
+            description: city of the customer
+          zip_code:
+            type: string
+            description: zip code of the customer
+          province:
+            type: string
+            description: province of the customer
+          phone_number:
+            type: string
+            description: phone number of the customer
+          email:
+            type: string
+            description: email of the customer (can contains up to 3 mails divided by ;  )
+          pec:
+            type: string
+            description: pec of the customer
+          notes:
+            type: string
+            description: optional notes
+          vat_number:
+            type: string
+            description: vat number of the customer
+          fiscal_code:
+            type: string
+            description: fiscal code of the customer
+          is_enabled:
+            type: boolean
+            description: 'true if the customer is enabled, false otherwise'
+          payment_mode_code:
+            type: string
+            description: 'payment method code used by the customer to pay his invoices. The possible values are:'
+          payment_periodicity_code:
+            type: string
+            description: 'payment periodicity code applied to the customer to pay his invoices. The possible values are:'
+          payment_terms_code:
+            type: string
+            description: 'payment terms code applied to the customer to pay his invoices. The possible values are:'
+          max_period_credit:
+            type: integer
+            description: max credit available for this customer
+          period_debit:
+            type: integer
+            description: debit of the customer (this is the sum of all transaction supplied in the period and not invoiced yet)
+          exposure:
+            type: integer
+            description: the exposure is the sum of all the invoice issued to the customer and not payed yet
+          has_km_request:
+            type: boolean
+            description: 'true if the km request while fueling is active, false otherwise'
+          has_km_check:
+            type: boolean
+            description: 'true if the km while fueling is active, false otherwise'
+          has_driver_request:
+            type: boolean
+            description: |
+              true if the driver request while fueling is active, false otherwise
+          has_driver_check:
+            type: boolean
+            description: 'true if the driver check while fueling is active, false otherwise'
+          has_account_balance:
+            type: boolean
+            description: true if the account balance is active for the customer
+          has_invoice:
+            type: boolean
+            description: true if this customer has the invoicing active (not the icad sistemi service)
+          notify_recharge:
+            type: boolean
+            description: true if the customer must receive email about recharges operations
+          notify:
+            type: boolean
+            description: true if the customer must receive email about fueling operations
+          notify1:
+            type: boolean
+            description: true if the email number one in the field email must receive notifications
+          notify2:
+            type: boolean
+            description: ' true if the email number two in the field email must receive notifications'
+          notify3:
+            type: boolean
+            description: true if the email number three in the field email must receive notifications
+          has_customer_recharge:
+            type: boolean
+            description: 'If true, the rechargeable balance is set at customer level. Otherwise, it is at card level and every card has its own credit'
+          country_code:
+            type: string
+            description: 'code the country of the customer.   The possible values are:'
+          sdi_code:
+            type: string
+            description: 'sdi code of the customer, used to receive invoices'
+          electronic_invoice:
+            type: boolean
+            description: true if this customer has the ICAD Sistemi invoicing service active
+          oil_iban:
+            type: string
+            description: 'optional iban used just for oil invoices, if the used payment mode needs an iban'
+          non_oil_iban:
+            type: string
+            description: 'optional iban used just for non oil invoices, if the used payment mode needs an iban'
+          vat_code:
+            type: string
+            description: 'code of the vat applied to this customer, if it isn''t the standard vat. The possible values are:'
+          total_recharge:
+            type: integer
+            description: 'Total recharge credit,  used as output field'
     InvoicesExternalResponse:
       title: Invoices external response
       x-stoplight:
