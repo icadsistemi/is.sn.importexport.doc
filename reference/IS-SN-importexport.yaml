@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: 0.2.11
+  version: 0.2.13
   description: |
     # Selfnet Import Export api documentation
 
@@ -115,8 +115,6 @@ info:
     | 026    | Esente N6.8          | inversione contabile – operazioni settore energetico      | Reverse charge – operations in the energy sector                 |
     | 027    | Esente N6.9          | inversione contabile – altri casi                         | Reverse charge – other cases                                     |
     | 028    | IVA al 5%            | IVA al 5%                                                 | VAT at 5%                             |
-
-
 servers:
   - url: 'https://mxp-import-export-sn.dev.icadsistemi.com/v1'
     description: develop
@@ -261,11 +259,90 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Customers'
-                  x-stoplight:
-                    id: 8lpk19j56xtc4
+                $ref: '#/components/schemas/Customers'
+                x-examples:
+                  Example 1:
+                    - code: CUST123
+                      supplier_code: '0001'
+                      name: John Doe
+                      address: 336 Main Street
+                      city: New York
+                      zip_code: '10001'
+                      province: NY
+                      phone_number: +1 555-123-4567
+                      email: johndoe@example.com
+                      pec: johndoe@pecmail.com
+                      notes: VIP customer
+                      vat_number: US123456789
+                      fiscal_code: DOEJHN80A01F205X
+                      is_enabled: true
+                      payment_mode_code: MP02
+                      payment_periodicity_code: 'N'
+                      payment_terms_code: '003'
+                      max_period_credit: 10000
+                      period_debit: 0
+                      exposure: 7500
+                      has_km_request: false
+                      has_km_check: true
+                      has_driver_request: false
+                      has_driver_check: true
+                      has_account_balance: true
+                      has_invoice: false
+                      notify_recharge: true
+                      notify: false
+                      notify1: true
+                      notify2: false
+                      notify3: true
+                      has_customer_recharge: false
+                      country_code: IT
+                      sdi_code: ''
+                      electronic_invoice: true
+                      oil_iban: US12345678912345678901
+                      non_oil_iban: US98765432109876543210
+                      vat_code: '001'
+                      total_recharge: 1500
+              examples:
+                Example 1:
+                  value:
+                    - code: string
+                      supplier_code: string
+                      name: string
+                      address: string
+                      city: string
+                      zip_code: string
+                      province: string
+                      phone_number: string
+                      email: string
+                      pec: string
+                      notes: string
+                      vat_number: string
+                      fiscal_code: string
+                      is_enabled: true
+                      payment_mode_code: string
+                      payment_periodicity_code: string
+                      payment_terms_code: string
+                      max_period_credit: 0
+                      period_debit: 0
+                      exposure: 0
+                      has_km_request: true
+                      has_km_check: true
+                      has_driver_request: true
+                      has_driver_check: true
+                      has_account_balance: true
+                      has_invoice: true
+                      notify_recharge: true
+                      notify: true
+                      notify1: true
+                      notify2: true
+                      notify3: true
+                      has_customer_recharge: true
+                      country_code: string
+                      sdi_code: string
+                      electronic_invoice: true
+                      oil_iban: string
+                      non_oil_iban: string
+                      vat_code: string
+                      total_recharge: 0
         '401':
           description: Unauthorized
         '403':
