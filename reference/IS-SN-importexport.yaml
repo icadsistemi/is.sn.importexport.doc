@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: 0.2.15
+  version: 0.2.16
   description: |
     # Selfnet Import Export api documentation
 
@@ -1616,7 +1616,7 @@ components:
             description: 'optional iban used just for non oil invoices, if the used payment mode needs an iban'
           vat_code:
             type: string
-            description: 'code of the vat applied to this customer, if it isn''t the standard vat. The possible values are:'
+            description: 'code of the vat applied to this customer, if it isn''t the standard vat. #topic-enums'
           total_recharge:
             type: integer
             description: 'Total recharge credit,  used as output field'
