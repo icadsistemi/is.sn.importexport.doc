@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: 0.2.16
+  version: 0.2.17
   description: |
     # Selfnet Import Export api documentation
 
@@ -14,7 +14,7 @@ info:
 
 
     # Enums
-    # Payment Method Code (payment_method_code)
+    ### Payment Method Code (payment_method_code)
 
     | Codice | Metodo di Pagamento (IT)                   | Payment Method (EN)                     |
     | ------ | ------------------------------------------ | --------------------------------------- |
@@ -1616,7 +1616,7 @@ components:
             description: 'optional iban used just for non oil invoices, if the used payment mode needs an iban'
           vat_code:
             type: string
-            description: 'code of the vat applied to this customer, if it isn''t the standard vat. #topic-enums'
+            description: 'code of the vat applied to this customer, if it isn''t the standard vaes. See the enum codes at the beginning of the documentms'
           total_recharge:
             type: integer
             description: 'Total recharge credit,  used as output field'
