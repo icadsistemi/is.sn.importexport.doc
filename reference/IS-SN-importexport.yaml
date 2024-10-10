@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: 0.2.14
+  version: 0.2.15
   description: |
     # Selfnet Import Export api documentation
 
@@ -430,89 +430,10 @@ paths:
               properties:
                 supplier_code:
                   type: string
-                customers:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      code:
-                        type: string
-                      name:
-                        type: string
-                      address:
-                        type: string
-                      city:
-                        type: string
-                      zip_code:
-                        type: string
-                      province:
-                        type: string
-                      phone_number:
-                        type: string
-                      email:
-                        type: string
-                      pec:
-                        type: string
-                      notes:
-                        type: string
-                      vat_number:
-                        type: string
-                      fiscal_code:
-                        type: string
-                      is_enabled:
-                        type: boolean
-                      payment_mode_code:
-                        type: string
-                      payment_periodicity_code:
-                        type: string
-                      payment_terms_code:
-                        type: string
-                      max_period_credit:
-                        type: integer
-                      period_debit:
-                        type: integer
-                      exposure:
-                        type: integer
-                      has_km_request:
-                        type: boolean
-                      has_km_check:
-                        type: boolean
-                      has_driver_request:
-                        type: boolean
-                      has_driver_check:
-                        type: boolean
-                      has_account_balance:
-                        type: boolean
-                      has_invoice:
-                        type: boolean
-                      notify_recharge:
-                        type: boolean
-                      notify:
-                        type: boolean
-                      notify1:
-                        type: boolean
-                      notify2:
-                        type: boolean
-                      notify3:
-                        type: boolean
-                      has_customer_recharge:
-                        type: boolean
-                      country_code:
-                        type: string
-                      sdi_code:
-                        type: 'null'
-                      electronic_invoice:
-                        type: boolean
-                      oil_iban:
-                        type: string
-                      non_oil_iban:
-                        type: string
-                      vat_code:
-                        type: string
-                      total_recharge:
-                        type: integer
-                    required:
-                      - code
+                '':
+                  $ref: '#/components/schemas/Customers'
+                  x-stoplight:
+                    id: 3l2yxyrafx634
               required:
                 - supplier_code
             examples:
