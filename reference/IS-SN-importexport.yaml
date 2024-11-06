@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: 0.2.19
+  version: 0.2.20
   description: |
     # Selfnet Import Export api documentation
 
@@ -601,7 +601,7 @@ paths:
               examples:
                 Example 1:
                   value:
-                    - id: string
+                    - id: 0
                       store_id: string
                       fuelstation_name: string
                       transaction_number: 0
