@@ -547,7 +547,7 @@ paths:
                   type: object
                   properties:
                     id:
-                      type: string
+                      type: number
                       x-stoplight:
                         id: wat874gwthfw9
                     store_id:
