@@ -117,7 +117,7 @@ info:
     | 028    | IVA al 5%            | IVA al 5%                                                 | VAT at 5%                             |
 servers:
   - url: 'https://mxp-import-export-sn.dev.icadsistemi.com/v1'
-    description: develop
+    description: development
   - url: 'https://mxp-import-export-sn.prod.icadsistemi.com/v1'
     description: production
 paths:
