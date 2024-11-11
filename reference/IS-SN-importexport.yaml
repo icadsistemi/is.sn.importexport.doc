@@ -655,8 +655,6 @@ paths:
           name: filter_type
           description: 'Used to choose the filter type. If the value is "INS", the transations will be filtered on the datetime they were saved. Otherwise, if the the value is "TRX", they are filtered on their actual transaction timestamp'
           required: true
-      requestBody:
-        content: {}
     post:
       summary: Request a new recharge
       operationId: post-recharges
@@ -1193,8 +1191,6 @@ paths:
           in: query
           name: fuel_station_code
           description: 'Optional fuel station code. If not set, every fuelcoupons transactions of the specified supplier in the datetime range will be returned.'
-      requestBody:
-        content: {}
       x-internal: false
     parameters: []
 components:
