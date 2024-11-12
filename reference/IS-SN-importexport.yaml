@@ -16,31 +16,152 @@ info:
     # Enums
     ### Payment Method Code (payment_method_code)
 
-    | Codice | Metodo di Pagamento (IT)                   | Payment Method (EN)                     |
-    | ------ | ------------------------------------------ | --------------------------------------- |
-    | MP09   | RID                                        | Direct Debit                            |
-    | MP01   | Contanti                                   | Cash                                    |
-    | MP02   | Assegno                                    | Check                                   |
-    | MP05   | Bonifico                                   | Bank Transfer                           |
-    | MP12   | Ricevuta bancaria                          | Bank Receipt                            |
-    | MP18   | Bollettino di c/c postale                  | Postal Account Payment Form             |
-    | MP03   | Assegno circolare                          | Bank Draft                              |
-    | MP04   | Contanti presso Tesoreria                  | Cash at Treasury                        |
-    | MP06   | Vaglia cambiario                           | Money Order                             |
-    | MP07   | Bollettino bancario                        | Bank Payment Form                       |
-    | MP08   | Carta di pagamento                         | Payment Card                            |
-    | MP10   | RID utenze                                 | Utility Direct Debit                    |
-    | MP11   | RID veloce                                 | Fast Direct Debit                       |
-    | MP13   | MAV                                        | MAV (Payment by Notice)                 |
-    | MP14   | Quietanza erario stato                     | State Treasury Receipt                  |
-    | MP15   | Giroconto su conti di contabilità speciale | Transfer on Special Accounting Accounts |
-    | MP16   | Domiciliazione bancaria                    | Bank Direct Debit                       |
-    | MP17   | Domiciliazione postale                     | Postal Direct Debit                     |
-    | MP19   | SEPA Direct Debit                          | SEPA Direct Debit                       |
-    | MP20   | SEPA Direct Debit CORE                     | SEPA Direct Debit CORE                  |
-    | MP21   | SEPA Direct Debit B2B                      | SEPA Direct Debit B2B                   |
-    | MP22   | Trattenuta su somme già riscosse           | Withholding on Collected Amounts        |
-    | MP23   | PagoPA                                     | PagoPA                                  |
+    <table>
+    <tr>
+        <td>Codice</td>
+        <td>Metodo di Pagamento (IT)</td>
+        <td>Payment Method (EN)</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP09</td>
+        <td>RID</td>
+        <td>Direct Debit</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP01</td>
+        <td>Contanti</td>
+        <td>Cash</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP02</td>
+        <td>Assegno</td>
+        <td>Check</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP05</td>
+        <td>Bonifico</td>
+        <td>Bank Transfer</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP12</td>
+        <td>Ricevuta bancaria</td>
+        <td>Bank Receipt</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP18</td>
+        <td>Bollettino di c/c postale</td>
+        <td>Postal Account Payment Form</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP03</td>
+        <td>Assegno circolare</td>
+        <td>Bank Draft</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP04</td>
+        <td>Contanti presso Tesoreria</td>
+        <td>Cash at Treasury</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP06</td>
+        <td>Vaglia cambiario</td>
+        <td>Money Order</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP07</td>
+        <td>Bollettino bancario</td>
+        <td>Bank Payment Form</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP08</td>
+        <td>Carta di pagamento</td>
+        <td>Payment Card</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP10</td>
+        <td>RID utenze</td>
+        <td>Utility Direct Debit</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP11</td>
+        <td>RID veloce</td>
+        <td>Fast Direct Debit</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP13</td>
+        <td>MAV</td>
+        <td>MAV (Payment by Notice)</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP14</td>
+        <td>Quietanza erario stato</td>
+        <td>State Treasury Receipt</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP15</td>
+        <td>Giroconto su conti di contabilità speciale</td>
+        <td>Transfer on Special Accounting Accounts</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP16</td>
+        <td>Domiciliazione bancaria</td>
+        <td>Bank Direct Debit</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP17</td>
+        <td>Domiciliazione postale</td>
+        <td>Postal Direct Debit</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP19</td>
+        <td>SEPA Direct Debit</td>
+        <td>SEPA Direct Debit</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP20</td>
+        <td>SEPA Direct Debit CORE</td>
+        <td>SEPA Direct Debit CORE</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP21</td>
+        <td>SEPA Direct Debit B2B</td>
+        <td>SEPA Direct Debit B2B</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP22</td>
+        <td>Trattenuta su somme già riscosse</td>
+        <td>Withholding on Collected Amounts</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>MP23</td>
+        <td>PagoPA</td>
+        <td>PagoPA</td>
+    </tr>
+    </table>
 
     # Payment Periodicity Code (payment_periodicity_code)
 
