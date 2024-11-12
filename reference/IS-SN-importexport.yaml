@@ -21,142 +21,118 @@ info:
         <td>Codice</td>
         <td>Metodo di Pagamento (IT)</td>
         <td>Payment Method (EN)</td>
-        <td></td>
     </tr>
     <tr>
-        <td></td>
         <td>MP09</td>
         <td>RID</td>
         <td>Direct Debit</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP01</td>
         <td>Contanti</td>
         <td>Cash</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP02</td>
         <td>Assegno</td>
         <td>Check</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP05</td>
         <td>Bonifico</td>
         <td>Bank Transfer</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP12</td>
         <td>Ricevuta bancaria</td>
         <td>Bank Receipt</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP18</td>
         <td>Bollettino di c/c postale</td>
         <td>Postal Account Payment Form</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP03</td>
         <td>Assegno circolare</td>
         <td>Bank Draft</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP04</td>
         <td>Contanti presso Tesoreria</td>
         <td>Cash at Treasury</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP06</td>
         <td>Vaglia cambiario</td>
         <td>Money Order</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP07</td>
         <td>Bollettino bancario</td>
         <td>Bank Payment Form</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP08</td>
         <td>Carta di pagamento</td>
         <td>Payment Card</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP10</td>
         <td>RID utenze</td>
         <td>Utility Direct Debit</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP11</td>
         <td>RID veloce</td>
         <td>Fast Direct Debit</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP13</td>
         <td>MAV</td>
         <td>MAV (Payment by Notice)</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP14</td>
         <td>Quietanza erario stato</td>
         <td>State Treasury Receipt</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP15</td>
         <td>Giroconto su conti di contabilità speciale</td>
         <td>Transfer on Special Accounting Accounts</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP16</td>
         <td>Domiciliazione bancaria</td>
         <td>Bank Direct Debit</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP17</td>
         <td>Domiciliazione postale</td>
         <td>Postal Direct Debit</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP19</td>
         <td>SEPA Direct Debit</td>
         <td>SEPA Direct Debit</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP20</td>
         <td>SEPA Direct Debit CORE</td>
         <td>SEPA Direct Debit CORE</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP21</td>
         <td>SEPA Direct Debit B2B</td>
         <td>SEPA Direct Debit B2B</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP22</td>
         <td>Trattenuta su somme già riscosse</td>
         <td>Withholding on Collected Amounts</td>
     </tr>
     <tr>
-        <td></td>
         <td>MP23</td>
         <td>PagoPA</td>
         <td>PagoPA</td>
@@ -165,77 +141,355 @@ info:
 
     # Payment Periodicity Code (payment_periodicity_code)
 
-    | Codice | Descrizione (IT)  | Descrizione (EN)  |
-    |--------|-------------------|------------------|
-    | N      | Immediata         | Immediate        |
-    | W      | Settimanale       | Weekly           |
-    | D      | Decade            | Ten-day period   |
-    | F      | Quindicinale      | Biweekly         |
-    | M      | Mensile           | Monthly          |
-    | B      | Bimestrale        | Bimonthly        |
-    | Q      | Trimestrale       | Quarterly        |
-    | X      | Nessuna           | None             |
+    <table>
+    <tr>
+        <td>Codice</td>
+        <td>Descrizione (IT)</td>
+        <td>Descrizione (EN)</td>
+    </tr>
+    <tr>
+        <td>N</td>
+        <td>Immediata</td>
+        <td>Immediate</td>
+    </tr>
+    <tr>
+        <td>W</td>
+        <td>Settimanale</td>
+        <td>Weekly</td>
+    </tr>
+    <tr>
+        <td>D</td>
+        <td>Decade</td>
+        <td>Ten-day period</td>
+    </tr>
+    <tr>
+        <td>F</td>
+        <td>Quindicinale</td>
+        <td>Biweekly</td>
+    </tr>
+    <tr>
+        <td>M</td>
+        <td>Mensile</td>
+        <td>Monthly</td>
+    </tr>
+    <tr>
+        <td>B</td>
+        <td>Bimestrale</td>
+        <td>Bimonthly</td>
+    </tr>
+    <tr>
+        <td>Q</td>
+        <td>Trimestrale</td>
+        <td>Quarterly</td>
+    </tr>
+    <tr>
+        <td>X</td>
+        <td>Nessuna</td>
+        <td>None</td>
+    </tr>
+    </table>
 
     # Terms of Payment Code (payment_terms_code)
 
-    | Codice | Descrizione (IT)                  | Descrizione (EN)                  |
-    |--------|-----------------------------------|-----------------------------------|
-    | 002    | 5 gg data fattura                 | 5 days from invoice date          |
-    | 003    | 15 gg data fattura                | 15 days from invoice date         |
-    | 004    | 30 gg fine mese data fattura      | 30 days end of month from invoice |
-    | 005    | 60 gg fine mese data fattura      | 60 days end of month from invoice |
-    | 006    | 90 gg fine mese data fattura      | 90 days end of month from invoice |
-    | 022    | Data Fattura                      | Invoice Date                      |
-    | 023    | 25 gg data fattura                | 25 days from invoice date         |
-    | 026    | 30 gg data fattura                | 30 days from invoice date         |
-    | 027    | 45 gg data fattura                | 45 days from invoice date         |
-    | 028    | 35 gg data fattura                | 35 days from invoice date         |
-    | 029    | 40 gg data fattura                | 40 days from invoice date         |
-    | 030    | 60 gg fine mese + 12gg            | 60 days end of month + 12 days    |
-    | 031    | 30 gg fine mese + 12gg            | 30 days end of month + 12 days    |
-    | 032    | 20 gg data fattura                | 20 days from invoice date         |
-    | 033    | 30 gg fine mese + 8gg             | 30 days end of month + 8 days     |
-    | 034    | 60 gg fine mese + 10gg            | 60 days end of month + 10 days    |
-    | 035    | 30 gg fine mese + 5gg             | 30 days end of month + 5 days     |
-    | 036    | 30 gg fine mese + 10gg            | 30 days end of month + 10 days    |
-    | 037    | 60 gg fine mese + 15gg            | 60 days end of month + 15 days    |
-    | 038    | 10 gg data fattura                | 10 days from invoice date         |
-    | 039    | 30 gg fine mese + 15gg            | 30 days end of month + 15 days    |
-    | 040    | 60 gg fine mese + 5gg             | 60 days end of month + 5 days     |
-    | 041    | 60 gg data fattura                | 60 days from invoice date         |
-    | 042    | 90 gg fine mese + 10gg            | 90 days end of month + 10 days    |
-    | 043    | 90 gg data fattura                | 90 days from invoice date         |
-    | 044    | 6 gg data fattura                 | 6 days from invoice date          |
+    <table>
+    <tr>
+        <td>Codice</td>
+        <td>Descrizione (IT)</td>
+        <td>Descrizione (EN)</td>
+    </tr>
+    <tr>
+        <td>002</td>
+        <td>5 gg data fattura</td>
+        <td>5 days from invoice date</td>
+    </tr>
+    <tr>
+        <td>003</td>
+        <td>15 gg data fattura</td>
+        <td>15 days from invoice date</td>
+    </tr>
+    <tr>
+        <td>004</td>
+        <td>30 gg fine mese data fattura</td>
+        <td>30 days end of month from invoice</td>
+    </tr>
+    <tr>
+        <td>005</td>
+        <td>60 gg fine mese data fattura</td>
+        <td>60 days end of month from invoice</td>
+    </tr>
+    <tr>
+        <td>006</td>
+        <td>90 gg fine mese data fattura</td>
+        <td>90 days end of month from invoice</td>
+    </tr>
+    <tr>
+        <td>022</td>
+        <td>Data Fattura</td>
+        <td>Invoice Date</td>
+    </tr>
+    <tr>
+        <td>023</td>
+        <td>25 gg data fattura</td>
+        <td>25 days from invoice date</td>
+    </tr>
+    <tr>
+        <td>026</td>
+        <td>30 gg data fattura</td>
+        <td>30 days from invoice date</td>
+    </tr>
+    <tr>
+        <td>027</td>
+        <td>45 gg data fattura</td>
+        <td>45 days from invoice date</td>
+    </tr>
+    <tr>
+        <td>028</td>
+        <td>35 gg data fattura</td>
+        <td>35 days from invoice date</td>
+    </tr>
+    <tr>
+        <td>029</td>
+        <td>40 gg data fattura</td>
+        <td>40 days from invoice date</td>
+    </tr>
+    <tr>
+        <td>030</td>
+        <td>60 gg fine mese + 12gg</td>
+        <td>60 days end of month + 12 days</td>
+    </tr>
+    <tr>
+        <td>031</td>
+        <td>30 gg fine mese + 12gg</td>
+        <td>30 days end of month + 12 days</td>
+    </tr>
+    <tr>
+        <td>032</td>
+        <td>20 gg data fattura</td>
+        <td>20 days from invoice date</td>
+    </tr>
+    <tr>
+        <td>033</td>
+        <td>30 gg fine mese + 8gg</td>
+        <td>30 days end of month + 8 days</td>
+    </tr>
+    <tr>
+        <td>034</td>
+        <td>60 gg fine mese + 10gg</td>
+        <td>60 days end of month + 10 days</td>
+    </tr>
+    <tr>
+        <td>035</td>
+        <td>30 gg fine mese + 5gg</td>
+        <td>30 days end of month + 5 days</td>
+    </tr>
+    <tr>
+        <td>036</td>
+        <td>30 gg fine mese + 10gg</td>
+        <td>30 days end of month + 10 days</td>
+    </tr>
+    <tr>
+        <td>037</td>
+        <td>60 gg fine mese + 15gg</td>
+        <td>60 days end of month + 15 days</td>
+    </tr>
+    <tr>
+        <td>038</td>
+        <td>10 gg data fattura</td>
+        <td>10 days from invoice date</td>
+    </tr>
+    <tr>
+        <td>039</td>
+        <td>30 gg fine mese + 15gg</td>
+        <td>30 days end of month + 15 days</td>
+    </tr>
+    <tr>
+        <td>040</td>
+        <td>60 gg fine mese + 5gg</td>
+        <td>60 days end of month + 5 days</td>
+    </tr>
+    <tr>
+        <td>041</td>
+        <td>60 gg data fattura</td>
+        <td>60 days from invoice date</td>
+    </tr>
+    <tr>
+        <td>042</td>
+        <td>90 gg fine mese + 10gg</td>
+        <td>90 days end of month + 10 days</td>
+    </tr>
+    <tr>
+        <td>043</td>
+        <td>90 gg data fattura</td>
+        <td>90 days from invoice date</td>
+    </tr>
+    <tr>
+        <td>044</td>
+        <td>6 gg data fattura</td>
+        <td>6 days from invoice date</td>
+    </tr>
+    </table>
 
     # Vat Code (vat_code)
 
-    | Codice | Descrizione breve    | Descrizione (IT)                                           | Descrizione (EN)                                                 |
-    |--------|----------------------|-----------------------------------------------------------|------------------------------------------------------------------|
-    | 001    | IVA al 4%            | IVA al 4%                                                 | VAT at 4%                                                        |
-    | 002    | IVA al 10%           | IVA al 10%                                                | VAT at 10%                                                       |
-    | 003    | Ordinaria            | Ordinaria                                                 | Standard                                                         |
-    | 004    | Esente N1            | Escluse ex art.15                                         | Excluded under art.15                                            |
-    | 007    | Esente N4            | Esenti                                                    | Exempt                                                           |
-    | 008    | Esente N5            | Regime del margine / IVA non esposta in fattura           | Margin scheme / VAT not shown on invoice                         |
-    | 010    | Esente N7            | IVA assolta in altro stato UE                             | VAT paid in another EU state                                     |
-    | 011    | Esente N2.1          | non soggette ad IVA ai sensi degli artt. Da 7 a 7-septies del DPR 633/72 | Not subject to VAT under articles 7 to 7-septies of DPR 633/72   |
-    | 012    | Esente N2.2          | non soggette – altri casi                                 | Not subject – other cases                                        |
-    | 013    | Esente N3.1          | non imponibili – esportazioni                             | Non-taxable – exports                                            |
-    | 014    | Esente N3.2          | non imponibili – cessioni intracomunitarie                | Non-taxable – intra-community supplies                           |
-    | 015    | Esente N3.3          | non imponibili – cessioni verso San Marino                | Non-taxable – supplies to San Marino                             |
-    | 016    | Esente N3.4          | non imponibili – operazioni assimilate alle cessioni all’esportazione | Non-taxable – operations equivalent to exports              |
-    | 017    | Esente N3.5          | non imponibili – a seguito di dichiarazioni d’intento     | Non-taxable – following declarations of intent                   |
-    | 018    | Esente N3.6          | non imponibili – altre operazioni che non concorrono alla formazione del plafond | Non-taxable – other operations that do not contribute to the threshold |
-    | 019    | Esente N6.1          | inversione contabile – cessione di rottami e altri materiali di recupero | Reverse charge – supply of scrap and other recoverable materials |
-    | 020    | Esente N6.2          | inversione contabile – cessione di oro e argento puro     | Reverse charge – supply of gold and pure silver                  |
-    | 021    | Esente N6.3          | inversione contabile – subappalto nel settore edile       | Reverse charge – subcontracting in the construction sector       |
-    | 022    | Esente N6.4          | inversione contabile – cessione di fabbricati             | Reverse charge – supply of buildings                             |
-    | 023    | Esente N6.5          | inversione contabile – cessione di telefoni cellulari     | Reverse charge – supply of mobile phones                         |
-    | 024    | Esente N6.6          | inversione contabile – cessione di prodotti elettronici   | Reverse charge – supply of electronic products                   |
-    | 025    | Esente N6.7          | inversione contabile – prestazioni comparto edile e settori connessi | Reverse charge – services in the construction sector and related sectors |
-    | 026    | Esente N6.8          | inversione contabile – operazioni settore energetico      | Reverse charge – operations in the energy sector                 |
-    | 027    | Esente N6.9          | inversione contabile – altri casi                         | Reverse charge – other cases                                     |
-    | 028    | IVA al 5%            | IVA al 5%                                                 | VAT at 5%                             |
+    <table>
+    <tr>
+        <td>Codice</td>
+        <td>Descrizione breve</td>
+        <td>Descrizione (IT)</td>
+        <td>Descrizione (EN)</td>
+    </tr>
+    <tr>
+        <td>001</td>
+        <td>IVA al 4%</td>
+        <td>IVA al 4%</td>
+        <td>VAT at 4%</td>
+    </tr>
+    <tr>
+        <td>002</td>
+        <td>IVA al 10%</td>
+        <td>IVA al 10%</td>
+        <td>VAT at 10%</td>
+    </tr>
+    <tr>
+        <td>003</td>
+        <td>Ordinaria</td>
+        <td>Ordinaria</td>
+        <td>Standard</td>
+    </tr>
+    <tr>
+        <td>004</td>
+        <td>Esente N1</td>
+        <td>Escluse ex art.15</td>
+        <td>Excluded under art.15</td>
+    </tr>
+    <tr>
+        <td>007</td>
+        <td>Esente N4</td>
+        <td>Esenti</td>
+        <td>Exempt</td>
+    </tr>
+    <tr>
+        <td>008</td>
+        <td>Esente N5</td>
+        <td>Regime del margine / IVA non esposta in fattura</td>
+        <td>Margin scheme / VAT not shown on invoice</td>
+    </tr>
+    <tr>
+        <td>010</td>
+        <td>Esente N7</td>
+        <td>IVA assolta in altro stato UE</td>
+        <td>VAT paid in another EU state</td>
+    </tr>
+    <tr>
+        <td>011</td>
+        <td>Esente N2.1</td>
+        <td>non soggette ad IVA ai sensi degli artt. Da 7 a 7-septies del DPR 633/72</td>
+        <td>Not subject to VAT under articles 7 to 7-septies of DPR 633/72</td>
+    </tr>
+    <tr>
+        <td>012</td>
+        <td>Esente N2.2</td>
+        <td>non soggette – altri casi</td>
+        <td>Not subject – other cases</td>
+    </tr>
+    <tr>
+        <td>013</td>
+        <td>Esente N3.1</td>
+        <td>non imponibili – esportazioni</td>
+        <td>Non-taxable – exports</td>
+    </tr>
+    <tr>
+        <td>014</td>
+        <td>Esente N3.2</td>
+        <td>non imponibili – cessioni intracomunitarie</td>
+        <td>Non-taxable – intra-community supplies</td>
+    </tr>
+    <tr>
+        <td>015</td>
+        <td>Esente N3.3</td>
+        <td>non imponibili – cessioni verso San Marino</td>
+        <td>Non-taxable – supplies to San Marino</td>
+    </tr>
+    <tr>
+        <td>016</td>
+        <td>Esente N3.4</td>
+        <td>non imponibili – operazioni assimilate alle cessioni all’esportazione</td>
+        <td>Non-taxable – operations equivalent to exports</td>
+    </tr>
+    <tr>
+        <td>017</td>
+        <td>Esente N3.5</td>
+        <td>non imponibili – a seguito di dichiarazioni d’intento</td>
+        <td>Non-taxable – following declarations of intent</td>
+    </tr>
+    <tr>
+        <td>018</td>
+        <td>Esente N3.6</td>
+        <td>non imponibili – altre operazioni che non concorrono alla formazione del plafond</td>
+        <td>Non-taxable – other operations that do not contribute to the threshold</td>
+    </tr>
+    <tr>
+        <td>019</td>
+        <td>Esente N6.1</td>
+        <td>inversione contabile – cessione di rottami e altri materiali di recupero</td>
+        <td>Reverse charge – supply of scrap and other recoverable materials</td>
+    </tr>
+    <tr>
+        <td>020</td>
+        <td>Esente N6.2</td>
+        <td>inversione contabile – cessione di oro e argento puro</td>
+        <td>Reverse charge – supply of gold and pure silver</td>
+    </tr>
+    <tr>
+        <td>021</td>
+        <td>Esente N6.3</td>
+        <td>inversione contabile – subappalto nel settore edile</td>
+        <td>Reverse charge – subcontracting in the construction sector</td>
+    </tr>
+    <tr>
+        <td>022</td>
+        <td>Esente N6.4</td>
+        <td>inversione contabile – cessione di fabbricati</td>
+        <td>Reverse charge – supply of buildings</td>
+    </tr>
+    <tr>
+        <td>023</td>
+        <td>Esente N6.5</td>
+        <td>inversione contabile – cessione di telefoni cellulari</td>
+        <td>Reverse charge – supply of mobile phones</td>
+    </tr>
+    <tr>
+        <td>024</td>
+        <td>Esente N6.6</td>
+        <td>inversione contabile – cessione di prodotti elettronici</td>
+        <td>Reverse charge – supply of electronic products</td>
+    </tr>
+    <tr>
+        <td>025</td>
+        <td>Esente N6.7</td>
+        <td>inversione contabile – prestazioni comparto edile e settori connessi</td>
+        <td>Reverse charge – services in the construction sector and related sectors</td>
+    </tr>
+    <tr>
+        <td>026</td>
+        <td>Esente N6.8</td>
+        <td>inversione contabile – operazioni settore energetico</td>
+        <td>Reverse charge – operations in the energy sector</td>
+    </tr>
+    <tr>
+        <td>027</td>
+        <td>Esente N6.9</td>
+        <td>inversione contabile – altri casi</td>
+        <td>Reverse charge – other cases</td>
+    </tr>
+    <tr>
+        <td>028</td>
+        <td>IVA al 5%</td>
+        <td>IVA al 5%</td>
+        <td>VAT at 5%</td>
+    </tr>
+    </table>
+
 servers:
   - url: 'https://mxp-import-export-sn.dev.icadsistemi.com/v1'
     description: development
