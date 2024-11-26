@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: 0.2.21
+  version: 0.2.22
   description: |
     # Selfnet Import Export api documentation
 
@@ -1524,7 +1524,120 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/fuelcouponsTransactionsResponse'
+                type: array
+                x-examples:
+                  Example 1:
+                    - id: 2011785
+                      datetime: '2024-02-19T14:59:17Z'
+                      ins_datetime: '2024-02-19T14:59:00Z'
+                      standalone: true
+                      price: 1.868
+                      quantity: 26.77
+                      terminal_id: POS
+                      transaction_number: 37394
+                      supply: 50
+                      product_code: '1'
+                      product_name: VERDE
+                      measure: Lt
+                      vat: 22
+                      fuel_station_storeid: IS380029
+                      fuel_station_code: '00000007'
+                      fuel_station_name: Costantin PV Jesolo
+                      residue: 0
+                      used_amount: 50
+                      coupon_code: '0000000000009965082929643'
+                      coupon_number: 559771
+                      coupon_type: 1
+                      coupon_value: 50
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: fuelcoupon transaction identifier
+                    datetime:
+                      type: string
+                      description: datetime of the transaction
+                    ins_datetime:
+                      type: string
+                      description: inserted datetime of the transaction
+                    standalone:
+                      type: boolean
+                    quantity:
+                      type: number
+                      description: quantity
+                    price:
+                      type: number
+                      description: 'price '
+                    terminal_id:
+                      type: string
+                      description: Terminal id whose performed the transaction
+                    transaction_number:
+                      type: integer
+                      description: transaction number identifier
+                    supply:
+                      type: number
+                    product_code:
+                      type: string
+                      description: code of the item purchased
+                    product_name:
+                      type: string
+                      description: Name of the product purchased
+                    vat:
+                      type: integer
+                      description: Applied VAT rate
+                    measure:
+                      type: string
+                      description: Unit of measure
+                    fuel_station_storeid:
+                      type: string
+                    fuel_station_code:
+                      type: string
+                    fuel_station_name:
+                      type: string
+                    residue:
+                      type: number
+                      description: Amount remaining after purchase
+                    used_amount:
+                      type: number
+                      description: Amount used after purchase
+                    coupon_code:
+                      type: string
+                      description: Code of the coupon utilized
+                    coupon_number:
+                      type: integer
+                      description: Number of the coupon
+                    coupon_type:
+                      type: integer
+                      description: type of the coupon
+                    coupon_value:
+                      type: integer
+                      description: Amount of the coupon when created
+              examples:
+                Example 1:
+                  value:
+                    - id: 0
+                      datetime: string
+                      ins_datetime: string
+                      standalone: true
+                      price: 0
+                      quantity: 0
+                      terminal_id: string
+                      transaction_number: 0
+                      supply: 0
+                      product_code: string
+                      product_name: string
+                      measure: string
+                      vat: 0
+                      fuel_station_storeid: string
+                      fuel_station_code: string
+                      fuel_station_name: string
+                      residue: 0
+                      used_amount: 0
+                      coupon_code: string
+                      coupon_number: 0
+                      coupon_type: 0
+                      coupon_value: 0
         '401':
           description: Unauthorized
         '403':
@@ -2355,6 +2468,29 @@ components:
             coupon_code: string
             coupon_number: 0
             coupon_residue: 0
+            coupon_type: 0
+            coupon_value: 0
+      examples:
+        - - id: 0
+            datetime: string
+            ins_datetime: string
+            standalone: true
+            price: 0
+            quantity: 0
+            terminal_id: string
+            transaction_number: 0
+            supply: 0
+            product_code: string
+            product_name: string
+            measure: string
+            vat: 0
+            fuel_station_storeid: string
+            fuel_station_code: string
+            fuel_station_name: string
+            residue: 0
+            used_amount: 0
+            coupon_code: string
+            coupon_number: 0
             coupon_type: 0
             coupon_value: 0
       items:
