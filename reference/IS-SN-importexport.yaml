@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: 0.2.20
+  version: 0.2.21
   description: |
     # Selfnet Import Export api documentation
 
@@ -489,7 +489,6 @@ info:
         <td>VAT at 5%</td>
     </tr>
     </table>
-
 servers:
   - url: 'https://mxp-import-export-sn.dev.icadsistemi.com/v1'
     description: development
@@ -2385,7 +2384,7 @@ components:
             type: integer
             description: Transaction number
           supply:
-            type: integer
+            type: number
           product_code:
             type: string
             description: code of the item purchased
@@ -2407,22 +2406,28 @@ components:
           fuel_station_name:
             type: string
             description: Name of the fuelstation
+          residue:
+            type: number
+            description: Amount remaining after purchase
+            x-stoplight:
+              id: kfs52tpb1f6hy
+          used_amount:
+            type: number
+            description: Amount used after purchase
+            x-stoplight:
+              id: kfs52tpb1f6hy
           coupon_code:
             type: string
             description: Code of the coupon utilized
           coupon_number:
             type: integer
             description: Number of the coupon
-          coupon_residue:
-            type: integer
-            description: Amount remaining after purchase
           coupon_type:
             type: integer
             description: type of the coupon
           coupon_value:
             type: integer
             description: Amount of the coupon when created
-      description: ''
     fuelcouponsTransactions:
       type: array
       x-examples:
