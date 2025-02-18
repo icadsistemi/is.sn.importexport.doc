@@ -1047,20 +1047,15 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                supplier_code:
-                  type: string
-                progressive_number:
-                  type: integer
-                  description: 'Unique progressive number for recharge request by supplier_code [optional]'
-                recharges:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Recharges'
-              required:
-                - supplier_code
-                - recharges
+              $ref: '#/components/schemas/InputRecharges'
+            examples:
+              Example 1:
+                value:
+                  supplier_code: string
+                  progressive_number: 0
+                  recharges:
+                    - card_pan: string
+                      amount: 0
       description: Request to recharge a list of cards
   /transactions:
     get:
@@ -2648,6 +2643,24 @@ components:
           type: number
           x-stoplight:
             id: 9qg7ncp28mgb9
+    InputRecharges:
+      type: object
+      x-examples:
+        Example 1:
+          supplier_code: string
+          progressive_number: 0
+          recharges:
+            - card_pan: string
+              amount: 0
+      properties:
+        supplier_code:
+          type: string
+        progressive_number:
+          type: integer
+        recharges:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recharges'
   securitySchemes:
     Cognito:
       type: oauth2
