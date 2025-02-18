@@ -1902,6 +1902,32 @@ ul.nav-tabs {
     "id" : "acre3cu5aoowi"
   }
 };
+    defs["InputRecharges"] = {
+  "properties" : {
+    "supplier_code" : {
+      "type" : "string"
+    },
+    "progressive_number" : {
+      "type" : "integer"
+    },
+    "recharges" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/components/schemas/Recharges"
+      }
+    }
+  },
+  "x-examples" : {
+    "Example 1" : {
+      "supplier_code" : "string",
+      "progressive_number" : 0,
+      "recharges" : [ {
+        "card_pan" : "string",
+        "amount" : 0
+      } ]
+    }
+  }
+};
     defs["InvoicesActiveResponse"] = {
   "title" : "Invoices active response",
   "properties" : {
@@ -2198,24 +2224,6 @@ ul.nav-tabs {
         "vat_code" : "001",
         "total_recharge" : 1500
       } ]
-    }
-  }
-};
-    defs["post_recharges_request"] = {
-  "required" : [ "recharges", "supplier_code" ],
-  "properties" : {
-    "supplier_code" : {
-      "type" : "string"
-    },
-    "progressive_number" : {
-      "type" : "integer",
-      "description" : "Unique progressive number for recharge request by supplier_code [optional]"
-    },
-    "recharges" : {
-      "type" : "array",
-      "items" : {
-        "$ref" : "#/components/schemas/Recharges"
-      }
     }
   }
 };
@@ -8856,7 +8864,17 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Content-Type: application/json" \
  "https://mxp-import-export-sn.dev.icadsistemi.com/v1/recharges" \
- -d ''
+ -d '{
+  &quot;recharges&quot; : [ {
+    &quot;amount&quot; : 6.027456183070403,
+    &quot;card_pan&quot; : &quot;card_pan&quot;
+  }, {
+    &quot;amount&quot; : 6.027456183070403,
+    &quot;card_pan&quot; : &quot;card_pan&quot;
+  } ],
+  &quot;progressive_number&quot; : 0,
+  &quot;supplier_code&quot; : &quot;supplier_code&quot;
+}'
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-postRecharges-0-java">
@@ -8873,10 +8891,10 @@ public class DefaultApiExample {
 
         // Create an instance of the API class
         DefaultApi apiInstance = new DefaultApi();
-        PostRechargesRequest postRechargesRequest = ; // PostRechargesRequest | 
+        InputRecharges inputRecharges = {"supplier_code":"string","progressive_number":0,"recharges":[{"card_pan":"string","amount":0}]}; // InputRecharges | 
 
         try {
-            apiInstance.postRecharges(postRechargesRequest);
+            apiInstance.postRecharges(inputRecharges);
         } catch (ApiException e) {
             System.err.println("Exception when calling DefaultApi#postRecharges");
             e.printStackTrace();
@@ -8891,10 +8909,10 @@ public class DefaultApiExample {
 
 final api_instance = DefaultApi();
 
-final PostRechargesRequest postRechargesRequest = new PostRechargesRequest(); // PostRechargesRequest | 
+final InputRecharges inputRecharges = new InputRecharges(); // InputRecharges | 
 
 try {
-    final result = await api_instance.postRecharges(postRechargesRequest);
+    final result = await api_instance.postRecharges(inputRecharges);
     print(result);
 } catch (e) {
     print('Exception when calling DefaultApi->postRecharges: $e\n');
@@ -8909,10 +8927,10 @@ try {
 public class DefaultApiExample {
     public static void main(String[] args) {
         DefaultApi apiInstance = new DefaultApi();
-        PostRechargesRequest postRechargesRequest = ; // PostRechargesRequest | 
+        InputRecharges inputRecharges = {"supplier_code":"string","progressive_number":0,"recharges":[{"card_pan":"string","amount":0}]}; // InputRecharges | 
 
         try {
-            apiInstance.postRecharges(postRechargesRequest);
+            apiInstance.postRecharges(inputRecharges);
         } catch (ApiException e) {
             System.err.println("Exception when calling DefaultApi#postRecharges");
             e.printStackTrace();
@@ -8929,10 +8947,10 @@ public class DefaultApiExample {
 
 // Create an instance of the API class
 DefaultApi *apiInstance = [[DefaultApi alloc] init];
-PostRechargesRequest *postRechargesRequest = ; //  (optional)
+InputRecharges *inputRecharges = {"supplier_code":"string","progressive_number":0,"recharges":[{"card_pan":"string","amount":0}]}; //  (optional)
 
 // Request a new recharge
-[apiInstance postRechargesWith:postRechargesRequest
+[apiInstance postRechargesWith:inputRecharges
               completionHandler: ^(NSError* error) {
     if (error) {
         NSLog(@"Error: %@", error);
@@ -8947,7 +8965,7 @@ PostRechargesRequest *postRechargesRequest = ; //  (optional)
 // Create an instance of the API class
 var api = new ImportExportSelfnet.DefaultApi()
 var opts = {
-  'postRechargesRequest':  // {PostRechargesRequest} 
+  'inputRecharges': {"supplier_code":"string","progressive_number":0,"recharges":[{"card_pan":"string","amount":0}]} // {InputRecharges} 
 };
 
 var callback = function(error, data, response) {
@@ -8980,11 +8998,11 @@ namespace Example
 
             // Create an instance of the API class
             var apiInstance = new DefaultApi();
-            var postRechargesRequest = new PostRechargesRequest(); // PostRechargesRequest |  (optional) 
+            var inputRecharges = new InputRecharges(); // InputRecharges |  (optional) 
 
             try {
                 // Request a new recharge
-                apiInstance.postRecharges(postRechargesRequest);
+                apiInstance.postRecharges(inputRecharges);
             } catch (Exception e) {
                 Debug.Print("Exception when calling DefaultApi.postRecharges: " + e.Message );
             }
@@ -9000,10 +9018,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 // Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\DefaultApi();
-$postRechargesRequest = ; // PostRechargesRequest | 
+$inputRecharges = {"supplier_code":"string","progressive_number":0,"recharges":[{"card_pan":"string","amount":0}]}; // InputRecharges | 
 
 try {
-    $api_instance->postRecharges($postRechargesRequest);
+    $api_instance->postRecharges($inputRecharges);
 } catch (Exception $e) {
     echo 'Exception when calling DefaultApi->postRecharges: ', $e->getMessage(), PHP_EOL;
 }
@@ -9017,10 +9035,10 @@ use WWW::OPenAPIClient::DefaultApi;
 
 # Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::DefaultApi->new();
-my $postRechargesRequest = WWW::OPenAPIClient::Object::PostRechargesRequest->new(); # PostRechargesRequest | 
+my $inputRecharges = WWW::OPenAPIClient::Object::InputRecharges->new(); # InputRecharges | 
 
 eval {
-    $api_instance->postRecharges(postRechargesRequest => $postRechargesRequest);
+    $api_instance->postRecharges(inputRecharges => $inputRecharges);
 };
 if ($@) {
     warn "Exception when calling DefaultApi->postRecharges: $@\n";
@@ -9036,11 +9054,11 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = openapi_client.DefaultApi()
-postRechargesRequest =  # PostRechargesRequest |  (optional)
+inputRecharges = {"supplier_code":"string","progressive_number":0,"recharges":[{"card_pan":"string","amount":0}]} # InputRecharges |  (optional)
 
 try:
     # Request a new recharge
-    api_instance.post_recharges(postRechargesRequest=postRechargesRequest)
+    api_instance.post_recharges(inputRecharges=inputRecharges)
 except ApiException as e:
     print("Exception when calling DefaultApi->postRecharges: %s\n" % e)</code></pre>
                             </div>
@@ -9049,10 +9067,10 @@ except ApiException as e:
                               <pre class="prettyprint"><code class="language-rust">extern crate DefaultApi;
 
 pub fn main() {
-    let postRechargesRequest = ; // PostRechargesRequest
+    let inputRecharges = {"supplier_code":"string","progressive_number":0,"recharges":[{"card_pan":"string","amount":0}]}; // InputRecharges
 
     let mut context = DefaultApi::Context::default();
-    let result = client.postRecharges(postRechargesRequest, &context).wait();
+    let result = client.postRecharges(inputRecharges, &context).wait();
 
     println!("{:?}", result);
 }
@@ -9075,7 +9093,7 @@ pub fn main() {
                                 <th width="150px">Name</th>
                                 <th>Description</th>
                               </tr>
-                                <tr><td style="width:150px;">postRechargesRequest </td>
+                                <tr><td style="width:150px;">inputRecharges </td>
 <td>
 <p class="marked"></p>
 <script>
@@ -9084,7 +9102,19 @@ $(document).ready(function() {
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/post_recharges_request"
+        "$ref" : "#/components/schemas/InputRecharges"
+      },
+      "examples" : {
+        "Example 1" : {
+          "value" : {
+            "supplier_code" : "string",
+            "progressive_number" : 0,
+            "recharges" : [ {
+              "card_pan" : "string",
+              "amount" : 0
+            } ]
+          }
+        }
       }
     }
   }
@@ -9106,12 +9136,12 @@ $(document).ready(function() {
   }
 
   var view = new JSONSchemaView(schema,2,{isBodyParam: true});
-  var result = $('#d2e199_postRecharges_postRechargesRequest');
+  var result = $('#d2e199_postRecharges_inputRecharges');
   result.empty();
   result.append(view.render());
 });
 </script>
-<div id="d2e199_postRecharges_postRechargesRequest"></div>
+<div id="d2e199_postRecharges_inputRecharges"></div>
 </td>
 </tr>
 
