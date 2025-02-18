@@ -739,7 +739,7 @@ paths:
           in: query
           name: customer_code
           description: 'Code of the customer, must be unique in the supplier context'
-      x-internal: true
+      x-internal: false
     post:
       summary: Create customer
       operationId: post-customers
@@ -804,7 +804,7 @@ paths:
               properties:
                 supplier_code:
                   type: string
-                '':
+                customer:
                   $ref: '#/components/schemas/Customers'
                   x-stoplight:
                     id: 3l2yxyrafx634
@@ -1057,15 +1057,7 @@ paths:
                 recharges:
                   type: array
                   items:
-                    type: object
-                    properties:
-                      card_pan:
-                        type: string
-                      amount:
-                        type: number
-                    required:
-                      - card_pan
-                      - amount
+                    $ref: '#/components/schemas/Recharges'
               required:
                 - supplier_code
                 - recharges
@@ -1800,6 +1792,13 @@ components:
           x-stoplight:
             id: 1kauwz61615i3
           description: Code type
+          enum:
+            - 0 - NON DEFINITO
+            - 1 - SCONTO
+            - 2 - FINEMESE
+            - 3 - RICARICABILE
+            - 4 - RACCOLTA PUNTI
+            - 6 - BUONO CARB.
         expire_datetime:
           type: string
           format: date-time
@@ -2635,6 +2634,20 @@ components:
           coupon_value:
             type: integer
       description: ''
+    Recharges:
+      title: Recharges
+      x-stoplight:
+        id: hb82nlr8p8d4w
+      type: object
+      properties:
+        card_pan:
+          type: string
+          x-stoplight:
+            id: gxj364v2h6orr
+        amount:
+          type: number
+          x-stoplight:
+            id: 9qg7ncp28mgb9
   securitySchemes:
     Cognito:
       type: oauth2
