@@ -1185,7 +1185,7 @@ ul.nav-tabs {
     }
   }
 };
-    defs["Customers_inner"] = {
+    defs["Customer"] = {
   "properties" : {
     "code" : {
       "type" : "string",
@@ -1342,6 +1342,50 @@ ul.nav-tabs {
     "total_recharge" : {
       "type" : "integer",
       "description" : "Total recharge credit,  used as output field"
+    }
+  },
+  "description" : "",
+  "x-examples" : {
+    "Example 1" : {
+      "code" : "CUST123",
+      "supplier_code" : "0001",
+      "name" : "John Doe",
+      "address" : "336 Main Street",
+      "city" : "New York",
+      "zip_code" : "10001",
+      "province" : "NY",
+      "phone_number" : "+1 555-123-4567",
+      "email" : "johndoe@example.com",
+      "pec" : "johndoe@pecmail.com",
+      "notes" : "VIP customer",
+      "vat_number" : "US123456789",
+      "fiscal_code" : "DOEJHN80A01F205X",
+      "is_enabled" : true,
+      "payment_mode_code" : "MP02",
+      "payment_periodicity_code" : "N",
+      "payment_terms_code" : "003",
+      "max_period_credit" : 10000,
+      "period_debit" : 0,
+      "exposure" : 7500,
+      "has_km_request" : false,
+      "has_km_check" : true,
+      "has_driver_request" : false,
+      "has_driver_check" : true,
+      "has_account_balance" : true,
+      "has_invoice" : false,
+      "notify_recharge" : true,
+      "notify" : false,
+      "notify1" : true,
+      "notify2" : false,
+      "notify3" : true,
+      "has_customer_recharge" : false,
+      "country_code" : "IT",
+      "sdi_code" : "",
+      "electronic_invoice" : true,
+      "oil_iban" : "US12345678912345678901",
+      "non_oil_iban" : "US98765432109876543210",
+      "vat_code" : "001",
+      "total_recharge" : 1500
     }
   }
 };
@@ -1902,6 +1946,29 @@ ul.nav-tabs {
     "id" : "acre3cu5aoowi"
   }
 };
+    defs["InputCustomers"] = {
+  "title" : "InputCustomers",
+  "properties" : {
+    "supplier_code" : {
+      "type" : "string",
+      "x-stoplight" : {
+        "id" : "gk7jx4j7ww66k"
+      }
+    },
+    "customers" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/components/schemas/Customer"
+      },
+      "x-stoplight" : {
+        "id" : "6jhddcamt1qv6"
+      }
+    }
+  },
+  "x-stoplight" : {
+    "id" : "dpm3edzmjv2nk"
+  }
+};
     defs["InputRecharges"] = {
   "properties" : {
     "supplier_code" : {
@@ -2170,61 +2237,6 @@ ul.nav-tabs {
   },
   "x-stoplight" : {
     "id" : "l0qjpp7caflu7"
-  }
-};
-    defs["post_customers_request"] = {
-  "required" : [ "supplier_code" ],
-  "properties" : {
-    "supplier_code" : {
-      "type" : "string"
-    },
-    "customer" : {
-      "$ref" : "#/components/schemas/Customers"
-    }
-  },
-  "x-examples" : {
-    "Example 1" : {
-      "supplier_code" : "0001",
-      "customers" : [ {
-        "code" : "CUST123",
-        "name" : "John Doe",
-        "address" : "334 Main Street",
-        "city" : "New York",
-        "zip_code" : "10001",
-        "province" : "NY",
-        "phone_number" : "+1 555-123-4567",
-        "email" : "johndoe@example.com",
-        "pec" : "johndoe@pecmail.com",
-        "notes" : "VIP customer",
-        "vat_number" : "US123456789",
-        "fiscal_code" : "DOEJHN80A01F205X",
-        "is_enabled" : true,
-        "payment_mode_code" : "MP02",
-        "payment_periodicity_code" : "N",
-        "payment_terms_code" : "003",
-        "max_period_credit" : 10000,
-        "period_debit" : 2500,
-        "exposure" : 7500,
-        "has_km_request" : false,
-        "has_km_check" : true,
-        "has_driver_request" : false,
-        "has_driver_check" : true,
-        "has_account_balance" : true,
-        "has_invoice" : false,
-        "notify_recharge" : true,
-        "notify" : false,
-        "notify1" : true,
-        "notify2" : false,
-        "notify3" : true,
-        "has_customer_recharge" : false,
-        "country_code" : "IT",
-        "electronic_invoice" : true,
-        "oil_iban" : "US12345678912345678901",
-        "non_oil_iban" : "US98765432109876543210",
-        "vat_code" : "001",
-        "total_recharge" : 1500
-      } ]
-    }
   }
 };
     defs["put_fuelstations_request_inner"] = {
@@ -4183,7 +4195,7 @@ public class DefaultApiExample {
         String customerCode = customerCode_example; // String | Code of the customer, must be unique in the supplier context
 
         try {
-            array[Customers_inner] result = apiInstance.getCustomers(supplierCode, customerCode);
+            Customer result = apiInstance.getCustomers(supplierCode, customerCode);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DefaultApi#getCustomers");
@@ -4222,7 +4234,7 @@ public class DefaultApiExample {
         String customerCode = customerCode_example; // String | Code of the customer, must be unique in the supplier context
 
         try {
-            array[Customers_inner] result = apiInstance.getCustomers(supplierCode, customerCode);
+            Customer result = apiInstance.getCustomers(supplierCode, customerCode);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DefaultApi#getCustomers");
@@ -4246,7 +4258,7 @@ String *customerCode = customerCode_example; // Code of the customer, must be un
 // Get customer data
 [apiInstance getCustomersWith:supplierCode
     customerCode:customerCode
-              completionHandler: ^(array[Customers_inner] output, NSError* error) {
+              completionHandler: ^(Customer output, NSError* error) {
     if (output) {
         NSLog(@"%@", output);
     }
@@ -4302,7 +4314,7 @@ namespace Example
 
             try {
                 // Get customer data
-                array[Customers_inner] result = apiInstance.getCustomers(supplierCode, customerCode);
+                Customer result = apiInstance.getCustomers(supplierCode, customerCode);
                 Debug.WriteLine(result);
             } catch (Exception e) {
                 Debug.Print("Exception when calling DefaultApi.getCustomers: " + e.Message );
@@ -4468,9 +4480,6 @@ Code of the customer, must be unique in the supplier context
                                   <a data-toggle="tab" href="#responses-Default-getCustomers-200-schema">Schema</a>
                                 </li>
 
-                                  <li class="">
-                                    <a data-toggle="tab" href="#responses-Default-getCustomers-200-example">Response Example</a>
-                                  </li>
 
 
 
@@ -4487,7 +4496,7 @@ Code of the customer, must be unique in the supplier context
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/Customers"
+        "$ref" : "#/components/schemas/Customer"
       },
       "examples" : {
         "Example 1" : {
@@ -8193,7 +8202,90 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Content-Type: application/json" \
  "https://mxp-import-export-sn.dev.icadsistemi.com/v1/customers" \
- -d ''
+ -d '{
+  &quot;customers&quot; : [ {
+    &quot;code&quot; : &quot;code&quot;,
+    &quot;notes&quot; : &quot;notes&quot;,
+    &quot;has_customer_recharge&quot; : true,
+    &quot;city&quot; : &quot;city&quot;,
+    &quot;vat_number&quot; : &quot;vat_number&quot;,
+    &quot;notify_recharge&quot; : true,
+    &quot;payment_mode_code&quot; : &quot;payment_mode_code&quot;,
+    &quot;max_period_credit&quot; : 0,
+    &quot;total_recharge&quot; : 5,
+    &quot;fiscal_code&quot; : &quot;fiscal_code&quot;,
+    &quot;payment_terms_code&quot; : &quot;payment_terms_code&quot;,
+    &quot;zip_code&quot; : &quot;zip_code&quot;,
+    &quot;notify&quot; : true,
+    &quot;pec&quot; : &quot;pec&quot;,
+    &quot;is_enabled&quot; : true,
+    &quot;has_account_balance&quot; : true,
+    &quot;province&quot; : &quot;province&quot;,
+    &quot;electronic_invoice&quot; : true,
+    &quot;has_driver_request&quot; : true,
+    &quot;oil_iban&quot; : &quot;oil_iban&quot;,
+    &quot;has_driver_check&quot; : true,
+    &quot;email&quot; : &quot;email&quot;,
+    &quot;notify3&quot; : true,
+    &quot;vat_code&quot; : &quot;vat_code&quot;,
+    &quot;notify2&quot; : true,
+    &quot;address&quot; : &quot;address&quot;,
+    &quot;notify1&quot; : true,
+    &quot;has_km_request&quot; : true,
+    &quot;has_invoice&quot; : true,
+    &quot;has_km_check&quot; : true,
+    &quot;country_code&quot; : &quot;country_code&quot;,
+    &quot;exposure&quot; : 1,
+    &quot;name&quot; : &quot;name&quot;,
+    &quot;sdi_code&quot; : &quot;sdi_code&quot;,
+    &quot;payment_periodicity_code&quot; : &quot;payment_periodicity_code&quot;,
+    &quot;period_debit&quot; : 6,
+    &quot;phone_number&quot; : &quot;phone_number&quot;,
+    &quot;supplier_code&quot; : &quot;supplier_code&quot;,
+    &quot;non_oil_iban&quot; : &quot;non_oil_iban&quot;
+  }, {
+    &quot;code&quot; : &quot;code&quot;,
+    &quot;notes&quot; : &quot;notes&quot;,
+    &quot;has_customer_recharge&quot; : true,
+    &quot;city&quot; : &quot;city&quot;,
+    &quot;vat_number&quot; : &quot;vat_number&quot;,
+    &quot;notify_recharge&quot; : true,
+    &quot;payment_mode_code&quot; : &quot;payment_mode_code&quot;,
+    &quot;max_period_credit&quot; : 0,
+    &quot;total_recharge&quot; : 5,
+    &quot;fiscal_code&quot; : &quot;fiscal_code&quot;,
+    &quot;payment_terms_code&quot; : &quot;payment_terms_code&quot;,
+    &quot;zip_code&quot; : &quot;zip_code&quot;,
+    &quot;notify&quot; : true,
+    &quot;pec&quot; : &quot;pec&quot;,
+    &quot;is_enabled&quot; : true,
+    &quot;has_account_balance&quot; : true,
+    &quot;province&quot; : &quot;province&quot;,
+    &quot;electronic_invoice&quot; : true,
+    &quot;has_driver_request&quot; : true,
+    &quot;oil_iban&quot; : &quot;oil_iban&quot;,
+    &quot;has_driver_check&quot; : true,
+    &quot;email&quot; : &quot;email&quot;,
+    &quot;notify3&quot; : true,
+    &quot;vat_code&quot; : &quot;vat_code&quot;,
+    &quot;notify2&quot; : true,
+    &quot;address&quot; : &quot;address&quot;,
+    &quot;notify1&quot; : true,
+    &quot;has_km_request&quot; : true,
+    &quot;has_invoice&quot; : true,
+    &quot;has_km_check&quot; : true,
+    &quot;country_code&quot; : &quot;country_code&quot;,
+    &quot;exposure&quot; : 1,
+    &quot;name&quot; : &quot;name&quot;,
+    &quot;sdi_code&quot; : &quot;sdi_code&quot;,
+    &quot;payment_periodicity_code&quot; : &quot;payment_periodicity_code&quot;,
+    &quot;period_debit&quot; : 6,
+    &quot;phone_number&quot; : &quot;phone_number&quot;,
+    &quot;supplier_code&quot; : &quot;supplier_code&quot;,
+    &quot;non_oil_iban&quot; : &quot;non_oil_iban&quot;
+  } ],
+  &quot;supplier_code&quot; : &quot;supplier_code&quot;
+}'
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Default-postCustomers-0-java">
@@ -8210,10 +8302,10 @@ public class DefaultApiExample {
 
         // Create an instance of the API class
         DefaultApi apiInstance = new DefaultApi();
-        PostCustomersRequest postCustomersRequest = {"supplier_code":"string","customers":[{"code":"string","name":"string","address":"string","city":"string","zip_code":"string","province":"string","phone_number":"string","email":"string","pec":"string","notes":"string","vat_number":"string","fiscal_code":"string","is_enabled":true,"payment_mode_code":"string","payment_periodicity_code":"string","payment_terms_code":"string","max_period_credit":0,"period_debit":0,"exposure":0,"has_km_request":true,"has_km_check":true,"has_driver_request":true,"has_driver_check":true,"has_account_balance":true,"has_invoice":true,"notify_recharge":true,"notify":true,"notify1":true,"notify2":true,"notify3":true,"has_customer_recharge":true,"country_code":"string","sdi_code":null,"electronic_invoice":true,"oil_iban":"string","non_oil_iban":"string","vat_code":"string","total_recharge":0}]}; // PostCustomersRequest | 
+        InputCustomers inputCustomers = {"supplier_code":"string","customers":[{"code":"string","name":"string","address":"string","city":"string","zip_code":"string","province":"string","phone_number":"string","email":"string","pec":"string","notes":"string","vat_number":"string","fiscal_code":"string","is_enabled":true,"payment_mode_code":"string","payment_periodicity_code":"string","payment_terms_code":"string","max_period_credit":0,"period_debit":0,"exposure":0,"has_km_request":true,"has_km_check":true,"has_driver_request":true,"has_driver_check":true,"has_account_balance":true,"has_invoice":true,"notify_recharge":true,"notify":true,"notify1":true,"notify2":true,"notify3":true,"has_customer_recharge":true,"country_code":"string","sdi_code":null,"electronic_invoice":true,"oil_iban":"string","non_oil_iban":"string","vat_code":"string","total_recharge":0}]}; // InputCustomers | 
 
         try {
-            apiInstance.postCustomers(postCustomersRequest);
+            apiInstance.postCustomers(inputCustomers);
         } catch (ApiException e) {
             System.err.println("Exception when calling DefaultApi#postCustomers");
             e.printStackTrace();
@@ -8228,10 +8320,10 @@ public class DefaultApiExample {
 
 final api_instance = DefaultApi();
 
-final PostCustomersRequest postCustomersRequest = new PostCustomersRequest(); // PostCustomersRequest | 
+final InputCustomers inputCustomers = new InputCustomers(); // InputCustomers | 
 
 try {
-    final result = await api_instance.postCustomers(postCustomersRequest);
+    final result = await api_instance.postCustomers(inputCustomers);
     print(result);
 } catch (e) {
     print('Exception when calling DefaultApi->postCustomers: $e\n');
@@ -8246,10 +8338,10 @@ try {
 public class DefaultApiExample {
     public static void main(String[] args) {
         DefaultApi apiInstance = new DefaultApi();
-        PostCustomersRequest postCustomersRequest = {"supplier_code":"string","customers":[{"code":"string","name":"string","address":"string","city":"string","zip_code":"string","province":"string","phone_number":"string","email":"string","pec":"string","notes":"string","vat_number":"string","fiscal_code":"string","is_enabled":true,"payment_mode_code":"string","payment_periodicity_code":"string","payment_terms_code":"string","max_period_credit":0,"period_debit":0,"exposure":0,"has_km_request":true,"has_km_check":true,"has_driver_request":true,"has_driver_check":true,"has_account_balance":true,"has_invoice":true,"notify_recharge":true,"notify":true,"notify1":true,"notify2":true,"notify3":true,"has_customer_recharge":true,"country_code":"string","sdi_code":null,"electronic_invoice":true,"oil_iban":"string","non_oil_iban":"string","vat_code":"string","total_recharge":0}]}; // PostCustomersRequest | 
+        InputCustomers inputCustomers = {"supplier_code":"string","customers":[{"code":"string","name":"string","address":"string","city":"string","zip_code":"string","province":"string","phone_number":"string","email":"string","pec":"string","notes":"string","vat_number":"string","fiscal_code":"string","is_enabled":true,"payment_mode_code":"string","payment_periodicity_code":"string","payment_terms_code":"string","max_period_credit":0,"period_debit":0,"exposure":0,"has_km_request":true,"has_km_check":true,"has_driver_request":true,"has_driver_check":true,"has_account_balance":true,"has_invoice":true,"notify_recharge":true,"notify":true,"notify1":true,"notify2":true,"notify3":true,"has_customer_recharge":true,"country_code":"string","sdi_code":null,"electronic_invoice":true,"oil_iban":"string","non_oil_iban":"string","vat_code":"string","total_recharge":0}]}; // InputCustomers | 
 
         try {
-            apiInstance.postCustomers(postCustomersRequest);
+            apiInstance.postCustomers(inputCustomers);
         } catch (ApiException e) {
             System.err.println("Exception when calling DefaultApi#postCustomers");
             e.printStackTrace();
@@ -8266,10 +8358,10 @@ public class DefaultApiExample {
 
 // Create an instance of the API class
 DefaultApi *apiInstance = [[DefaultApi alloc] init];
-PostCustomersRequest *postCustomersRequest = {"supplier_code":"string","customers":[{"code":"string","name":"string","address":"string","city":"string","zip_code":"string","province":"string","phone_number":"string","email":"string","pec":"string","notes":"string","vat_number":"string","fiscal_code":"string","is_enabled":true,"payment_mode_code":"string","payment_periodicity_code":"string","payment_terms_code":"string","max_period_credit":0,"period_debit":0,"exposure":0,"has_km_request":true,"has_km_check":true,"has_driver_request":true,"has_driver_check":true,"has_account_balance":true,"has_invoice":true,"notify_recharge":true,"notify":true,"notify1":true,"notify2":true,"notify3":true,"has_customer_recharge":true,"country_code":"string","sdi_code":null,"electronic_invoice":true,"oil_iban":"string","non_oil_iban":"string","vat_code":"string","total_recharge":0}]}; //  (optional)
+InputCustomers *inputCustomers = {"supplier_code":"string","customers":[{"code":"string","name":"string","address":"string","city":"string","zip_code":"string","province":"string","phone_number":"string","email":"string","pec":"string","notes":"string","vat_number":"string","fiscal_code":"string","is_enabled":true,"payment_mode_code":"string","payment_periodicity_code":"string","payment_terms_code":"string","max_period_credit":0,"period_debit":0,"exposure":0,"has_km_request":true,"has_km_check":true,"has_driver_request":true,"has_driver_check":true,"has_account_balance":true,"has_invoice":true,"notify_recharge":true,"notify":true,"notify1":true,"notify2":true,"notify3":true,"has_customer_recharge":true,"country_code":"string","sdi_code":null,"electronic_invoice":true,"oil_iban":"string","non_oil_iban":"string","vat_code":"string","total_recharge":0}]}; //  (optional)
 
 // Create customer
-[apiInstance postCustomersWith:postCustomersRequest
+[apiInstance postCustomersWith:inputCustomers
               completionHandler: ^(NSError* error) {
     if (error) {
         NSLog(@"Error: %@", error);
@@ -8284,7 +8376,7 @@ PostCustomersRequest *postCustomersRequest = {"supplier_code":"string","customer
 // Create an instance of the API class
 var api = new ImportExportSelfnet.DefaultApi()
 var opts = {
-  'postCustomersRequest': {"supplier_code":"string","customers":[{"code":"string","name":"string","address":"string","city":"string","zip_code":"string","province":"string","phone_number":"string","email":"string","pec":"string","notes":"string","vat_number":"string","fiscal_code":"string","is_enabled":true,"payment_mode_code":"string","payment_periodicity_code":"string","payment_terms_code":"string","max_period_credit":0,"period_debit":0,"exposure":0,"has_km_request":true,"has_km_check":true,"has_driver_request":true,"has_driver_check":true,"has_account_balance":true,"has_invoice":true,"notify_recharge":true,"notify":true,"notify1":true,"notify2":true,"notify3":true,"has_customer_recharge":true,"country_code":"string","sdi_code":null,"electronic_invoice":true,"oil_iban":"string","non_oil_iban":"string","vat_code":"string","total_recharge":0}]} // {PostCustomersRequest} 
+  'inputCustomers': {"supplier_code":"string","customers":[{"code":"string","name":"string","address":"string","city":"string","zip_code":"string","province":"string","phone_number":"string","email":"string","pec":"string","notes":"string","vat_number":"string","fiscal_code":"string","is_enabled":true,"payment_mode_code":"string","payment_periodicity_code":"string","payment_terms_code":"string","max_period_credit":0,"period_debit":0,"exposure":0,"has_km_request":true,"has_km_check":true,"has_driver_request":true,"has_driver_check":true,"has_account_balance":true,"has_invoice":true,"notify_recharge":true,"notify":true,"notify1":true,"notify2":true,"notify3":true,"has_customer_recharge":true,"country_code":"string","sdi_code":null,"electronic_invoice":true,"oil_iban":"string","non_oil_iban":"string","vat_code":"string","total_recharge":0}]} // {InputCustomers} 
 };
 
 var callback = function(error, data, response) {
@@ -8317,11 +8409,11 @@ namespace Example
 
             // Create an instance of the API class
             var apiInstance = new DefaultApi();
-            var postCustomersRequest = new PostCustomersRequest(); // PostCustomersRequest |  (optional) 
+            var inputCustomers = new InputCustomers(); // InputCustomers |  (optional) 
 
             try {
                 // Create customer
-                apiInstance.postCustomers(postCustomersRequest);
+                apiInstance.postCustomers(inputCustomers);
             } catch (Exception e) {
                 Debug.Print("Exception when calling DefaultApi.postCustomers: " + e.Message );
             }
@@ -8337,10 +8429,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 // Create an instance of the API class
 $api_instance = new OpenAPITools\Client\Api\DefaultApi();
-$postCustomersRequest = {"supplier_code":"string","customers":[{"code":"string","name":"string","address":"string","city":"string","zip_code":"string","province":"string","phone_number":"string","email":"string","pec":"string","notes":"string","vat_number":"string","fiscal_code":"string","is_enabled":true,"payment_mode_code":"string","payment_periodicity_code":"string","payment_terms_code":"string","max_period_credit":0,"period_debit":0,"exposure":0,"has_km_request":true,"has_km_check":true,"has_driver_request":true,"has_driver_check":true,"has_account_balance":true,"has_invoice":true,"notify_recharge":true,"notify":true,"notify1":true,"notify2":true,"notify3":true,"has_customer_recharge":true,"country_code":"string","sdi_code":null,"electronic_invoice":true,"oil_iban":"string","non_oil_iban":"string","vat_code":"string","total_recharge":0}]}; // PostCustomersRequest | 
+$inputCustomers = {"supplier_code":"string","customers":[{"code":"string","name":"string","address":"string","city":"string","zip_code":"string","province":"string","phone_number":"string","email":"string","pec":"string","notes":"string","vat_number":"string","fiscal_code":"string","is_enabled":true,"payment_mode_code":"string","payment_periodicity_code":"string","payment_terms_code":"string","max_period_credit":0,"period_debit":0,"exposure":0,"has_km_request":true,"has_km_check":true,"has_driver_request":true,"has_driver_check":true,"has_account_balance":true,"has_invoice":true,"notify_recharge":true,"notify":true,"notify1":true,"notify2":true,"notify3":true,"has_customer_recharge":true,"country_code":"string","sdi_code":null,"electronic_invoice":true,"oil_iban":"string","non_oil_iban":"string","vat_code":"string","total_recharge":0}]}; // InputCustomers | 
 
 try {
-    $api_instance->postCustomers($postCustomersRequest);
+    $api_instance->postCustomers($inputCustomers);
 } catch (Exception $e) {
     echo 'Exception when calling DefaultApi->postCustomers: ', $e->getMessage(), PHP_EOL;
 }
@@ -8354,10 +8446,10 @@ use WWW::OPenAPIClient::DefaultApi;
 
 # Create an instance of the API class
 my $api_instance = WWW::OPenAPIClient::DefaultApi->new();
-my $postCustomersRequest = WWW::OPenAPIClient::Object::PostCustomersRequest->new(); # PostCustomersRequest | 
+my $inputCustomers = WWW::OPenAPIClient::Object::InputCustomers->new(); # InputCustomers | 
 
 eval {
-    $api_instance->postCustomers(postCustomersRequest => $postCustomersRequest);
+    $api_instance->postCustomers(inputCustomers => $inputCustomers);
 };
 if ($@) {
     warn "Exception when calling DefaultApi->postCustomers: $@\n";
@@ -8373,11 +8465,11 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = openapi_client.DefaultApi()
-postCustomersRequest = {"supplier_code":"string","customers":[{"code":"string","name":"string","address":"string","city":"string","zip_code":"string","province":"string","phone_number":"string","email":"string","pec":"string","notes":"string","vat_number":"string","fiscal_code":"string","is_enabled":true,"payment_mode_code":"string","payment_periodicity_code":"string","payment_terms_code":"string","max_period_credit":0,"period_debit":0,"exposure":0,"has_km_request":true,"has_km_check":true,"has_driver_request":true,"has_driver_check":true,"has_account_balance":true,"has_invoice":true,"notify_recharge":true,"notify":true,"notify1":true,"notify2":true,"notify3":true,"has_customer_recharge":true,"country_code":"string","sdi_code":null,"electronic_invoice":true,"oil_iban":"string","non_oil_iban":"string","vat_code":"string","total_recharge":0}]} # PostCustomersRequest |  (optional)
+inputCustomers = {"supplier_code":"string","customers":[{"code":"string","name":"string","address":"string","city":"string","zip_code":"string","province":"string","phone_number":"string","email":"string","pec":"string","notes":"string","vat_number":"string","fiscal_code":"string","is_enabled":true,"payment_mode_code":"string","payment_periodicity_code":"string","payment_terms_code":"string","max_period_credit":0,"period_debit":0,"exposure":0,"has_km_request":true,"has_km_check":true,"has_driver_request":true,"has_driver_check":true,"has_account_balance":true,"has_invoice":true,"notify_recharge":true,"notify":true,"notify1":true,"notify2":true,"notify3":true,"has_customer_recharge":true,"country_code":"string","sdi_code":null,"electronic_invoice":true,"oil_iban":"string","non_oil_iban":"string","vat_code":"string","total_recharge":0}]} # InputCustomers |  (optional)
 
 try:
     # Create customer
-    api_instance.post_customers(postCustomersRequest=postCustomersRequest)
+    api_instance.post_customers(inputCustomers=inputCustomers)
 except ApiException as e:
     print("Exception when calling DefaultApi->postCustomers: %s\n" % e)</code></pre>
                             </div>
@@ -8386,10 +8478,10 @@ except ApiException as e:
                               <pre class="prettyprint"><code class="language-rust">extern crate DefaultApi;
 
 pub fn main() {
-    let postCustomersRequest = {"supplier_code":"string","customers":[{"code":"string","name":"string","address":"string","city":"string","zip_code":"string","province":"string","phone_number":"string","email":"string","pec":"string","notes":"string","vat_number":"string","fiscal_code":"string","is_enabled":true,"payment_mode_code":"string","payment_periodicity_code":"string","payment_terms_code":"string","max_period_credit":0,"period_debit":0,"exposure":0,"has_km_request":true,"has_km_check":true,"has_driver_request":true,"has_driver_check":true,"has_account_balance":true,"has_invoice":true,"notify_recharge":true,"notify":true,"notify1":true,"notify2":true,"notify3":true,"has_customer_recharge":true,"country_code":"string","sdi_code":null,"electronic_invoice":true,"oil_iban":"string","non_oil_iban":"string","vat_code":"string","total_recharge":0}]}; // PostCustomersRequest
+    let inputCustomers = {"supplier_code":"string","customers":[{"code":"string","name":"string","address":"string","city":"string","zip_code":"string","province":"string","phone_number":"string","email":"string","pec":"string","notes":"string","vat_number":"string","fiscal_code":"string","is_enabled":true,"payment_mode_code":"string","payment_periodicity_code":"string","payment_terms_code":"string","max_period_credit":0,"period_debit":0,"exposure":0,"has_km_request":true,"has_km_check":true,"has_driver_request":true,"has_driver_check":true,"has_account_balance":true,"has_invoice":true,"notify_recharge":true,"notify":true,"notify1":true,"notify2":true,"notify3":true,"has_customer_recharge":true,"country_code":"string","sdi_code":null,"electronic_invoice":true,"oil_iban":"string","non_oil_iban":"string","vat_code":"string","total_recharge":0}]}; // InputCustomers
 
     let mut context = DefaultApi::Context::default();
-    let result = client.postCustomers(postCustomersRequest, &context).wait();
+    let result = client.postCustomers(inputCustomers, &context).wait();
 
     println!("{:?}", result);
 }
@@ -8412,7 +8504,7 @@ pub fn main() {
                                 <th width="150px">Name</th>
                                 <th>Description</th>
                               </tr>
-                                <tr><td style="width:150px;">postCustomersRequest </td>
+                                <tr><td style="width:150px;">inputCustomers </td>
 <td>
 <p class="marked"></p>
 <script>
@@ -8421,7 +8513,7 @@ $(document).ready(function() {
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/post_customers_request"
+        "$ref" : "#/components/schemas/InputCustomers"
       },
       "examples" : {
         "Example 1" : {
@@ -8490,12 +8582,12 @@ $(document).ready(function() {
   }
 
   var view = new JSONSchemaView(schema,2,{isBodyParam: true});
-  var result = $('#d2e199_postCustomers_postCustomersRequest');
+  var result = $('#d2e199_postCustomers_inputCustomers');
   result.empty();
   result.append(view.render());
 });
 </script>
-<div id="d2e199_postCustomers_postCustomersRequest"></div>
+<div id="d2e199_postCustomers_inputCustomers"></div>
 </td>
 </tr>
 
