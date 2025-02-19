@@ -633,7 +633,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Customers'
+                $ref: '#/components/schemas/Customer'
                 x-examples:
                   Example 1:
                     - code: CUST123
