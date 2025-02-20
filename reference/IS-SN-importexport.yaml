@@ -1779,12 +1779,12 @@ components:
             id: 1kauwz61615i3
           description: Code type
           enum:
-            - 0 - NON DEFINITO
-            - 1 - SCONTO
-            - 2 - FINEMESE
-            - 3 - RICARICABILE
-            - 4 - RACCOLTA PUNTI
-            - 6 - BUONO CARB.
+            - 0 - NOT DEFINED
+            - 1 - DISCOUNT
+            - 2 - END OF MONTH
+            - 3 - RECHARGEABLE
+            - 4 - POINTS COLLECTION
+            - 6 - FUEL VOUCHER
         expire_datetime:
           type: string
           format: date-time
