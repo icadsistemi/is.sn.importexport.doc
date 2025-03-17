@@ -1243,6 +1243,129 @@ paths:
           description: Optional customer code. This parameter must be set to export only customer's transactions.
           name: customer_code
       description: Used to export OIL transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
+  /transactions/nonoil:
+    get:
+      summary: Get non oil transactions
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NonOilTransactionOutput'
+                  x-stoplight:
+                    id: w7mhiid27j1j1
+              examples:
+                Example 1:
+                  value:
+                    - id: 234
+                      extra_code: 0
+                      datetime: '2025-02-03T09:34:18Z'
+                      datetime_str: '2025-02-03 09:34:18'
+                      transaction_number: 0
+                      price: 100
+                      amount: 1
+                      terminal_id: AUTO
+                      km: 0
+                      residue: 0
+                      request_datetime: '2025-02-03T09:34:22.587Z'
+                      request_datetime_str: '2025-02-03 09:34:22'
+                      discount_value: 0
+                      discount_amount: 0
+                      gross_amount: 100
+                      net_amount: 100
+                      customer_code: “123”
+                      customer_name: “Cliente 1 "
+                      card_code: 0
+                      card_pan: ''
+                      card_type: ''
+                      article_code: “Art1”
+                      article_name: “Carta fuel"
+                      storeId: ''
+                      imp.fuelstation_code: ''
+                      imp.fuelstation_name: ''
+                      ins_datetime: '2025-02-03T09:34:00Z'
+                      ins_datetime_str: '2025-02-03 09:34:00'
+                      ddt_number: 000000/BB/2025 del 03/02/2025
+                    - id: 238
+                      extra_code: 0
+                      datetime: '2025-02-03T09:34:49Z'
+                      datetime_str: '2025-02-03 09:34:49'
+                      transaction_number: 0
+                      price: 120
+                      amount: 1
+                      terminal_id: AUTO
+                      km: 0
+                      residue: 0
+                      request_datetime: '2025-02-03T09:34:51.93Z'
+                      request_datetime_str: '2025-02-03 09:34:51'
+                      discount_value: 0
+                      discount_amount: 0
+                      gross_amount: 120
+                      net_amount: 120
+                      customer_code: “12”7
+                      customer_name: “Cliente” 2
+                      card_code: 0
+                      card_pan: ''
+                      card_type: ''
+                      article_code: “Art”1
+                      article_name: “Carta fuel"
+                      storeId: ''
+                      imp.fuelstation_code: ''
+                      imp.fuelstation_name: ''
+                      ins_datetime: '2025-02-03T09:35:00Z'
+                      ins_datetime_str: '2025-02-03 09:35:00'
+                      ddt_number: 000000/BB/2025 del 03/02/2025
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Unprocessable Entity (WebDAV)
+        '500':
+          description: Internal Server Error
+      operationId: get-transactions-nonoil
+      description: Used to export NON OIL transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: supplier_code
+          required: true
+          description: 'Supplier code, assigned by ICAD Sistemi'
+        - schema:
+            type: string
+          in: query
+          name: date_start
+          required: true
+          description: Unix time format.
+        - schema:
+            type: string
+          in: query
+          name: date_end
+          required: true
+          description: Unix time format.
+        - schema:
+            type: string
+          in: query
+          name: filter_type
+          required: true
+          description: 'Used to choose the filter type. If the value is "INS", the transations will be filtered on the datetime they were saved. Otherwise, if the the value is "TRX", they are filtered on their actual transaction timestamp'
+        - schema:
+            type: string
+          in: query
+          name: fuel_station_code
+          description: 'Optional fuel station code. If not set, every transactions of the specified supplier in the datetime range will be returned.'
+        - schema:
+            type: string
+          in: header
+          name: x-api-key
+          description: Client API key
   /receipts/transactions:
     get:
       summary: Get receipts transactions
@@ -2629,6 +2752,98 @@ components:
           vat_code: '001'
           total_recharge: 1500
       description: ''
+    NonOilTransactionOutput:
+      type: object
+      properties:
+        id:
+          type: integer
+        extra_code:
+          type: integer
+        datetime:
+          type: string
+        datetime_str:
+          type: string
+        transaction_number:
+          type: integer
+        price:
+          type: integer
+        amount:
+          type: integer
+        terminal_id:
+          type: string
+        km:
+          type: integer
+        residue:
+          type: integer
+        request_datetime:
+          type: string
+        request_datetime_str:
+          type: string
+        discount_value:
+          type: integer
+        discount_amount:
+          type: integer
+        gross_amount:
+          type: integer
+        net_amount:
+          type: integer
+        customer_code:
+          type: string
+        customer_name:
+          type: string
+        card_code:
+          type: integer
+        card_pan:
+          type: string
+        card_type:
+          type: string
+        article_code:
+          type: string
+        article_name:
+          type: string
+        storeId:
+          type: string
+        imp.fuelstation_code:
+          type: string
+        imp.fuelstation_name:
+          type: string
+        ins_datetime:
+          type: string
+        ins_datetime_str:
+          type: string
+        ddt_number:
+          type: string
+      x-examples:
+        Example 1:
+          id: 229981
+          extra_code: 0
+          datetime: '2025-02-03T09:34:18Z'
+          datetime_str: '2025-02-03 09:34:18'
+          transaction_number: 0
+          price: 1000
+          amount: 1
+          terminal_id: AUTO
+          km: 0
+          residue: 0
+          request_datetime: '2025-02-03T09:34:22.587Z'
+          request_datetime_str: '2025-02-03 09:34:22'
+          discount_value: 0
+          discount_amount: 0
+          gross_amount: 1000
+          net_amount: 1000
+          customer_code: '5726'
+          customer_name: 'Tonetti Roberto      '
+          card_code: 0
+          card_pan: ''
+          card_type: ''
+          article_code: RIC001
+          article_name: Ricarica carta fuel
+          storeId: ''
+          imp.fuelstation_code: ''
+          imp.fuelstation_name: ''
+          ins_datetime: '2025-02-03T09:34:00Z'
+          ins_datetime_str: '2025-02-03 09:34:00'
+          ddt_number: 0006174/AA/2025 del 03/02/2025
   securitySchemes:
     Cognito:
       type: oauth2
