@@ -1792,8 +1792,9 @@ paths:
     parameters: []
   /invoices/external/status:
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Get invoices external status
+      tags: 
+        - invoices
       responses:
         '200':
           description: OK
