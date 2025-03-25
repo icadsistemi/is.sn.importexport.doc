@@ -1793,7 +1793,7 @@ paths:
   /invoices/external/status:
     get:
       summary: Get invoices external status
-      tags: 
+      tags:
         - invoices
       responses:
         '200':
@@ -1819,12 +1819,12 @@ paths:
         - schema:
             type: string
           in: query
-          name: start_datetime
+          name: start_date
           required: true
         - schema:
             type: string
           in: query
-          name: end_datetime
+          name: end_date
           required: true
   /fuelcoupons/transactions:
     get:
@@ -2319,11 +2319,11 @@ components:
             x-stoplight:
               id: b0k8ky45l2ofj
             description: Reference to invoice where this record is included
-          issuing_datetime:
+          issuing_date:
             type: string
             x-stoplight:
               id: zgzgeayjrdnwn
-            description: Date time when the invoice is issued
+            description: Date when the invoice is issued
           status_id:
             type: integer
             x-stoplight:
