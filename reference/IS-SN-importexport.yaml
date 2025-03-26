@@ -1790,6 +1790,45 @@ paths:
           name: outcomes
           description: Indicate whether you also want to receive the outcome files received from the SdI (usable only if you have subscribed to the relevant package).
     parameters: []
+    post:
+      summary: ''
+      operationId: post-invoices-external
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Unprocessable Entity (WebDAV)
+        '500':
+          description: Internal Server Error
+      description: 'This API allows importing the XML file of the documents received from external sources through a specific API (not included in this document). The invoice informations are saved on db and sent to Sdi '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  file_name: IT03969200280_A0006.xml
+                  supplier_code: '0216'
+                  file: sakhj123uwekjdndwnqh2iqwjsndjkabndqwud2378eg8hwdiuasbjhbw7c3b78edwniemw978o2qtbonxduiwwn7qtb67btyn7q23tde6unoqa267sqrbdcubt7aybky
+              properties:
+                file_name:
+                  type: string
+                supplier_code:
+                  type: string
+                file:
+                  type: string
+              required:
+                - file_name
+                - supplier_code
+                - file
+        description: ''
   /invoices/external/status:
     get:
       summary: Get invoices external status
