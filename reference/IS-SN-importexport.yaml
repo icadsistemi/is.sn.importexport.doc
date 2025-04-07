@@ -1791,7 +1791,9 @@ paths:
           description: Indicate whether you also want to receive the outcome files received from the SdI (usable only if you have subscribed to the relevant package).
     parameters: []
     post:
-      summary: ''
+      summary: 'Import external invoices'
+      tags:
+        - invoices
       operationId: post-invoices-external
       responses:
         '200':
