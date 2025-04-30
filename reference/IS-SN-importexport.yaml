@@ -1084,60 +1084,7 @@ paths:
                       supplier_code: '0001'
                       supplier_name: ICAD PROVA
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: number
-                      x-stoplight:
-                        id: wat874gwthfw9
-                    store_id:
-                      type: string
-                      description: fuelstation name
-                    fuelstation_name:
-                      type: string
-                      description: Code of the fuelstation
-                    transaction_number:
-                      type: integer
-                      description: Transaction number
-                    datetime:
-                      type: string
-                      description: date time of the recharge
-                    customer_code:
-                      type: string
-                      description: code of customer
-                    customer_name:
-                      type: string
-                      description: customer name
-                    card_code:
-                      type: string
-                      description: code of card
-                    pan:
-                      type: string
-                      description: pan of the card
-                    vehicle_plate:
-                      type: string
-                      description: vehicle plate
-                    bill:
-                      type: integer
-                      description: Recharge bill
-                    rebate:
-                      type: integer
-                      description: Rebate recharge
-                    residue:
-                      type: integer
-                      description: Residue recharge
-                    terminal_id:
-                      type: string
-                      description: Terminal id whose performed the recharge
-                    outcome:
-                      type: boolean
-                      description: outcome of the recharge
-                    supplier_code:
-                      type: string
-                      description: code of the supplier
-                    supplier_name:
-                      type: string
-                      description: supplier name
+                  $ref: '#/components/schemas/RechargesResponse'
               examples:
                 Example 1:
                   value:
@@ -1791,7 +1738,7 @@ paths:
           description: Indicate whether you also want to receive the outcome files received from the SdI (usable only if you have subscribed to the relevant package).
     parameters: []
     post:
-      summary: 'Import external invoices'
+      summary: Import external invoices
       tags:
         - invoices
       operationId: post-invoices-external
@@ -3151,6 +3098,113 @@ components:
           ins_datetime: '2025-02-03T09:34:00Z'
           ins_datetime_str: '2025-02-03 09:34:00'
           ddt_number: 0006174/AA/2025 del 03/02/2025
+    RechargesResponse:
+      type: object
+      x-examples:
+        Example 1:
+          id: 531366
+          fuelstation_name: PV TEST 1
+          store_id: IS316002
+          transaction_number: 88
+          datetime: '2024-01-31T10:00:05.19Z'
+          customer_code: C0005
+          customer_name: CLIENTE RIC 01
+          card_code: '1004'
+          pan: '70055730001010049'
+          vehicle_plate: ''
+          bill: 10
+          rebate: 0
+          residue: 999884.87
+          terminal_id: POS
+          outcome: true
+          supplier_code: '0001'
+          supplier_name: ICAD Sis PROVA
+      properties:
+        id:
+          type: integer
+        fuelstation_name:
+          type: string
+          description: Name of the fuelstation
+        fuelstation_code:
+          type: string
+          x-stoplight:
+            id: k72222raqvzdu
+          description: Code of the fuelstation
+        fuelstation_id:
+          type: integer
+          x-stoplight:
+            id: jgwdug8r9m0e6
+          description: Id of the fuelstation
+        store_id:
+          type: string
+          description: IS code of store
+        transaction_number:
+          type: integer
+          description: Transaction number
+        datetime:
+          type: string
+          description: Date time of the recharge
+        customer_name:
+          type: string
+          description: Name of customer
+        customer_code:
+          type: string
+          description: Code of customer
+        customer_id:
+          type: integer
+          x-stoplight:
+            id: 5753rxvg2gq6y
+          description: Id of customer
+        card_code:
+          type: string
+          description: Code of card
+        card_id:
+          type: integer
+          x-stoplight:
+            id: hfqeyovmu7hy2
+          description: Id of card
+        pan:
+          type: string
+          description: Pan of the card
+        vehicle_plate:
+          type: string
+          description: Vehicle plate
+        bill:
+          type: number
+          description: Recharge bill
+        rebate:
+          type: number
+          description: Rebate recharge
+        residue:
+          type: number
+          description: Residue recharge
+        terminal_id:
+          type: string
+          description: Terminal id whose performed the recharge
+        supplier_name:
+          type: string
+          description: Name of the supplier
+        supplier_code:
+          type: string
+          description: Code of the supplier
+        supplier_id:
+          type: integer
+          x-stoplight:
+            id: u811zky4uy4nv
+          description: Id of the supplier
+        outcome:
+          type: boolean
+          description: Outcome of the recharge
+        batch_number:
+          type: integer
+          x-stoplight:
+            id: un57frs969zrf
+          description: Number of batch
+        commission:
+          type: number
+          x-stoplight:
+            id: c8lt1yl4bs9g5
+          description: Commission of recharge
   securitySchemes:
     Cognito:
       type: oauth2
