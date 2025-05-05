@@ -1216,6 +1216,16 @@ paths:
                       x-stoplight:
                         id: iwvcqixg1wpjs
                       description: Code of the customer
+                    customer_name:
+                      type: string
+                      x-stoplight:
+                        id: r6w8zl0u1v9fo
+                      description: Name of the customer
+                    customer_email:
+                      type: string
+                      x-stoplight:
+                        id: 0lns23zw8jp3j
+                      description: Email of the customer
                     article_code:
                       type: string
                       x-stoplight:
@@ -3008,6 +3018,37 @@ components:
       description: ''
     NonOilTransactionOutput:
       type: object
+      x-examples:
+        Example 1:
+          id: 229981
+          extra_code: 0
+          datetime: '2025-02-03T09:34:18Z'
+          datetime_str: '2025-02-03 09:34:18'
+          transaction_number: 0
+          price: 1000
+          amount: 1
+          terminal_id: AUTO
+          km: 0
+          residue: 0
+          request_datetime: '2025-02-03T09:34:22.587Z'
+          request_datetime_str: '2025-02-03 09:34:22'
+          discount_value: 0
+          discount_amount: 0
+          gross_amount: 1000
+          net_amount: 1000
+          customer_code: '5726'
+          customer_name: 'Tonetti Roberto      '
+          card_code: 0
+          card_pan: ''
+          card_type: ''
+          article_code: RIC001
+          article_name: Ricarica carta fuel
+          storeId: ''
+          imp.fuelstation_code: ''
+          imp.fuelstation_name: ''
+          ins_datetime: '2025-02-03T09:34:00Z'
+          ins_datetime_str: '2025-02-03 09:34:00'
+          ddt_number: 0006174/AA/2025 del 03/02/2025
       properties:
         id:
           type: integer
@@ -3045,6 +3086,10 @@ components:
           type: string
         customer_name:
           type: string
+        customer_email:
+          type: string
+          x-stoplight:
+            id: pn61cqw3c5uh3
         card_code:
           type: integer
         card_pan:
@@ -3067,37 +3112,6 @@ components:
           type: string
         ddt_number:
           type: string
-      x-examples:
-        Example 1:
-          id: 229981
-          extra_code: 0
-          datetime: '2025-02-03T09:34:18Z'
-          datetime_str: '2025-02-03 09:34:18'
-          transaction_number: 0
-          price: 1000
-          amount: 1
-          terminal_id: AUTO
-          km: 0
-          residue: 0
-          request_datetime: '2025-02-03T09:34:22.587Z'
-          request_datetime_str: '2025-02-03 09:34:22'
-          discount_value: 0
-          discount_amount: 0
-          gross_amount: 1000
-          net_amount: 1000
-          customer_code: '5726'
-          customer_name: 'Tonetti Roberto      '
-          card_code: 0
-          card_pan: ''
-          card_type: ''
-          article_code: RIC001
-          article_name: Ricarica carta fuel
-          storeId: ''
-          imp.fuelstation_code: ''
-          imp.fuelstation_name: ''
-          ins_datetime: '2025-02-03T09:34:00Z'
-          ins_datetime_str: '2025-02-03 09:34:00'
-          ddt_number: 0006174/AA/2025 del 03/02/2025
     RechargesResponse:
       type: object
       x-examples:
