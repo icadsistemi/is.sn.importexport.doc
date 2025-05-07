@@ -3,7 +3,7 @@ x-stoplight:
   id: 91a4ao3uk9mo3
 info:
   title: Import export Selfnet
-  version: 0.2.24
+  version: 0.2.26
   description: |
     # Selfnet Import Export api documentation
 
@@ -850,48 +850,6 @@ paths:
                       non_oil_iban: US98765432109876543210
                       vat_code: '001'
                       total_recharge: 1500
-              examples:
-                Example 1:
-                  value:
-                    - code: string
-                      supplier_code: string
-                      name: string
-                      address: string
-                      city: string
-                      zip_code: string
-                      province: string
-                      phone_number: string
-                      email: string
-                      pec: string
-                      notes: string
-                      vat_number: string
-                      fiscal_code: string
-                      is_enabled: true
-                      payment_mode_code: string
-                      payment_periodicity_code: string
-                      payment_terms_code: string
-                      max_period_credit: 0
-                      period_debit: 0
-                      exposure: 0
-                      has_km_request: true
-                      has_km_check: true
-                      has_driver_request: true
-                      has_driver_check: true
-                      has_account_balance: true
-                      has_invoice: true
-                      notify_recharge: true
-                      notify: true
-                      notify1: true
-                      notify2: true
-                      notify3: true
-                      has_customer_recharge: true
-                      country_code: string
-                      sdi_code: string
-                      electronic_invoice: true
-                      oil_iban: string
-                      non_oil_iban: string
-                      vat_code: string
-                      total_recharge: 0
         '401':
           description: Unauthorized
         '403':
@@ -1013,7 +971,7 @@ paths:
                       notify3: true
                       has_customer_recharge: true
                       country_code: string
-                      sdi_code: null
+                      sdi_code: ""
                       electronic_invoice: true
                       oil_iban: string
                       non_oil_iban: string
@@ -1027,7 +985,7 @@ paths:
       responses:
         '200':
           description: OK
-      description: ''
+      description: Update fuel stations data
       requestBody:
         content:
           application/json:
