@@ -971,47 +971,13 @@ paths:
                       notify3: true
                       has_customer_recharge: true
                       country_code: string
-                      sdi_code: ""
+                      sdi_code: ''
                       electronic_invoice: true
                       oil_iban: string
                       non_oil_iban: string
                       vat_code: string
                       total_recharge: 0
       description: Insert or update customers filtered by supplier code
-  /fuelstations:
-    put:
-      summary: Update fuel stations data
-      operationId: put-fuelstations
-      responses:
-        '200':
-          description: OK
-      description: Update fuel stations data
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  supplier_code:
-                    type: string
-                  fuel_station_code:
-                    type: string
-                  name:
-                    type: string
-                  address:
-                    type: string
-                  zip_code:
-                    type: string
-                  province:
-                    type: string
-                  office_number:
-                    type: string
-                required:
-                  - supplier_code
-                  - fuel_station_code
-      x-internal: true
   /recharges:
     get:
       summary: Get recharges
