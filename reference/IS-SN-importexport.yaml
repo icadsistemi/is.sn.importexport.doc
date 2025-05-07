@@ -1317,64 +1317,36 @@ paths:
               examples:
                 Example 1:
                   value:
-                    - id: 234
+                    - id: 0
                       extra_code: 0
-                      datetime: '2025-02-03T09:34:18Z'
-                      datetime_str: '2025-02-03 09:34:18'
+                      datetime: string
+                      datetime_str: string
                       transaction_number: 0
-                      price: 100
-                      amount: 1
-                      terminal_id: AUTO
+                      price: 0
+                      amount: 0
+                      terminal_id: string
                       km: 0
                       residue: 0
-                      request_datetime: '2025-02-03T09:34:22.587Z'
-                      request_datetime_str: '2025-02-03 09:34:22'
+                      request_datetime: string
+                      request_datetime_str: string
                       discount_value: 0
                       discount_amount: 0
-                      gross_amount: 100
-                      net_amount: 100
-                      customer_code: “123”
-                      customer_name: “Cliente 1 "
+                      gross_amount: 0
+                      net_amount: 0
+                      customer_code: string
+                      customer_name: string
+                      customer_email: email@email.it
                       card_code: 0
-                      card_pan: ''
-                      card_type: ''
-                      article_code: “Art1”
-                      article_name: “Carta fuel"
-                      storeId: ''
-                      imp.fuelstation_code: ''
-                      imp.fuelstation_name: ''
-                      ins_datetime: '2025-02-03T09:34:00Z'
-                      ins_datetime_str: '2025-02-03 09:34:00'
-                      ddt_number: 000000/BB/2025 del 03/02/2025
-                    - id: 238
-                      extra_code: 0
-                      datetime: '2025-02-03T09:34:49Z'
-                      datetime_str: '2025-02-03 09:34:49'
-                      transaction_number: 0
-                      price: 120
-                      amount: 1
-                      terminal_id: AUTO
-                      km: 0
-                      residue: 0
-                      request_datetime: '2025-02-03T09:34:51.93Z'
-                      request_datetime_str: '2025-02-03 09:34:51'
-                      discount_value: 0
-                      discount_amount: 0
-                      gross_amount: 120
-                      net_amount: 120
-                      customer_code: “12”7
-                      customer_name: “Cliente” 2
-                      card_code: 0
-                      card_pan: ''
-                      card_type: ''
-                      article_code: “Art”1
-                      article_name: “Carta fuel"
-                      storeId: ''
-                      imp.fuelstation_code: ''
-                      imp.fuelstation_name: ''
-                      ins_datetime: '2025-02-03T09:35:00Z'
-                      ins_datetime_str: '2025-02-03 09:35:00'
-                      ddt_number: 000000/BB/2025 del 03/02/2025
+                      card_pan: string
+                      card_type: string
+                      article_code: string
+                      article_name: string
+                      storeId: string
+                      imp.fuelstation_code: string
+                      imp.fuelstation_name: string
+                      ins_datetime: string
+                      ins_datetime_str: string
+                      ddt_number: string
         '400':
           description: Bad Request
         '401':
