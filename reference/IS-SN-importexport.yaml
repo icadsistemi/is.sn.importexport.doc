@@ -800,7 +800,7 @@ paths:
     parameters: []
   /cards/articles:
     get:
-      summary: Your GET endpoint
+      summary: Get Card Products
       tags: []
       responses:
         '200':
@@ -830,12 +830,12 @@ paths:
         - schema:
             type: string
           in: query
-          name: supplier_code
+          name: pan
+          required: true
         - schema:
             type: string
           in: query
-          name: pan
-          required: true
+          name: supplier_code
     parameters: []
   /customers:
     get:
