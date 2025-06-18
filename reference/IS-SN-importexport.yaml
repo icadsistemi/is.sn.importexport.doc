@@ -1013,22 +1013,29 @@ paths:
                 Example 1:
                   value:
                     - id: 0
-                      store_id: string
                       fuelstation_name: string
+                      fuelstation_code: string
+                      fuelstation_id: 0
+                      store_id: string
                       transaction_number: 0
                       datetime: string
-                      customer_code: string
                       customer_name: string
+                      customer_code: string
+                      customer_id: 0
                       card_code: string
+                      card_id: 0
                       pan: string
                       vehicle_plate: string
                       bill: 0
                       rebate: 0
                       residue: 0
                       terminal_id: string
-                      outcome: true
-                      supplier_code: string
                       supplier_name: string
+                      supplier_code: string
+                      supplier_id: 0
+                      outcome: true
+                      batch_number: 0
+                      commission: 0
       operationId: get-recharges
       description: Used to export recheargeables filtered by input values. The maximum range between date_start and date_end is 7 days.
       parameters:
