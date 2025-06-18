@@ -1913,19 +1913,14 @@ paths:
                     family_product_code: 0
                     family_description: string
                     isOil: true
-        '400':
-          description: Bad Request
+        '422':
+          description: Unprocessable Entity (WebDAV)
+        '500':
+          description: Internal Server Error
       operationId: get-cards-articles
       requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: {}
-          application/xml:
-            schema:
-              type: object
-              properties: {}
+        content: {}
+        description: ''
       parameters:
         - schema:
             type: string
