@@ -835,7 +835,7 @@ paths:
         - schema:
             type: string
           in: query
-          name: supplier_code
+          name: supplier_cod
     parameters: []
   /customers:
     get:
@@ -3167,11 +3167,11 @@ components:
         id: bxlpp8u4p1lmh
       type: object
       properties:
-        peoduct_code:
+        product_code:
           type: number
           x-stoplight:
             id: eneehgzw33sa8
-        paroduct_name:
+        product_name:
           type: string
           x-stoplight:
             id: 7un43a3r6wbip
@@ -3187,11 +3187,10 @@ components:
           type: string
           x-stoplight:
             id: 08favdkz3ioj8
-        isOil:
+        isoil:
           type: boolean
           x-stoplight:
             id: hbp1g3k98gu9f
-      description: ''
   securitySchemes:
     Cognito:
       type: oauth2
