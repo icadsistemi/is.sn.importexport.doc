@@ -798,6 +798,45 @@ paths:
                 - source_card_pan
                 - target_card_pan
     parameters: []
+  /cards/articles:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardArticles'
+              examples:
+                Example 1:
+                  value:
+                    peoduct_code: 0
+                    paroduct_name: string
+                    product_status: true
+                    family_product_code: 0
+                    family_description: string
+                    isOil: true
+        '422':
+          description: Unprocessable Entity (WebDAV)
+        '500':
+          description: Internal Server Error
+      operationId: get-cards-articles
+      requestBody:
+        content: {}
+        description: ''
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: supplier_code
+        - schema:
+            type: string
+          in: query
+          name: pan
+          required: true
+    parameters: []
   /customers:
     get:
       summary: Get customer data
@@ -1892,44 +1931,6 @@ paths:
           name: fuel_station_code
           description: 'Optional fuel station code. If not set, every fuelcoupons transactions of the specified supplier in the datetime range will be returned.'
       x-internal: false
-    parameters: []
-  /cards/articles:
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CardArticles'
-              examples:
-                Example 1:
-                  value:
-                    peoduct_code: 0
-                    paroduct_name: string
-                    product_status: true
-                    family_product_code: 0
-                    family_description: string
-                    isOil: true
-        '422':
-          description: Unprocessable Entity (WebDAV)
-        '500':
-          description: Internal Server Error
-      operationId: get-cards-articles
-      requestBody:
-        content: {}
-        description: ''
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: supplier_code
-        - schema:
-            type: string
-          in: query
-          name: pan
     parameters: []
 components:
   schemas:
