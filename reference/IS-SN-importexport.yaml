@@ -812,12 +812,12 @@ paths:
               examples:
                 Example 1:
                   value:
-                    product_code: 0
-                    product_name: string
-                    product_status: true
-                    family_product_code: 0
-                    family_description: string
-                    isoil: true
+                    - product_code: 0
+                      product_name: string
+                      product_status: true
+                      family_product_code: 0
+                      family_description: string
+                      isoil: true
         '422':
           description: Unprocessable Entity (WebDAV)
         '500':
