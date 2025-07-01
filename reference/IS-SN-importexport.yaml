@@ -835,7 +835,8 @@ paths:
         - schema:
             type: string
           in: query
-          name: supplier_cod
+          name: supplier_code
+          required: true
     parameters: []
   /customers:
     get:
