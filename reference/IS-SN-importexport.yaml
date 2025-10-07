@@ -1989,7 +1989,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FuelstationUpdate'
+              $ref: '#/components/schemas/FuelstationParams'
       description: |-
         With a PUT request to this method, it is possible to update multiple entries in the fuel stations registry.
         Through this endpoint, you can update the fuel station code, name, owner code, merchant code, address, city, province, ZIP code, and phone number.
@@ -3268,19 +3268,14 @@ components:
           x-stoplight:
             id: hbp1g3k98gu9f
     FuelstationUpdate:
-      title: FuelstationUpdate
+      title: FuelstationRegistryUpdate
       x-stoplight:
         id: 6xqdd0eha8ax1
       type: object
       required:
-        - store_id
         - supplier_code
         - name
       properties:
-        store_id:
-          type: string
-          x-stoplight:
-            id: 1gwtgwdj4uvb7
         fuelstation_code:
           type: string
           x-stoplight:
@@ -3321,6 +3316,27 @@ components:
           type: string
           x-stoplight:
             id: mniiyr0mu9vgc
+    FuelstationParams:
+      title: FuelstationParams
+      x-stoplight:
+        id: xdrlesrer2e8c
+      type: object
+      required:
+        - supplier_code
+        - fuelstation_registry
+      properties:
+        supplier_code:
+          type: string
+          x-stoplight:
+            id: zz6bcxcm6p6x9
+        fuelstation_registry:
+          x-stoplight:
+            id: vi9ja3ylhhwcd
+          type: array
+          items:
+            $ref: '#/components/schemas/FuelstationUpdate'
+            x-stoplight:
+              id: t8vokor8hmc8s
   securitySchemes:
     Cognito:
       type: oauth2
