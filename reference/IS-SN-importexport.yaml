@@ -3272,14 +3272,21 @@ components:
       x-stoplight:
         id: 6xqdd0eha8ax1
       type: object
+      description: fuelstation registry fields
       required:
+        - store_id
         - supplier_code
         - name
       properties:
+        store_id:
+          type: string
+          x-stoplight:
+            id: umnl6w4di5c8x
         fuelstation_code:
           type: string
           x-stoplight:
             id: 4g0usf1lw9s8m
+          description: fuelstation code must not exceed 50 characters
         supplier_code:
           type: string
           x-stoplight:
@@ -3288,39 +3295,48 @@ components:
           type: string
           x-stoplight:
             id: 8qbbn0ytgj5pk
+          description: name must not exceed 81 characters
         manager_code:
           type: string
           x-stoplight:
             id: q3a1b0dtx61gh
-        owner_code:
+          description: manager code must not exceed 7 characters
+        merchant_code:
           type: string
           x-stoplight:
             id: exkien38afb6j
+          description: merchant code must not exceed 7 characters
         address:
           type: string
           x-stoplight:
             id: 8dcpa6e7y4dlo
+          description: address must not exceed 81 characters
         city:
           type: string
           x-stoplight:
             id: 8jrl3g5m9kv59
+          description: city must not exceed 30 characters
         province:
           type: string
           x-stoplight:
             id: niy156i3dn0qu
+          description: province must not exceed 2 characters
         zip_code:
           type: string
           x-stoplight:
             id: ugfbxkmvhbw9z
+          description: zip code must not exceed 6 characters
         phone:
           type: string
           x-stoplight:
             id: mniiyr0mu9vgc
+          description: phone must not exceed 30 characters
     FuelstationParams:
       title: FuelstationParams
       x-stoplight:
         id: xdrlesrer2e8c
       type: object
+      description: input structure to update fuelstation registry
       required:
         - supplier_code
         - fuelstation_registry
@@ -3333,6 +3349,7 @@ components:
           x-stoplight:
             id: vi9ja3ylhhwcd
           type: array
+          description: fuelstation registy data
           items:
             $ref: '#/components/schemas/FuelstationUpdate'
             x-stoplight:
