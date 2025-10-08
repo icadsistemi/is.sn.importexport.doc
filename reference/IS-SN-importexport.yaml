@@ -3275,7 +3275,6 @@ components:
       description: fuelstation registry fields
       required:
         - store_id
-        - supplier_code
         - name
       properties:
         store_id:
@@ -3287,10 +3286,6 @@ components:
           x-stoplight:
             id: 4g0usf1lw9s8m
           description: fuelstation code must not exceed 50 characters
-        supplier_code:
-          type: string
-          x-stoplight:
-            id: izrpvul4ld21k
         name:
           type: string
           x-stoplight:
