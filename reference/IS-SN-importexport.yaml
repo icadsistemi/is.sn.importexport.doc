@@ -1995,7 +1995,7 @@ paths:
         Through this endpoint, you can update the fuel station code, name, owner code, merchant code, address, city, province, ZIP code, and phone number.
 
         This is an all-or-nothing update. If even one of the fuel stations in the request fails validation or causes an error, none of the stations will be updated.
-        In addition, any fields left empty in the request will not overwrite or delete existing data. Empty fields are simply ignored — this means the PUT method cannot be used to remove data.
+        In addition, any fields left empty in the request will not overwrite or delete existing data. Empty fields are simply ignored this means the PUT method cannot be used to remove data.
         The endpoint for the PUT request should be formatted as follows:
 components:
   schemas:
