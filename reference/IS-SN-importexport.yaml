@@ -1993,6 +1993,9 @@ paths:
       description: |-
         With a PUT request to this method, it is possible to update multiple entries in the fuel stations registry.
         Through this endpoint, you can update the fuel station code, name, owner code, merchant code, address, city, province, ZIP code, and phone number.
+
+        This is an all-or-nothing update. If even one of the fuel stations in the request fails validation or causes an error, none of the stations will be updated.
+        In addition, any fields left empty in the request will not overwrite or delete existing data. Empty fields are simply ignored — this means the PUT method cannot be used to remove data.
         The endpoint for the PUT request should be formatted as follows:
 components:
   schemas:
@@ -3275,6 +3278,7 @@ components:
       description: fuelstation registry fields
       required:
         - store_id
+        - supplier_code
         - name
       properties:
         store_id:
@@ -3286,6 +3290,10 @@ components:
           x-stoplight:
             id: 4g0usf1lw9s8m
           description: fuelstation code must not exceed 50 characters
+        supplier_code:
+          type: string
+          x-stoplight:
+            id: izrpvul4ld21k
         name:
           type: string
           x-stoplight:
