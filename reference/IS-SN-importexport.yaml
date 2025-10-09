@@ -1990,13 +1990,31 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/FuelstationParams'
-      description: |-
-        With a PUT request to this method, it is possible to update multiple entries in the fuel stations registry.
-        Through this endpoint, you can update the fuel station code, name, owner code, merchant code, address, city, province, ZIP code, and phone number.
+      description: |
+        This endpoint allows updating multiple entries in the fuel stations registry through a single PUT request.
 
-        This is an all-or-nothing update. If even one of the fuel stations in the request fails validation or causes an error, none of the stations will be updated.
-        In addition, any fields left empty in the request will not overwrite or delete existing data. Empty fields are simply ignored this means the PUT method cannot be used to remove data.
-        The endpoint for the PUT request should be formatted as follows:
+        ### Updatable fields
+
+        - Fuel station code  
+        - Name  
+        - Owner code  
+        - Merchant code  
+        - Address  
+        - City  
+        - Province  
+        - ZIP code  
+        - Phone number
+
+        ### Behavior
+
+        **All-or-nothing update:**  
+        The update is transactional — if any of the stations in the request fail validation or trigger an error, none of the updates will be applied.
+
+        **Empty fields are ignored:**  
+        Fields left empty in the request do not overwrite or delete existing data. They are simply skipped during the update process.
+
+        > **Note:** The PUT method cannot be used to remove data.
+      x-internal: false
 components:
   schemas:
     CardInput:
