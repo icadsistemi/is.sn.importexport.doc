@@ -1361,6 +1361,12 @@ paths:
           in: query
           description: Optional customer code. This parameter must be set to export only customer's transactions.
           name: customer_code
+        - schema:
+            type: string
+          in: header
+          name: x-api-key
+          description: authentication for request
+          required: true
       description: Used to export OIL transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
       x-stoplight:
         id: ec1szwjn0fja1
@@ -1459,6 +1465,7 @@ paths:
           in: header
           name: x-api-key
           description: Client API key
+          required: true
       x-stoplight:
         id: qe5ghmmrkg8q8
   /receipts/transactions:
@@ -1584,6 +1591,12 @@ paths:
           in: query
           name: status_filter
           description: 'The status code SFAC represents "Accepted invoices." These invoices include all issued invoices and group together the following states: SF05 (Delivered), SF08 (Accepted by recipient), SF10 (Automatically accepted), and SF11 (Not Delivered - Permanent). Other status codes include SF03 (Sent), SF04 (Error), SF06 (Not Delivered - Temporary), SF07 (Rejected), and SF09 (Rejected by recipient).'
+        - schema:
+            type: string
+          in: header
+          name: x-api-key
+          description: Client API key
+          required: true
       x-stoplight:
         id: ve4jqvs491dl5
   /invoices/passive:
@@ -1658,6 +1671,12 @@ paths:
           in: query
           name: is_meta_data
           description: Indicate whether you also want to receive the metadata files from the SdI
+        - schema:
+            type: string
+          in: header
+          name: x-api-key
+          description: Client API key
+          required: true
       x-stoplight:
         id: z4uokaubokztu
     parameters: []
@@ -1715,6 +1734,12 @@ paths:
           in: query
           name: outcomes
           description: Indicate whether you also want to receive the outcome files received from the SdI (usable only if you have subscribed to the relevant package).
+        - schema:
+            type: string
+          in: header
+          name: x-api-key
+          description: Client API key
+          required: true
       x-stoplight:
         id: wkahbqy2nzv6m
     parameters: []
@@ -1963,6 +1988,12 @@ paths:
           in: query
           name: fuel_station_code
           description: 'Optional fuel station code. If not set, every fuelcoupons transactions of the specified supplier in the datetime range will be returned.'
+        - schema:
+            type: string
+          in: header
+          name: x-api-key
+          description: Client API key
+          required: true
       x-internal: false
       x-stoplight:
         id: fwue0o35ymz32
@@ -2015,6 +2046,13 @@ paths:
 
         > **Note:** The PUT method cannot be used to remove data.
       x-internal: false
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: x-api-key
+          description: Client API key
+          required: true
 components:
   schemas:
     CardInput:
