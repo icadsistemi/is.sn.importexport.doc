@@ -3341,7 +3341,7 @@ components:
           type: string
           x-stoplight:
             id: umnl6w4di5c8x
-        fuelstation_code:
+        code:
           type: string
           x-stoplight:
             id: 4g0usf1lw9s8m
