@@ -3442,6 +3442,31 @@ components:
             $ref: '#/components/schemas/FuelstationUpdate'
             x-stoplight:
               id: t8vokor8hmc8s
+    FuelstationList:
+      title: FuelstationList
+      x-stoplight:
+        id: 73sf5ngol2p0u
+      type: array
+      items:
+        $ref: '#/components/schemas/Fuelstation'
+        x-stoplight:
+          id: 1hx860pdklvt3
+      description: ''
+    Fuelstation:
+      title: Fuelstation
+      x-stoplight:
+        id: mtmcr8cxlpoep
+      type: object
+      properties:
+        store_id:
+          type: string
+          x-stoplight:
+            id: ribue6z7c8c97
+        name:
+          type: string
+          x-stoplight:
+            id: ogd12bvb4e7te
+      description: ''
   securitySchemes:
     Cognito:
       type: oauth2
