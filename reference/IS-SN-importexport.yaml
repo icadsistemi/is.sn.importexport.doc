@@ -1,6 +1,6 @@
 openapi: 3.1.0
 x-stoplight:
-  id: ep0wdx3qc80rq
+  id: ng88gcubj4kq9
 info:
   title: Import export Selfnet
   version: 0.2.26
@@ -752,7 +752,7 @@ paths:
                     id: eib9bvuu82uog
                   description: Total number of pages (calculated based on the total number of card elements and size of the page)
       x-stoplight:
-        id: 8x4wtx5k57c9t
+        id: 859lb14kqmjtp
     post:
       summary: Insert/Update cards
       operationId: post-cards
@@ -770,7 +770,7 @@ paths:
                   id: yn8ni649j87u3
       description: Used to upsert one or more cards.
       x-stoplight:
-        id: jfvbjuadubw5x
+        id: j5hm7m0lgtx1v
   /cards/transfer:
     post:
       summary: Transfer credit between two cards
@@ -802,7 +802,7 @@ paths:
                 - source_card_pan
                 - target_card_pan
       x-stoplight:
-        id: alscp6q792v0f
+        id: nof2slhgcs0jy
     parameters: []
   /cards/articles:
     get:
@@ -844,7 +844,7 @@ paths:
           name: supplier_code
           required: true
       x-stoplight:
-        id: h532wp2wszczo
+        id: ijlx0aehbjofd
     parameters: []
   /customers:
     get:
@@ -922,7 +922,7 @@ paths:
           description: 'Code of the customer, must be unique in the supplier context'
       x-internal: false
       x-stoplight:
-        id: 6z0rvr7rgb65v
+        id: rejkrwd8ho4cb
     post:
       summary: Create customer
       operationId: post-customers
@@ -1029,7 +1029,7 @@ paths:
                       total_recharge: 0
       description: Insert or update customers filtered by supplier code
       x-stoplight:
-        id: pu0huuhfgyrea
+        id: j75m9iz6gcmd1
   /recharges:
     get:
       summary: Get recharges
@@ -1126,7 +1126,7 @@ paths:
           description: 'Used to choose the filter type. If the value is "INS", the transations will be filtered on the datetime they were saved. Otherwise, if the the value is "TRX", they are filtered on their actual transaction timestamp'
           required: true
       x-stoplight:
-        id: hcfoazq35zuqh
+        id: c1nlbag6y6xy3
     post:
       summary: Request a new recharge
       operationId: post-recharges
@@ -1156,7 +1156,7 @@ paths:
                       amount: 0
       description: Request to recharge a list of cards
       x-stoplight:
-        id: 3p84djvxbljct
+        id: evdrwrq9r2dnq
   /transactions:
     get:
       summary: Get cards transactions
@@ -1369,7 +1369,7 @@ paths:
           required: true
       description: Used to export OIL transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
       x-stoplight:
-        id: ec1szwjn0fja1
+        id: 1navvne5hdm8p
   /transactions/nonoil:
     get:
       summary: Get non oil transactions
@@ -1467,7 +1467,7 @@ paths:
           description: Client API key
           required: true
       x-stoplight:
-        id: qe5ghmmrkg8q8
+        id: cj1f79i3bhdkk
   /receipts/transactions:
     get:
       summary: Get receipts transactions
@@ -1518,7 +1518,7 @@ paths:
           description: 'Optional fuel station code, if not set, every transactions of the specified supplier in the datetime range will be returned'
       description: Used to export receipts transactions filtered by input values. The maximum range between date_start and date_end is 7 days.
       x-stoplight:
-        id: oxnddjjod4x18
+        id: dd03n9agcc8n6
   /invoices/active:
     get:
       summary: Get invoices active
@@ -1598,7 +1598,7 @@ paths:
           description: Client API key
           required: true
       x-stoplight:
-        id: ve4jqvs491dl5
+        id: btnv4scz0blmm
   /invoices/passive:
     get:
       summary: Get invoices passive
@@ -1678,7 +1678,7 @@ paths:
           description: Client API key
           required: true
       x-stoplight:
-        id: z4uokaubokztu
+        id: a288ocduibs6g
     parameters: []
   /invoices/external:
     get:
@@ -1741,7 +1741,7 @@ paths:
           description: Client API key
           required: true
       x-stoplight:
-        id: wkahbqy2nzv6m
+        id: j3f7z4d0ocs9s
     parameters: []
     post:
       summary: Import external invoices
@@ -1785,7 +1785,7 @@ paths:
                 - file
         description: ''
       x-stoplight:
-        id: quaug8fo1jz8x
+        id: ztjv0km5gnrxd
   /invoices/external/status:
     get:
       summary: Get invoices external status
@@ -1823,7 +1823,7 @@ paths:
           name: date_end
           required: true
       x-stoplight:
-        id: h1hbahscowydr
+        id: iemajdr0s98ch
   /fuelcoupons/transactions:
     get:
       summary: GET Fuelcoupons transactions
@@ -1996,7 +1996,7 @@ paths:
           required: true
       x-internal: false
       x-stoplight:
-        id: fwue0o35ymz32
+        id: xocy5km2xp26i
     parameters: []
   /fuelstations:
     put:
@@ -2015,7 +2015,7 @@ paths:
           description: Internal Server Error
       operationId: put-fuelstations
       x-stoplight:
-        id: f71ugtqheanoe
+        id: 7zvf3l2zqk4q0
       requestBody:
         content:
           application/json:
@@ -2053,12 +2053,41 @@ paths:
           name: x-api-key
           description: Client API key
           required: true
+    get:
+      summary: Get Fuelstations
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Unprocessable Entity (WebDAV)
+        '500':
+          description: Internal Server Error
+      operationId: get-fuelstations
+      x-stoplight:
+        id: 42hio40531s18
+      description: |
+        This endpoint allows retrieving a list of fuel stations by providing a supplier code as input.
+
+        ### Behavior
+        The supplier code is a mandatory field. If it is not provided, the method will fail.
+
+        > **Note:** The GET method shows only the fuel stations the user is authorized to access.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: supplier_code
 components:
   schemas:
     CardInput:
       title: Cards
       x-stoplight:
-        id: mv69zou7nhnp2
+        id: 3fc3ub970oaoo
       type: object
       properties:
         batch_number:
@@ -2154,7 +2183,7 @@ components:
     Card:
       title: Cards
       x-stoplight:
-        id: x55vphnfje8tg
+        id: hskh0bhkhn37o
       type: object
       properties:
         batch_number:
@@ -2259,7 +2288,7 @@ components:
     CardsArticlesInput:
       title: CardsArticlesInput
       x-stoplight:
-        id: cqp1r4rsgnxmv
+        id: ipmrqmdwbucra
       type: object
       properties:
         supplier_code:
@@ -2287,7 +2316,7 @@ components:
     InvoicesExternalResponse:
       title: Invoices external response
       x-stoplight:
-        id: lxeuqkj3pyz4i
+        id: au7kz0z9881tx
       type: object
       description: response external invoice
       examples:
@@ -2414,11 +2443,11 @@ components:
           document_type_code:
             type: string
       x-stoplight:
-        id: jdrudhyg89yrq
+        id: 90zkihheka9x5
     InvoicesPassiveResponse:
       title: Invoices passive response
       x-stoplight:
-        id: 3tk1pv6oysc9a
+        id: yxxgshl02i4hq
       type: object
       examples:
         - result: OK
@@ -2478,7 +2507,7 @@ components:
     InvoicesActiveResponse:
       title: Invoices active response
       x-stoplight:
-        id: uia13f2wpt3yx
+        id: 8z6yh7iajl27o
       type: object
       examples:
         - result: OK
@@ -2560,7 +2589,7 @@ components:
     ArticleInput:
       title: ArticleInput
       x-stoplight:
-        id: 013xyrkqr32fy
+        id: wgfmh6y34rxvc
       type: object
       properties:
         product_code:
@@ -2577,7 +2606,7 @@ components:
     ReceiptTransaction:
       title: ReceiptTransaction
       x-stoplight:
-        id: cnqipnizag63n
+        id: 85k3qa72purgf
       type: object
       properties:
         id:
@@ -2798,7 +2827,7 @@ components:
             type: integer
             description: Amount of the coupon when created
       x-stoplight:
-        id: qjrssogurp0lg
+        id: vyigny2q9k12v
     fuelcouponsTransactions:
       type: array
       x-examples:
@@ -2871,11 +2900,11 @@ components:
             type: integer
       description: ''
       x-stoplight:
-        id: 8n38eolu5tk3l
+        id: prfc2m2vd60jt
     Recharges:
       title: Recharges
       x-stoplight:
-        id: d8x8mn1xe1fii
+        id: vfge3eq18k8ln
       type: object
       properties:
         card_pan:
@@ -2905,11 +2934,11 @@ components:
           items:
             $ref: '#/components/schemas/Recharges'
       x-stoplight:
-        id: tnc06hg4sh2x7
+        id: 7xed8alv4h7dl
     InputCustomers:
       title: InputCustomers
       x-stoplight:
-        id: 8j0tnbusx7mxg
+        id: tlqzftsv3rr8u
       type: object
       properties:
         supplier_code:
@@ -3088,7 +3117,7 @@ components:
           total_recharge: 1500
       description: ''
       x-stoplight:
-        id: 5b9kp2drdmoye
+        id: 4i71750oe1l30
     NonOilTransactionOutput:
       type: object
       x-examples:
@@ -3186,7 +3215,7 @@ components:
         ddt_number:
           type: string
       x-stoplight:
-        id: qn82w8jsn1p5l
+        id: zxq36cq52miw6
     RechargesResponse:
       type: object
       x-examples:
@@ -3295,11 +3324,11 @@ components:
             id: c8lt1yl4bs9g5
           description: Commission of recharge
       x-stoplight:
-        id: ebss3r2pbf3go
+        id: joj5r9no2skh8
     CardArticles:
       title: CardArticles
       x-stoplight:
-        id: 3f1wryigil35a
+        id: o2o676e1uxkyb
       type: object
       properties:
         product_code:
@@ -3329,7 +3358,7 @@ components:
     FuelstationUpdate:
       title: FuelstationRegistryUpdate
       x-stoplight:
-        id: 6xqdd0eha8ax1
+        id: disjdcwlmkne1
       type: object
       description: fuelstation registry fields
       required:
@@ -3393,7 +3422,7 @@ components:
     FuelstationParams:
       title: FuelstationParams
       x-stoplight:
-        id: xdrlesrer2e8c
+        id: 8mej8vy90ewv3
       type: object
       description: input structure to update fuelstation registry
       required:
