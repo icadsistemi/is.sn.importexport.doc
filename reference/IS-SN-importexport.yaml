@@ -2065,15 +2065,49 @@ paths:
                 $ref: '#/components/schemas/FuelstationList'
               examples:
                 Example 1:
-                  value: {}
+                  value:
+                    - store_id: string
+                      name: string
+            application/xml:
+              schema:
+                type: object
+                properties: {}
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelstationList'
+              examples:
+                Example 1:
+                  value: []
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelstationList'
+              examples:
+                Example 1:
+                  value: []
         '422':
           description: Unprocessable Entity (WebDAV)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelstationList'
+              examples:
+                Example 1:
+                  value: []
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelstationList'
+              examples:
+                Example 1:
+                  value: []
       operationId: get-fuelstations
       x-stoplight:
         id: 42hio40531s18
