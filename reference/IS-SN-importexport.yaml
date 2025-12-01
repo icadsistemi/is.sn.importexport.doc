@@ -673,7 +673,7 @@ paths:
   /cards:
     get:
       summary: Get cards data
-      tags: 
+      tags:
         - cards
       responses:
         '200':
@@ -756,7 +756,7 @@ paths:
         id: u4zk40k5ddzw7
     post:
       summary: Insert/Update cards
-      tags: 
+      tags:
         - cards
       operationId: post-cards
       responses:
@@ -776,7 +776,7 @@ paths:
         id: syx1w2t0jnuu5
   /cards/transfer:
     post:
-      tags: 
+      tags:
         - cards
       summary: Transfer credit between two cards
       operationId: cards-transfer
@@ -812,7 +812,7 @@ paths:
   /cards/articles:
     get:
       summary: Get Card Products
-      tags: 
+      tags:
         - cards
       responses:
         '200':
@@ -855,7 +855,7 @@ paths:
   /customers:
     get:
       summary: Get customer data
-      tags: 
+      tags:
         - customers
       responses:
         '200':
@@ -932,7 +932,7 @@ paths:
         id: u50ct4amywfpq
     post:
       summary: Create customer
-      tags: 
+      tags:
         - customers
       operationId: post-customers
       responses:
@@ -1042,7 +1042,7 @@ paths:
   /recharges:
     get:
       summary: Get recharges
-      tags: 
+      tags:
         - recharges
       responses:
         '200':
@@ -1139,7 +1139,7 @@ paths:
         id: o3v705csh0zkr
     post:
       summary: Request a new recharge
-      tags: 
+      tags:
         - recharges
       operationId: post-recharges
       responses:
@@ -1172,7 +1172,7 @@ paths:
   /transactions:
     get:
       summary: Get cards transactions
-      tags: 
+      tags:
         - transactions
       responses:
         '200':
@@ -1386,7 +1386,7 @@ paths:
   /transactions/nonoil:
     get:
       summary: Get non oil transactions
-      tags: 
+      tags:
         - transactions
       responses:
         '200':
@@ -1485,7 +1485,7 @@ paths:
   /receipts/transactions:
     get:
       summary: Get receipts transactions
-      tags: 
+      tags:
         - receipts
       responses:
         '200':
@@ -1843,7 +1843,7 @@ paths:
   /fuelcoupons/transactions:
     get:
       summary: GET Fuelcoupons transactions
-      tags: 
+      tags:
         - fuelcoupons
       responses:
         '200':
@@ -2018,7 +2018,7 @@ paths:
   /fuelstations:
     put:
       summary: PUT Fuelstation Registry
-      tags: 
+      tags:
         - fuelstations
       responses:
         '204':
@@ -2073,7 +2073,7 @@ paths:
           required: true
     get:
       summary: Get Fuelstations
-      tags: 
+      tags:
         - fuelstations
       responses:
         '200':
@@ -2143,6 +2143,12 @@ paths:
           in: query
           name: supplier_code
           required: true
+        - schema:
+            type: string
+          in: header
+          name: x-api-key
+          description: Client API key
+          required: true
   '/fuelstations/{id}/receipt':
     parameters:
       - schema:
@@ -2157,7 +2163,7 @@ paths:
         required: true
     get:
       summary: GET receipt headers fuelstation
-      tags: 
+      tags:
         - fuelstations
       responses:
         '200':
@@ -2197,9 +2203,16 @@ paths:
       operationId: get-fuelstations-id-receipt
       x-stoplight:
         id: 4c65r4v3qhlnb
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: x-api-key
+          required: true
+          description: Client API key
     put:
       summary: PUT receipt headers fuelstation
-      tags: 
+      tags:
         - fuelstations
       responses:
         '204':
@@ -2246,9 +2259,16 @@ paths:
       operationId: put-fuelstations-id-receipt
       x-stoplight:
         id: 7jtf3fopokp3t
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: x-api-key
+          required: true
+          description: Client API key
   /fuelstations/products/status:
     patch:
-      tags: 
+      tags:
         - fuelstations
       summary: Patch Fuelstations products status
       operationId: patch-fuelstations-products-status
