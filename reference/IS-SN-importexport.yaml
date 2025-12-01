@@ -2225,6 +2225,34 @@ paths:
       operationId: put-fuelstations-id-receipt
       x-stoplight:
         id: 7jtf3fopokp3t
+  /fuelstations/products/status:
+    patch:
+      summary: Patch Fuelstations products status
+      operationId: patch-fuelstations-products-status
+      responses:
+        '200':
+          description: 'True'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Unprocessable Entity (WebDAV)
+        '500':
+          description: Internal Server Error
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: x-api-key
+          required: true
+          description: Client API key
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FuelstationsProductsStatusInput'
+      description: This endpoint allows to activate o deactivate a list of products for single fuel station and supplier code as input.
 components:
   schemas:
     CardInput:
@@ -3678,6 +3706,36 @@ components:
           type: string
         flag:
           type: string
+    FuelstationsProductsStatusInput:
+      type: object
+      x-examples:
+        Example 1:
+          supplier_code: '0001'
+          fuelstation_code: IS316002
+          products:
+            - code: '1'
+              status: true
+            - code: '2'
+              status: true
+            - code: '3'
+              status: true
+      properties:
+        supplier_code:
+          type: string
+        fuelstation_code:
+          type: string
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              status:
+                type: boolean
+      required:
+        - supplier_code
+        - fuelstation_code
   securitySchemes:
     Cognito:
       type: oauth2
