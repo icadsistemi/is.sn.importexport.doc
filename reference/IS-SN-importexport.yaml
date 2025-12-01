@@ -756,6 +756,8 @@ paths:
         id: u4zk40k5ddzw7
     post:
       summary: Insert/Update cards
+      tags: 
+        - cards
       operationId: post-cards
       responses:
         '204':
@@ -930,6 +932,8 @@ paths:
         id: u50ct4amywfpq
     post:
       summary: Create customer
+      tags: 
+        - customers
       operationId: post-customers
       responses:
         '200':
@@ -1135,6 +1139,8 @@ paths:
         id: o3v705csh0zkr
     post:
       summary: Request a new recharge
+      tags: 
+        - recharges
       operationId: post-recharges
       responses:
         '204':
