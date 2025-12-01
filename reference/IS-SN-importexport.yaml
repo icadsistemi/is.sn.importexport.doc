@@ -673,7 +673,8 @@ paths:
   /cards:
     get:
       summary: Get cards data
-      tags: []
+      tags: 
+        - cards
       responses:
         '200':
           description: OK
@@ -773,6 +774,8 @@ paths:
         id: syx1w2t0jnuu5
   /cards/transfer:
     post:
+      tags: 
+        - cards
       summary: Transfer credit between two cards
       operationId: cards-transfer
       responses:
@@ -807,7 +810,8 @@ paths:
   /cards/articles:
     get:
       summary: Get Card Products
-      tags: []
+      tags: 
+        - cards
       responses:
         '200':
           description: OK
@@ -849,7 +853,8 @@ paths:
   /customers:
     get:
       summary: Get customer data
-      tags: []
+      tags: 
+        - customers
       responses:
         '200':
           description: OK
@@ -1033,7 +1038,8 @@ paths:
   /recharges:
     get:
       summary: Get recharges
-      tags: []
+      tags: 
+        - recharges
       responses:
         '200':
           description: OK
@@ -1160,7 +1166,8 @@ paths:
   /transactions:
     get:
       summary: Get cards transactions
-      tags: []
+      tags: 
+        - transactions
       responses:
         '200':
           description: OK
@@ -1373,7 +1380,8 @@ paths:
   /transactions/nonoil:
     get:
       summary: Get non oil transactions
-      tags: []
+      tags: 
+        - transactions
       responses:
         '200':
           description: OK
@@ -1471,6 +1479,8 @@ paths:
   /receipts/transactions:
     get:
       summary: Get receipts transactions
+      tags: 
+        - receipts
       responses:
         '200':
           description: Ok
@@ -1827,7 +1837,8 @@ paths:
   /fuelcoupons/transactions:
     get:
       summary: GET Fuelcoupons transactions
-      tags: []
+      tags: 
+        - fuelcoupons
       responses:
         '200':
           description: OK
@@ -2001,7 +2012,8 @@ paths:
   /fuelstations:
     put:
       summary: PUT Fuelstation Registry
-      tags: []
+      tags: 
+        - fuelstations
       responses:
         '204':
           description: No Content
@@ -2055,7 +2067,8 @@ paths:
           required: true
     get:
       summary: Get Fuelstations
-      tags: []
+      tags: 
+        - fuelstations
       responses:
         '200':
           description: OK
@@ -2138,7 +2151,8 @@ paths:
         required: true
     get:
       summary: GET receipt headers fuelstation
-      tags: []
+      tags: 
+        - fuelstations
       responses:
         '200':
           description: OK
@@ -2179,7 +2193,8 @@ paths:
         id: 4c65r4v3qhlnb
     put:
       summary: PUT receipt headers fuelstation
-      tags: []
+      tags: 
+        - receipts
       responses:
         '204':
           description: No Content
@@ -2227,6 +2242,8 @@ paths:
         id: 7jtf3fopokp3t
   /fuelstations/products/status:
     patch:
+      tags: 
+        - fuelstations
       summary: Patch Fuelstations products status
       operationId: patch-fuelstations-products-status
       responses:
