@@ -2221,7 +2221,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReceiptDataUpdate'
+                type: object
+                properties: {}
         '400':
           description: Bad Request
           content:
