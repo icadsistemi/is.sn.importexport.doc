@@ -2221,8 +2221,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties: {}
+                $ref: '#/components/schemas/ReceiptDataUpdate'
         '400':
           description: Bad Request
           content:
@@ -2316,7 +2315,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/FuelstationsProductsStatusInput'
-      description: This endpoint allows to activate o deactivate a list of products for single fuel station and supplier code as input.
+      description: |-
+        This endpoint allows to activate o deactivate a list of products for single fuel station and supplier code as input.
+        The list of the products code can be verified on section ANAGRAFICHE - PRODOTTI of SELFNET portal
       x-stoplight:
         id: 9lemk77rov5j3
 components:
@@ -3755,11 +3756,9 @@ components:
           is_enabled: true
           username: ICAD
           flag: colore test
-      required:
-        - receipt_header_id
+      x-stoplight:
+        id: 8vrbai5iuua2g
       properties:
-        receipt_header_id:
-          type: integer
         row1:
           type: string
         row2:
@@ -3774,8 +3773,6 @@ components:
           type: string
         flag:
           type: string
-      x-stoplight:
-        id: 8vrbai5iuua2g
     FuelstationsProductsStatusInput:
       type: object
       x-examples:
