@@ -2218,10 +2218,7 @@ paths:
       responses:
         '204':
           description: No Content
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReceiptDataUpdate'
+          content: {}
         '400':
           description: Bad Request
           content:
@@ -2286,6 +2283,11 @@ paths:
         Fields left empty in the request do overwrite or delete existing data.
 
         > **Note:** The PUT method cannot be used to remove data.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReceiptDataUpdate'
   /fuelstations/products/status:
     patch:
       tags:
