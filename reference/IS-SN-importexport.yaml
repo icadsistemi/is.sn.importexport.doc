@@ -820,16 +820,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CardArticles'
-              examples:
-                Example 1:
-                  value:
-                    - product_code: 0
-                      product_name: string
-                      product_status: true
-                      family_product_code: 0
-                      family_description: string
-                      isoil: true
+                $ref: '#/components/schemas/CardArticles'            
         '422':
           description: Unprocessable Entity (WebDAV)
         '500':
@@ -2156,11 +2147,6 @@ paths:
         name: id
         in: path
         required: true
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
     get:
       summary: GET receipt headers fuelstation
       tags:
@@ -2325,7 +2311,8 @@ paths:
   /invoices/transactions:
     get:
       summary: Get Invoice Transactions
-      tags: []
+      tags:
+        - invoices
       responses:
         '200':
           description: OK
