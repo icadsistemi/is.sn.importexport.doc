@@ -820,7 +820,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CardArticles'            
+                $ref: '#/components/schemas/CardArticles'
         '422':
           description: Unprocessable Entity (WebDAV)
         '500':
@@ -1824,11 +1824,13 @@ paths:
           in: query
           name: date_start
           required: true
+          description: Unix time format.
         - schema:
             type: string
           in: query
           name: date_end
           required: true
+          description: Unix time format.
       x-stoplight:
         id: an9lao4cram19
   /fuelcoupons/transactions:
