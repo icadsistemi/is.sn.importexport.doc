@@ -3,7 +3,7 @@ x-stoplight:
   id: 4x4b2r57svb45
 info:
   title: Import export Selfnet
-  version: 0.2.26
+  version: 0.2.27
   description: |
     # Selfnet Import Export api documentation
 
@@ -1768,7 +1768,9 @@ paths:
           description: Unprocessable Entity (WebDAV)
         '500':
           description: Internal Server Error
-      description: 'This API allows importing the XML file of the documents received from external sources through a specific API (not included in this document). The invoice informations are saved on db and sent to Sdi '
+      description: |-
+        This API allows importing the XML file of the documents received from external sources through a specific API (not included in this document). The invoice informations are saved on db and sent to Sdi.
+        The content of the XML file that should be sent to the SDI must be encoded into Base64.
       requestBody:
         content:
           application/json:
@@ -1782,14 +1784,23 @@ paths:
               properties:
                 file_name:
                   type: string
+                  description: File name
                 supplier_code:
                   type: string
+                  description: Supplier code
                 file:
                   type: string
+                  description: Content of the XML file to be sent to the SDI encoded into Base64
               required:
                 - file_name
                 - supplier_code
                 - file
+            examples:
+              Example 1:
+                value:
+                  file_name: IT09252150017_W0CYU.xml
+                  supplier_code: '00001'
+                  file: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHA6RmF0dHVyYUVsZXR0cm9uaWNhIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIiB4bWxuczpwPSJodHRwOi8vaXZhc2Vydml6aS5hZ2VuemlhZW50cmF0ZS5nb3YuaXQvZG9jcy94c2QvZmF0dHVyZS92MS4yIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB2ZXJzaW9uZT0iRlBSMTIiIHhzaTpzY2hlbWFMb2NhdGlvbj0iaHR0cDovL2l2YXNlcnZpemkuYWdlbnppYWVudHJhdGUuZ292Lml0L2RvY3MveHNkL2ZhdHR1cmUvdjEuMiBodHRwOi8vd3d3LmZhdHR1cmFwYS5nb3YuaXQvZXhwb3J0L2ZhdHR1cmF6aW9uZS9zZGkvZmF0dHVyYXBhL3YxLjIvU2NoZW1hX2RlbF9maWxlX3htbF9GYXR0dXJhUEFfdmVyc2lvbmVfMS4yLnhzZCI+CiAgPEZhdHR1cmFFbGV0dHJvbmljYUhlYWRlcj4KICAgIDxEYXRpVHJhc21pc3Npb25lPgogICAgICA8SWRUcmFzbWl0dGVudGU+CiAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgPElkQ29kaWNlPjA5MjUyMTUwMDE3PC9JZENvZGljZT4KICAgICAgPC9JZFRyYXNtaXR0ZW50ZT4KICAgICAgPFByb2dyZXNzaXZvSW52aW8+MDAwMDAwMDY5NjwvUHJvZ3Jlc3Npdm9JbnZpbz4KICAgICAgPEZvcm1hdG9UcmFzbWlzc2lvbmU+RlBSMTI8L0Zvcm1hdG9UcmFzbWlzc2lvbmU+CiAgICAgIDxDb2RpY2VEZXN0aW5hdGFyaW8+NVJVTzgyRDwvQ29kaWNlRGVzdGluYXRhcmlvPgogICAgICA8Q29udGF0dGlUcmFzbWl0dGVudGU+CiAgICAgICAgPFRlbGVmb25vPjAxMTk5MDY2ODk8L1RlbGVmb25vPgogICAgICAgIDxFbWFpbD5pbmZvQGljYWRzaXN0ZW1pLmNvbTwvRW1haWw+CiAgICAgIDwvQ29udGF0dGlUcmFzbWl0dGVudGU+CiAgICA8L0RhdGlUcmFzbWlzc2lvbmU+CiAgICA8Q2VkZW50ZVByZXN0YXRvcmU+CiAgICAgIDxEYXRpQW5hZ3JhZmljaT4KICAgICAgICA8SWRGaXNjYWxlSVZBPgogICAgICAgICAgPElkUGFlc2U+SVQ8L0lkUGFlc2U+CiAgICAgICAgICA8SWRDb2RpY2U+MTE3NTYxMTAwMTg8L0lkQ29kaWNlPgogICAgICAgIDwvSWRGaXNjYWxlSVZBPgogICAgICAgIDxBbmFncmFmaWNhPgogICAgICAgICAgPERlbm9taW5hemlvbmU+TXAgU2VydmljZSBDb21wYW55IHMuci5sLjwvRGVub21pbmF6aW9uZT4KICAgICAgICA8L0FuYWdyYWZpY2E+CiAgICAgICAgPFJlZ2ltZUZpc2NhbGU+UkYwMTwvUmVnaW1lRmlzY
         description: ''
       x-stoplight:
         id: ucuh5tbowwm25
