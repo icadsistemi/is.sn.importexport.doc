@@ -3,7 +3,7 @@ x-stoplight:
   id: 4x4b2r57svb45
 info:
   title: Import export Selfnet
-  version: 0.2.27
+  version: 0.2.28
   description: |
     # Selfnet Import Export api documentation
 
@@ -1597,7 +1597,7 @@ paths:
             example: '"", "SF05", "accettate", null'
           in: query
           name: status_filter
-          description: 'The status code SFAC represents "Accepted invoices." These invoices include all issued invoices and group together the following states: SF05 (Delivered), SF08 (Accepted by recipient), SF10 (Automatically accepted), and SF11 (Not Delivered - Permanent). Other status codes include SF03 (Sent), SF04 (Error), SF06 (Not Delivered - Temporary), SF07 (Rejected), and SF09 (Rejected by recipient).'
+          description: 'The status code SFAC represents "Accepted invoices".  These invoices include all issued invoices and group together the following states: SF05 (Delivered), SF08 (Accepted by recipient), SF10 (Automatically accepted), and SF11 (Not Delivered - Permanent). Other status codes include SF03 (Sent), SF04 (Error), SF06 (Not Delivered - Temporary), SF07 (Rejected), and SF09 (Rejected by recipient). SFAC implicitly includes: SF05, SF06, SF08, SF10,SF11.'
         - schema:
             type: string
           in: header
