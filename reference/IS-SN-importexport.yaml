@@ -1395,34 +1395,37 @@ paths:
                   value:
                     - id: 0
                       extra_code: 0
-                      datetime: string
-                      datetime_str: string
+                      datetime: '2024-06-10T12:30:49Z'
+                      datetime_str: '2024-06-10 12:30:49'
                       transaction_number: 0
                       price: 0
-                      amount: 0
-                      terminal_id: string
+                      terminal_id: '60000000'
                       km: 0
                       residue: 0
-                      request_datetime: string
-                      request_datetime_str: string
+                      request_datetime: '2024-06-10T12:30:57.59Z'
+                      request_datetime_str: '2024-06-10 12:30:57'
                       discount_value: 0
                       discount_amount: 0
                       gross_amount: 0
                       net_amount: 0
-                      customer_code: string
-                      customer_name: string
-                      customer_email: email@email.it
+                      customer_code: CD0000
+                      customer_name: STRING
+                      customer_email: email@icadsistemi.com;email2@icadsistemi.com
                       card_code: 0
-                      card_pan: string
-                      card_type: string
-                      article_code: string
-                      article_name: string
-                      storeId: string
-                      imp.fuelstation_code: string
-                      imp.fuelstation_name: string
-                      ins_datetime: string
-                      ins_datetime_str: string
-                      ddt_number: string
+                      card_pan: '70055720000000000'
+                      card_type: '2'
+                      article_code: '16'
+                      article_name: OLIO 2T
+                      storeId: IS330000
+                      fuelstation_code: ''
+                      fuelstation_name: STRING
+                      ins_datetime: '2024-06-10T12:31:00Z'
+                      ins_datetime_str: '2024-06-10 12:31:00'
+                      ddt_number: 0000135/2024
+                      is_reversal: false
+                      vat_rate: 22
+                      vehicle_plate: AA 000 AA
+                      quantity: 1
         '400':
           description: Bad Request
         '401':
