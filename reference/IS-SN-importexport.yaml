@@ -3,7 +3,7 @@ x-stoplight:
   id: 4x4b2r57svb45
 info:
   title: Import export Selfnet
-  version: 0.2.29
+  version: 0.2.30
   description: |
     # Selfnet Import Export api documentation
 
@@ -1217,11 +1217,6 @@ paths:
                       x-stoplight:
                         id: 0lns23zw8jp3j
                       description: Email of the customer
-                    customer_country_code:
-                      type: string
-                      x-stoplight:
-                        id: 89noqcwfveqqp
-                      description: country code of customer
                     article_code:
                       type: string
                       x-stoplight:
@@ -3883,6 +3878,42 @@ components:
         id: e3hcxkqueoc12
     InvoicesTransactions:
       type: object
+      x-examples:
+        Example 1:
+          invoice_transactions:
+            - detail_id: 12458290
+              timestamp: '2024-08-05T17:53:00.897+02:00'
+              insert_timestamp: '2024-08-05T17:54:10.87+02:00'
+              line_number: 1
+              quantity: 5.4200542
+              total_amount: 10
+              taxable_amount: 8.2
+              vat_amount: 1.8
+              unit_price: 1.85
+              invoice_number: PA.Imm-24002
+              invoice_year: 2024
+              invoice_issuing_date: '2024-08-05T00:00:00+02:00'
+              invoice_amount: 10
+              invoice_selfnet: false
+              invoice_immediate: true
+              customer_name: Cliente di Prova IS
+              customer_vat: '09111111112'
+              customer_fiscalcode: CTZNDR68B10L219R
+              customer_address: 'Via Vittorio Amedeo II, n°3'
+              customer_city: VOLVERA
+              customer_cap: '10040'
+              customer_province: TO
+              document_type: Fattura
+              product_name: VERDE
+              fuelStation_id: 12
+              fuelStation_code: IS316002
+              fuelStation_name: PV TEST 1
+              payment_method: Carta di pagamento
+              supplier_id: 6
+              invoice_status: Consegnata
+              unit_measure: Lt
+              isoil: true
+              uf_id: 12
       properties:
         invoice_transactions:
           type: array
@@ -3933,6 +3964,10 @@ components:
                 type: string
               customer_province:
                 type: string
+              customer_country_code:
+                type: string
+                x-stoplight:
+                  id: bqyx0bc2k408j
               document_type:
                 type: string
               product_name:
@@ -3955,42 +3990,6 @@ components:
                 type: boolean
               uf_id:
                 type: integer
-      x-examples:
-        Example 1:
-          invoice_transactions:
-            - detail_id: 12458290
-              timestamp: '2024-08-05T17:53:00.897+02:00'
-              insert_timestamp: '2024-08-05T17:54:10.87+02:00'
-              line_number: 1
-              quantity: 5.4200542
-              total_amount: 10
-              taxable_amount: 8.2
-              vat_amount: 1.8
-              unit_price: 1.85
-              invoice_number: PA.Imm-24002
-              invoice_year: 2024
-              invoice_issuing_date: '2024-08-05T00:00:00+02:00'
-              invoice_amount: 10
-              invoice_selfnet: false
-              invoice_immediate: true
-              customer_name: Cliente di Prova IS
-              customer_vat: '09111111112'
-              customer_fiscalcode: CTZNDR68B10L219R
-              customer_address: 'Via Vittorio Amedeo II, n°3'
-              customer_city: VOLVERA
-              customer_cap: '10040'
-              customer_province: TO
-              document_type: Fattura
-              product_name: VERDE
-              fuelStation_id: 12
-              fuelStation_code: IS316002
-              fuelStation_name: PV TEST 1
-              payment_method: Carta di pagamento
-              supplier_id: 6
-              invoice_status: Consegnata
-              unit_measure: Lt
-              isoil: true
-              uf_id: 12
   securitySchemes:
     Cognito:
       type: oauth2
