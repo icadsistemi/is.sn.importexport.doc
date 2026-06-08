@@ -1217,6 +1217,11 @@ paths:
                       x-stoplight:
                         id: 0lns23zw8jp3j
                       description: Email of the customer
+                    customer_country_code:
+                      type: string
+                      x-stoplight:
+                        id: 89noqcwfveqqp
+                      description: country code of customer
                     article_code:
                       type: string
                       x-stoplight:
