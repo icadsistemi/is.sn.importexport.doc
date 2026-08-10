@@ -1320,6 +1320,11 @@ paths:
                         id: w5t6m3lqi4wbq
                       format: date-time
                       description: Datetime representing when the request arrived to ICAD Sistemi services
+                    is_enslaved:
+                      type: integer
+                      x-stoplight:
+                        id: swb777dtq0utt
+                      description: Assertive transactions are read from pc stations. Not Assertive are manual inserted transactions
         '400':
           description: Bad Request
         '401':
