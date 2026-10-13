@@ -3263,6 +3263,49 @@ components:
               id: vxaium6r8io75
     Customer:
       type: object
+      x-examples:
+        Example 1:
+          code: CUST123
+          supplier_code: '0001'
+          name: John Doe
+          address: 336 Main Street
+          city: New York
+          zip_code: '10001'
+          province: NY
+          phone_number: +1 555-123-4567
+          email: johndoe@example.com
+          pec: johndoe@pecmail.com
+          notes: VIP customer
+          vat_number: US123456789
+          fiscal_code: DOEJHN80A01F205X
+          is_enabled: true
+          payment_mode_code: MP02
+          payment_periodicity_code: 'N'
+          payment_terms_code: '003'
+          max_period_credit: 10000
+          period_debit: 0
+          exposure: 7500
+          has_km_request: false
+          has_km_check: true
+          has_driver_request: false
+          has_driver_check: true
+          has_account_balance: true
+          has_invoice: false
+          notify_recharge: true
+          notify: false
+          notify1: true
+          notify2: false
+          notify3: true
+          has_customer_recharge: false
+          country_code: IT
+          sdi_code: ''
+          electronic_invoice: true
+          oil_iban: US12345678912345678901
+          non_oil_iban: US98765432109876543210
+          vat_code: '001'
+          total_recharge: 1500
+      x-stoplight:
+        id: 78peuzll094lt
       properties:
         code:
           type: string
@@ -3381,51 +3424,7 @@ components:
           description: 'code of the vat applied to this customer, if it isn''t the standard vaes. See the enum codes at the beginning of the documentms'
         total_recharge:
           type: integer
-          description: 'Total recharge credit,  used as output field'
-      x-examples:
-        Example 1:
-          code: CUST123
-          supplier_code: '0001'
-          name: John Doe
-          address: 336 Main Street
-          city: New York
-          zip_code: '10001'
-          province: NY
-          phone_number: +1 555-123-4567
-          email: johndoe@example.com
-          pec: johndoe@pecmail.com
-          notes: VIP customer
-          vat_number: US123456789
-          fiscal_code: DOEJHN80A01F205X
-          is_enabled: true
-          payment_mode_code: MP02
-          payment_periodicity_code: 'N'
-          payment_terms_code: '003'
-          max_period_credit: 10000
-          period_debit: 0
-          exposure: 7500
-          has_km_request: false
-          has_km_check: true
-          has_driver_request: false
-          has_driver_check: true
-          has_account_balance: true
-          has_invoice: false
-          notify_recharge: true
-          notify: false
-          notify1: true
-          notify2: false
-          notify3: true
-          has_customer_recharge: false
-          country_code: IT
-          sdi_code: ''
-          electronic_invoice: true
-          oil_iban: US12345678912345678901
-          non_oil_iban: US98765432109876543210
-          vat_code: '001'
-          total_recharge: 1500
-      description: ''
-      x-stoplight:
-        id: 78peuzll094lt
+          description: 'If `has_customer_recharge` is true, `total_recharge` represents the new total balance to be set, and NOT the amount to be added (for example, with a current balance of 100 and a top-up of 50, `total_recharge` will be 150).'
     NonOilTransactionOutput:
       type: object
       x-examples:
