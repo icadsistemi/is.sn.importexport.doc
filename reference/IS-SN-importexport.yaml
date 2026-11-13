@@ -2390,6 +2390,183 @@ paths:
           name: end_datetime
           description: unix time
           required: true
+  '/suppliers/{supplier_code}/fuelcoupons':
+    parameters:
+      - schema:
+          type: string
+        name: supplier_code
+        in: path
+        required: true
+        description: must be a valid supplier
+    get:
+      summary: GET coupons by supplier and request guid
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponGetOutput'
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponGetOutput'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponGetOutput'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponGetOutput'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponGetOutput'
+        '422':
+          description: Unprocessable Entity (WebDAV)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponGetOutput'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponGetOutput'
+      operationId: get-suppliers-supplier_code-fuelcoupons
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: lot_guid
+          description: valid guid for the desired request
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: from
+          description: bottom limit of coupon filter by number
+        - schema:
+            type: integer
+          in: query
+          name: to
+          description: top limit of coupon filter by number
+        - schema:
+            type: string
+          in: header
+          name: x-api-key
+          description: Client API Key
+          required: true
+      description: get coupons by suppliers and request guid
+  /fuelcoupons:
+    post:
+      summary: Create coupon creation async request
+      operationId: post-fuelcoupons
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponCreationOutput'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponCreationOutput'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponCreationOutput'
+        '422':
+          description: Unprocessable Entity (WebDAV)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponCreationOutput'
+        '500':
+          description: Internal Server Error
+      description: create an async request for coupon generation
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: x-api-key
+          description: Client API Key
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FuelCouponCreationInput'
+    patch:
+      summary: Update coupon by supplier and number
+      operationId: patch-fuelcoupons
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponPatchOutput'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponPatchOutput'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponPatchOutput'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponPatchOutput'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponPatchOutput'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuelCouponPatchOutput'
+      description: update a coupon by supplier and number
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: x-api-key
+          description: Client API Key
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FuelCouponPatchInput'
 components:
   schemas:
     CardInput:
@@ -3994,6 +4171,282 @@ components:
                 type: boolean
               uf_id:
                 type: integer
+    FuelCouponCreationInput:
+      title: FuelCouponCreationInput
+      x-stoplight:
+        id: h3w3fj66kew9j
+      type: object
+      properties:
+        supplier_code:
+          type: string
+          x-stoplight:
+            id: sqp8i9olpzdye
+          description: Must be a valid supplier code
+        coupon_value:
+          type: integer
+          x-stoplight:
+            id: bxq354zhh87gq
+          description: Must be higher than 0
+          minimum: 1
+        coupon_expiration_date:
+          type: string
+          x-stoplight:
+            id: yk1ez91be0x01
+          format: date-time
+          description: Must not be earlier than current date
+        coupon_type:
+          type: integer
+          x-stoplight:
+            id: k5d8jqzxnff3t
+          minimum: 0
+          maximum: 1
+          description: 'Must be a valid type [0-1]'
+        coupon_status:
+          type: string
+          x-stoplight:
+            id: j4vk5wj3os63k
+          description: Must be a valid status
+        is_gift:
+          type: boolean
+          x-stoplight:
+            id: 3bh0x48mhz16u
+        is_discount:
+          type: boolean
+          x-stoplight:
+            id: 3bh0x48mhz16u
+        is_vat_exposed:
+          type: boolean
+          x-stoplight:
+            id: 3bh0x48mhz16u
+        indoor:
+          type: boolean
+          x-stoplight:
+            id: 3bh0x48mhz16u
+        outdoor:
+          type: boolean
+          x-stoplight:
+            id: 3bh0x48mhz16u
+        payment_method:
+          type: integer
+          x-stoplight:
+            id: 39l4d17w2pf58
+          description: Supplier with invoicing for coupons active must provide a valid payment method id
+        daily_limit:
+          type: number
+          x-stoplight:
+            id: f9m6xpd6hfc9y
+        minimum_deliverable:
+          type: number
+          x-stoplight:
+            id: f9m6xpd6hfc9y
+        from_coupon_number:
+          x-stoplight:
+            id: jhyx2gn6m2mqt
+          description: if provided alongside to_coupon_number can override the automatic enumeration of coupons. Must be a valid number and must not be already in use
+          type: integer
+        to_coupon_number:
+          type: integer
+          x-stoplight:
+            id: jhyx2gn6m2mqt
+          description: if provided alongside from_coupon_number can override the automatic enumeration of coupons. Must be a valid number and must not be already in use
+      required:
+        - supplier_code
+        - coupon_value
+        - coupon_expiration_date
+        - coupon_type
+        - coupon_status
+      description: ''
+    FuelCouponCreationOutput:
+      title: FuelCouponCreationOutput
+      x-stoplight:
+        id: 6fz52sgbzmsmx
+      type: object
+      properties:
+        request_id:
+          type: string
+          x-stoplight:
+            id: wdr5j02jqletp
+          description: contains the uuid of the generated request if successful
+        error_message:
+          type: string
+          x-stoplight:
+            id: n52lc7hwamag3
+          description: contains a specific error message if the request fails
+    FuelCouponOutputModel:
+      title: FuelCouponOutputModel
+      x-stoplight:
+        id: dmxo81nyomzoc
+      type: object
+      properties:
+        coupon_amount:
+          type: integer
+          x-stoplight:
+            id: jtw0ecsdie4ra
+        coupon_code:
+          type: string
+          x-stoplight:
+            id: woiwd7qxcoih3
+        coupon_expiration_date:
+          type: string
+          x-stoplight:
+            id: jderofbz104lw
+          format: date-time
+        coupon_fiscal_code:
+          type: string
+          x-stoplight:
+            id: 4m9ucue3x4huj
+        coupon_nominative:
+          type: string
+          x-stoplight:
+            id: n4rezwebzaspd
+        coupon_number:
+          type: integer
+          x-stoplight:
+            id: 6odcsccprxnau
+        coupon_state:
+          type: string
+          x-stoplight:
+            id: wr5za88jkdlbi
+        coupon_type:
+          type: integer
+          x-stoplight:
+            id: ncoqn396kyzbw
+        customer_code:
+          type: string
+          x-stoplight:
+            id: 0bkfmnx82o94x
+        daily_limit:
+          type: number
+          x-stoplight:
+            id: nf95vzw2ntkem
+        indoor:
+          type: boolean
+          x-stoplight:
+            id: 2ko038aoke8vf
+        outdoor:
+          type: boolean
+          x-stoplight:
+            id: 2ko038aoke8vf
+        is_discount:
+          type: boolean
+          x-stoplight:
+            id: 2ko038aoke8vf
+        is_gift:
+          type: boolean
+          x-stoplight:
+            id: 2ko038aoke8vf
+        is_vat_exposed:
+          type: boolean
+          x-stoplight:
+            id: 2ko038aoke8vf
+        minimum_deliverable:
+          type: number
+          x-stoplight:
+            id: hdjly2x5lzb16
+    FuelCouponPatchInput:
+      title: FuelCouponPatchInput
+      x-stoplight:
+        id: 93onedzleeb65
+      type: object
+      properties:
+        supplier_code:
+          type: string
+          x-stoplight:
+            id: h64px4q88rac9
+        coupon_number:
+          type: integer
+          x-stoplight:
+            id: v4ycm69xd0dkx
+        coupon_amount:
+          type: integer
+          x-stoplight:
+            id: 4wkov3k6rsxyf
+        coupon_expiration_date:
+          type: string
+          x-stoplight:
+            id: x09128fm08ig7
+          format: date-time
+        coupon_type_id:
+          type: integer
+          x-stoplight:
+            id: er142ogjzp9pn
+        coupon_status:
+          type: string
+          x-stoplight:
+            id: ivjksybn3xebo
+        is_gift:
+          type: boolean
+          x-stoplight:
+            id: 528ria2f81tp6
+        is_discount:
+          type: boolean
+          x-stoplight:
+            id: dkvh1tpvr5oeu
+        is_vat_exposed:
+          type: boolean
+          x-stoplight:
+            id: 4ex4xlzxbpjyo
+        indoor:
+          type: boolean
+          x-stoplight:
+            id: rxr2qnqkrmwos
+        outdoor:
+          type: boolean
+          x-stoplight:
+            id: ce7whjvd1hkz7
+        customer_code:
+          type: string
+          x-stoplight:
+            id: alo9v2lyau1dm
+        coupon_nominative:
+          type: string
+          x-stoplight:
+            id: zzf0osvnyn5kr
+        coupon_fiscal_code:
+          type: string
+          x-stoplight:
+            id: mwqya0ekd3zij
+        daily_limit:
+          type: number
+          x-stoplight:
+            id: qzc1yw4d8dw2d
+        minimum_deliverable:
+          type: number
+          x-stoplight:
+            id: 8karlhybc0p9j
+      required:
+        - supplier_code
+        - coupon_number
+    FuelCouponPatchOutput:
+      title: FuelCouponPatchOutput
+      x-stoplight:
+        id: hyk47jhxrlfrz
+      type: object
+      properties:
+        mesage:
+          type: string
+          x-stoplight:
+            id: bs37w543i62yl
+          description: 'carries the error message, empty if request is successful'
+    FuelCouponGetOutput:
+      title: FuelCouponGetOutput
+      x-stoplight:
+        id: sv3gzkevpwfai
+      type: object
+      properties:
+        message:
+          type: string
+          x-stoplight:
+            id: f4dbrn8b9cygl
+          description: 'carries the message if the request is pending or faile, empty if coupons were found for the request'
+        '':
+          type: array
+          x-stoplight:
+            id: xul3eief5f4gz
+          items:
+            $ref: '#/components/schemas/FuelCouponOutputModel'
+            x-stoplight:
+              id: jvoy4t3zyb35r
   securitySchemes:
     Cognito:
       type: oauth2
