@@ -2400,7 +2400,8 @@ paths:
         description: must be a valid supplier
     get:
       summary: GET coupons by supplier and request guid
-      tags: []
+      tags:
+        - suppliers
       responses:
         '200':
           description: Coupon generated successfully for request guid
@@ -2474,6 +2475,8 @@ paths:
     post:
       summary: Create coupon creation async request
       operationId: post-fuelcoupons
+      tags:
+        - fuelcoupons
       responses:
         '200':
           description: Coupon generation request received successfully
@@ -2517,6 +2520,8 @@ paths:
     patch:
       summary: Update coupon by supplier and number
       operationId: patch-fuelcoupons
+      tags:
+        - fuelcoupons
       responses:
         '200':
           description: Patch successfully applied on coupon
@@ -4211,11 +4216,13 @@ components:
           x-stoplight:
             id: 3bh0x48mhz16u
           description: Define whether the coupon is a gift (applies to every coupon)
+          default: false
         is_discount:
           type: boolean
           x-stoplight:
             id: 3bh0x48mhz16u
           description: Define whether the coupon is a discount (applies to every coupon)
+          default: false
         is_vat_exposed:
           type: boolean
           x-stoplight:
@@ -4226,11 +4233,13 @@ components:
           x-stoplight:
             id: 3bh0x48mhz16u
           description: Define whether the coupon is enabled for indoor (applies to every coupon)
+          default: false
         outdoor:
           type: boolean
           x-stoplight:
             id: 3bh0x48mhz16u
           description: Define whether the coupon is enabled for outdoor (applies to every coupon)
+          default: false
         payment_method:
           type: integer
           x-stoplight:
@@ -4242,12 +4251,14 @@ components:
           maximum: 999999.99
           x-stoplight:
             id: f9m6xpd6hfc9y
+          default: 0
         minimum_deliverable:
           type: number
           minimum: 0
           maximum: 999999.99
           x-stoplight:
             id: f9m6xpd6hfc9y
+          default: 0
         from_coupon_number:
           x-stoplight:
             id: jhyx2gn6m2mqt
@@ -4264,7 +4275,6 @@ components:
         - coupon_expiration_date
         - coupon_type
         - coupon_status
-      description: ''
     FuelCouponCreationOutput:
       title: FuelCouponCreationOutput
       x-stoplight:
