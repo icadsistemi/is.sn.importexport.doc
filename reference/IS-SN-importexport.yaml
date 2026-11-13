@@ -4186,7 +4186,7 @@ components:
           type: integer
           x-stoplight:
             id: bxq354zhh87gq
-          description: Must be higher than 0
+          description: The expendable value of each coupon
           minimum: 1
         coupon_expiration_date:
           type: string
@@ -4210,22 +4210,27 @@ components:
           type: boolean
           x-stoplight:
             id: 3bh0x48mhz16u
+          description: Define whether the coupon is a gift (applies to every coupon)
         is_discount:
           type: boolean
           x-stoplight:
             id: 3bh0x48mhz16u
+          description: Define whether the coupon is a discount (applies to every coupon)
         is_vat_exposed:
           type: boolean
           x-stoplight:
             id: 3bh0x48mhz16u
+          description: Define whether the coupon is a taxed (applies to every coupon)
         indoor:
           type: boolean
           x-stoplight:
             id: 3bh0x48mhz16u
+          description: Define whether the coupon is enabled for indoor (applies to every coupon)
         outdoor:
           type: boolean
           x-stoplight:
             id: 3bh0x48mhz16u
+          description: Define whether the coupon is enabled for outdoor (applies to every coupon)
         payment_method:
           type: integer
           x-stoplight:
@@ -4233,10 +4238,14 @@ components:
           description: Supplier with invoicing for coupons active must provide a valid payment method id
         daily_limit:
           type: number
+          minimum: 0
+          maximum: 999999.99
           x-stoplight:
             id: f9m6xpd6hfc9y
         minimum_deliverable:
           type: number
+          minimum: 0
+          maximum: 999999.99
           x-stoplight:
             id: f9m6xpd6hfc9y
         from_coupon_number:
@@ -4282,6 +4291,7 @@ components:
           type: integer
           x-stoplight:
             id: jtw0ecsdie4ra
+          description: coupon value
         coupon_code:
           type: string
           x-stoplight:
@@ -4323,10 +4333,12 @@ components:
           type: boolean
           x-stoplight:
             id: 2ko038aoke8vf
+          description: whether the coupon is enabled for indoor
         outdoor:
           type: boolean
           x-stoplight:
             id: 2ko038aoke8vf
+          description: whether the coupon is enabled for outdoor
         is_discount:
           type: boolean
           x-stoplight:
@@ -4353,67 +4365,90 @@ components:
           type: string
           x-stoplight:
             id: h64px4q88rac9
+          description: Valid id of the supplier for which to find and update the coupon
         coupon_number:
           type: integer
           x-stoplight:
             id: v4ycm69xd0dkx
+          minimum: 1
+          description: 'Coupon number for which to apply the patch, must belong to the provided supplier'
         coupon_amount:
           type: integer
           x-stoplight:
             id: 4wkov3k6rsxyf
+          minimum: 0
+          description: Value of the coupon to set
+        coupon_type_id:
+          type: integer
+          x-stoplight:
+            id: er142ogjzp9pn
+          description: 'Must be a valid coupon type [0-1]'
         coupon_expiration_date:
           type: string
           x-stoplight:
             id: x09128fm08ig7
           format: date-time
-        coupon_type_id:
-          type: integer
-          x-stoplight:
-            id: er142ogjzp9pn
+          description: Expiration date of the coupon
         coupon_status:
           type: string
           x-stoplight:
             id: ivjksybn3xebo
+          description: 'Must be a valid coupon status ["A","D","C"]'
         is_gift:
           type: boolean
           x-stoplight:
             id: 528ria2f81tp6
+          description: Set whether this is a gift coupon
         is_discount:
           type: boolean
           x-stoplight:
             id: dkvh1tpvr5oeu
+          description: Set whether this is a discount coupon
         is_vat_exposed:
           type: boolean
           x-stoplight:
             id: 4ex4xlzxbpjyo
+          description: Set whether this coupon is taxed
         indoor:
           type: boolean
           x-stoplight:
             id: rxr2qnqkrmwos
+          description: Set whether this coupon is enabled for indoor
         outdoor:
           type: boolean
           x-stoplight:
             id: ce7whjvd1hkz7
+          description: Set whether this coupon is enabled for outdoor
         customer_code:
           type: string
           x-stoplight:
             id: alo9v2lyau1dm
+          description: Code of the customer to bind to the coupon. If provided it must not be empty and must be a valid customer code
+          maxLength: 50
         coupon_nominative:
           type: string
           x-stoplight:
             id: zzf0osvnyn5kr
+          description: Nominative to appear on the coupon. If provided it must not be empty
+          maxLength: 50
         coupon_fiscal_code:
           type: string
           x-stoplight:
             id: mwqya0ekd3zij
+          description: 'If provided it must not be empty '
+          maxLength: 20
         daily_limit:
           type: number
           x-stoplight:
             id: qzc1yw4d8dw2d
+          minimum: 0
+          maximum: 999999.99
         minimum_deliverable:
           type: number
           x-stoplight:
             id: 8karlhybc0p9j
+          minimum: 0
+          maximum: 999999.99
       required:
         - supplier_code
         - coupon_number
