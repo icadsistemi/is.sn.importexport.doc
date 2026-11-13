@@ -2403,43 +2403,43 @@ paths:
       tags: []
       responses:
         '200':
-          description: OK
+          description: Coupon generated successfully for request guid
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponGetOutput'
         '202':
-          description: Accepted
+          description: Request guid is valid but no coupon has been generated yet
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponGetOutput'
         '400':
-          description: Bad Request
+          description: Request body is invalid
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponGetOutput'
         '403':
-          description: Forbidden
+          description: Client does not have access to the resource
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponGetOutput'
         '404':
-          description: Not Found
+          description: The requested guid could not be found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponGetOutput'
         '422':
-          description: Unprocessable Entity (WebDAV)
+          description: Request body is valid but fields contain unprocessable values
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponGetOutput'
         '500':
-          description: Internal Server Error
+          description: Coupon generation failed for provided guid or an unexpected error occurred
           content:
             application/json:
               schema:
@@ -2476,31 +2476,31 @@ paths:
       operationId: post-fuelcoupons
       responses:
         '200':
-          description: OK
+          description: Coupon generation request received successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponCreationOutput'
         '400':
-          description: Bad Request
+          description: Request body is not valid
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponCreationOutput'
         '403':
-          description: Forbidden
+          description: Client does not have access to the resource
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponCreationOutput'
         '422':
-          description: Unprocessable Entity (WebDAV)
+          description: Input body is valid but fields contain unprocessable values
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponCreationOutput'
         '500':
-          description: Internal Server Error
+          description: An unexpected error occurred
       description: create an async request for coupon generation
       parameters:
         - schema:
@@ -2519,37 +2519,37 @@ paths:
       operationId: patch-fuelcoupons
       responses:
         '200':
-          description: OK
+          description: Patch successfully applied on coupon
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponPatchOutput'
         '400':
-          description: Bad Request
+          description: Request body is invalid
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponPatchOutput'
         '403':
-          description: Forbidden
+          description: Client does not have access to the resource
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponPatchOutput'
         '404':
-          description: Not Found
+          description: Supplier or coupon could not be found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponPatchOutput'
         '409':
-          description: Conflict
+          description: A duplicate of the requested coupon was found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FuelCouponPatchOutput'
         '500':
-          description: Internal Server Error
+          description: An unexpected error occurred
           content:
             application/json:
               schema:
